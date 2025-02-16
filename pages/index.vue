@@ -1,6 +1,7 @@
 <template>
   <div>
     <HeroSection />
+    <SearchBar />
   </div>
 </template>
 
