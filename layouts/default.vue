@@ -1,5 +1,6 @@
 <template>
   <div>
+    <Navbar />
     <slot />
   </div>
 </template>
@@ -8,6 +9,4 @@
 
 </script>
 
-<style>
-
-</style>
+<style></style>
