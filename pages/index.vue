@@ -12,6 +12,10 @@
         <UButton class="rounded-sm py-2 ">list your profile</UButton>
       </div>
     </div>
+    <div>
+      <TopPlaces />
+    </div>
+
   </div>
 </template>
 
