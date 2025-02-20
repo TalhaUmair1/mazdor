@@ -1,20 +1,23 @@
 <template>
     <nav class="bg-white border-gray-200 dark:bg-gray-900">
         <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-            <NuxtLink href="/" class="flex items-center -mt-16 md:-mt-0 space-x-3 rtl:space-x-reverse">
-                <img src="/images.jpg" class="h-10 rounded-full" alt="" />
-                <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Mazdoor</span>
-            </NuxtLink>
+            <div class="-mt-10 md:-mt-0">
+
+                <NuxtLink href="/" class="flex items-center  space-x-3 rtl:space-x-reverse">
+                    <img src="/images.jpg" class="h-10 rounded-full" alt="" />
+                    <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Mazdoor</span>
+                </NuxtLink>
+            </div>
             <div class="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
                 <div class="flex flex-col md:flex-row items-center  space-x-3">
-                    <NuxtLink to="/profile" type="button"
-                        class="text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800">
-                        Create
-                        profile</NuxtLink>
-                    <div class="relative">
+                    <NuxtLink class="py-3 px-4 bg-green-600 text-white rounded-sm" to="/profile">
+                        Create Profile
+                    </NuxtLink>
+
+                    <div class="relative mt-4 md:mt-0">
 
                         <NuxtLink to="/login" v-if="!isLoggedIn" @click="isLoggedIn = true"
-                            class="text-gray-900 bg-white border border-gray-300 mt-2 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">
+                            class="text-gray-900 bg-white border border-gray-300 mt-2 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-sm text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">
                             Login
                         </NuxtLink>
 

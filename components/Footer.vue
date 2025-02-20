@@ -16,30 +16,21 @@
                 </div>
 
                 <div class="flex space-x-4 mt-4 md:mt-0">
-                    <a href="#" class="text-gray-300 hover:text-white">Facebook</a>
-                    <a href="#" class="text-gray-300 hover:text-white">Instagram</a>
-                    <a href="#" class="text-gray-300 hover:text-white">YouTube</a>
+                    <a href="https://www.facebook.com" target="_blank"
+                        class="text-gray-300 hover:text-white">Facebook</a>
+                    <a href="https://www.instagram.com" target="_blank"
+                        class="text-gray-300 hover:text-white">Instagram</a>
+                    <a href="https://www.youtube.com" target="_blank" class="text-gray-300 hover:text-white">YouTube</a>
                 </div>
+
 
                 <div class="flex space-x-2 mt-4 md:mt-0 relative">
                     <button class="bg-gray-700 text-white px-4 py-2 rounded-lg flex items-center space-x-1">
                         <span class="text-teal-400">🌐</span>
                         <span>English</span>
                     </button>
-                    <button @click="toggleSystemOptions"
-                        class="bg-gray-700 text-white px-4 py-2 rounded-lg flex items-center space-x-1">
-                        <span class="text-yellow-400">⚙️</span>
-                        <span>System</span>
-                    </button>
-                    <div v-if="showSystemOptions"
-                        class="absolute right-0 bottom-12 bg-gray-800 text-white rounded-lg shadow-lg p-2 space-y-2">
-                        <button @click="setTheme('dark')"
-                            class="w-full text-left px-4 py-2 hover:bg-gray-700 rounded-lg">Dark</button>
-                        <button @click="setTheme('light')"
-                            class="w-full text-left px-4 py-2 hover:bg-gray-700 rounded-lg">Light</button>
-                        <button @click="setTheme('custom')"
-                            class="w-full text-left px-4 py-2 hover:bg-gray-700 rounded-lg">Custom</button>
-                    </div>
+
+                    <ColorMode />
                 </div>
             </div>
         </footer>
@@ -47,13 +38,6 @@
 </template>
 
 <script setup>
-
-
-const showSystemOptions = ref(false);
-
-const toggleSystemOptions = () => {
-    showSystemOptions.value = !showSystemOptions.value;
-};
 
 
 </script>

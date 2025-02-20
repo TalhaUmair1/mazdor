@@ -8,8 +8,8 @@
       <h2 class="text-3xl font-semibold mt-8 ">Want to See more</h2>
       <h4 class="text-gray-300 text-xl my-3 font-medium">To search & view all listings, create your free account.</h4>
       <div class="flex gap-4 justify-center">
-        <UButton class="rounded-sm py-2 ">find more worker </UButton>
-        <UButton class="rounded-sm py-2 ">list your profile</UButton>
+        <UButton class="rounded-sm py-2 ">Find more worker </UButton>
+        <UButton class="rounded-sm py-2 ">List your profile</UButton>
       </div>
     </div>
     <div>

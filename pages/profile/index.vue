@@ -1,6 +1,6 @@
 <template>
-    <div class="my-12">
-        <UCard class="max-w-2xl mx-auto border border-gray-200 shadow-lg">
+    <div>
+        <UCard class="max-w-2xl mx-auto border my-6 border-gray-200 shadow-lg">
             <template #header>
                 <div class="text-center">
                     <h1 class="text-2xl font-bold">Create New Profile</h1>
@@ -12,12 +12,11 @@
 
             <UForm class="space-y-4">
                 <UFormGroup label="Title of the profile" name="title">
-                    <UInput color="primary" type="text" size="lg" variant="outline"
-                        placeholder="Title of the profile." />
+                    <UInput type="text" size="lg" variant="outline" placeholder="Title of the profile." />
                 </UFormGroup>
 
                 <UFormGroup label="What kind of service you want to offer" name="service">
-                    <div class="w-full md:w-[620px] border rounded-md border-green-600">
+                    <div class="w-full md:w-[620px] border rounded-md  border-gray-500">
                         <UInputMenu trailing-icon="i-heroicons-chevron-up-down-20-solid"
                             class="w-full text-lg shadow-none" placeholder="What service are you looking for?" :options="[
                                 'Plumber', 'Electrician', 'Carpenter', 'Painter',
@@ -27,11 +26,11 @@
                 </UFormGroup>
 
                 <UFormGroup label="Start from (minimum price)" name="price">
-                    <UInput color="primary" type="text" size="lg" variant="outline" placeholder="Starting price" />
+                    <UInput type="text" size="lg" variant="outline" placeholder="Starting price" />
                 </UFormGroup>
 
                 <UFormGroup label="What type of service do you offer?" name="service type">
-                    <div class="w-full md:w-[620px] border rounded-md border-green-600">
+                    <div class="w-full md:w-[620px] border rounded-md border-gray-500">
                         <UInputMenu trailing-icon="i-heroicons-chevron-down-20-solid" class="w-full text-lg shadow-none"
                             placeholder="What service do you provide?" :options="[
                                 'Home Only Service', 'Shop Only Service', 'Both Home and Shop Service', 'Online Service',
@@ -41,12 +40,11 @@
                 </UFormGroup>
 
                 <UFormGroup label="Share Your Shop Address" name="address">
-                    <UInput color="primary" type="text" size="lg" variant="outline" placeholder="Your Shop Address" />
+                    <UInput type="text" size="lg" variant="outline" placeholder="Your Shop Address" />
                 </UFormGroup>
 
                 <UFormGroup label="What Areas do you operate in? (Include city name)" name="areas">
-                    <UInput color="primary" type="text" size="lg" variant="outline"
-                        placeholder="What areas do you operate in?" />
+                    <UInput type="text" size="lg" variant="outline" placeholder="What areas do you operate in?" />
                 </UFormGroup>
 
                 <UFormGroup label="Describe Your Skill and Services in Detail" name="description">

@@ -1,7 +1,7 @@
 <template>
     <div class="flex flex-col md:flex-row max-w-xl items-center my-3 justify-center mx-auto p-6">
         <div
-            class="flex flex-col md:flex-row items-center bg-gray-900 space-y-4 md:space-y-0 md:space-x-4 border border-gray-600 rounded-lg p-2 shadow-md w-full md:w-[800px]">
+            class="flex flex-col md:flex-row items-center bg-gray-900 space-y-4 md:space-y-0 md:space-x-4 border border-gray-600 rounded-md p-2 shadow-md w-full md:w-[800px]">
             <div class="w-full md:w-80">
                 <UInputMenu trailing-icon="i-heroicons-chevron-up-down-20-solid" class="w-full text-lg shadow-none"
                     placeholder="What service are looking for.." :options="[

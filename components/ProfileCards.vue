@@ -1,7 +1,7 @@
 <template>
 
-    <div class="flex flex-col items-center gap-4  md:flex-row md:justify-around my-6">
-        <UCard class="max-w-sm w-full border border-gray-50" v-for="profile in profiles" :key="profile.id">
+    <div class="flex flex-col items-center gap-4 md:gap-0  md:flex-row md:justify-around my-6">
+        <UCard class="max-w-sm w-full border border-gray-50 bg-gray-950" v-for="profile in profiles" :key="profile.id">
             <div class="flex flex-col items-center">
                 <img :src="profile.image" alt="" class="w-36 h-36 rounded-full" />
             </div>
