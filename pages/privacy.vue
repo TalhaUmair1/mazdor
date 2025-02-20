@@ -1,5 +1,5 @@
 <template>
-    <div class="container mx-auto px-20 mt-10 dark:text-white">
+    <div class="container mx-auto px-8 mt-10 dark:text-white">
         <h1 class="text-3xl font-bold mb-8"> Privacy Policy for Mazdoor</h1>
 
         <p class="mb-4">

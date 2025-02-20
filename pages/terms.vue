@@ -1,5 +1,5 @@
 <template>
-    <div class="container mx-auto px-20 mt-10 dark:text-white">
+    <div class="container mx-auto px-8 mt-10 dark:text-white">
         <h1 class="text-3xl font-bold mb-8">Terms of Service for Mazdoor</h1>
         <p class="mb-8">
             These Terms of Service ("Terms") govern your access to and use of the Mazdoor ("Website"), provided by

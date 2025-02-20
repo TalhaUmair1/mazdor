@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="my-12">
         <UCard class="max-w-2xl mx-auto border border-gray-200 shadow-lg">
             <template #header>
                 <div class="text-center">
