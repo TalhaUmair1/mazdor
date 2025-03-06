@@ -87,7 +87,7 @@ const showValue = ref(false);
 const toggleValue = () => {
     showValue.value = !showValue.value;
 };
-const isLoggedIn = ref(true);
+const isLoggedIn = ref(false);
 const showDropdown = ref(false);
 
 const toggleDropdown = () => {
@@ -99,5 +99,3 @@ const logout = () => {
     showDropdown.value = false;
 };
 </script>
-
-<style lang="scss" scoped></style>

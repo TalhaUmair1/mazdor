@@ -34,4 +34,7 @@ const services = [
     }
 ];
 console.log("Services Data:", services);
+definePageMeta({
+    middleware: ['auth']
+})
 </script>
