@@ -25,11 +25,6 @@
 
 
                 <div class="flex space-x-2 mt-4 md:mt-0 relative">
-                    <button class="bg-gray-700 text-white px-4 py-2 rounded-lg flex items-center space-x-1">
-                        <span class="text-teal-400">🌐</span>
-                        <span>English</span>
-                    </button>
-
                     <ColorMode />
                 </div>
             </div>
