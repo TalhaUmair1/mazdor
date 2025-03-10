@@ -9,7 +9,6 @@
                     </h5>
                 </div>
             </template>
-
             <UForm class="space-y-4">
                 <UFormGroup label="Title of the profile" name="title">
                     <UInput type="text" size="lg" variant="outline" placeholder="Title of the profile." />
@@ -63,7 +62,9 @@
 </template>
 
 <script setup>
-
+definePageMeta({
+    middleware: ['auth']
+})
 </script>
 
 <style lang="scss" scoped></style>

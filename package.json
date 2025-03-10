@@ -22,7 +22,7 @@
     "vue-router": "latest"
   },
   "devDependencies": {
-    "drizzle-kit": "^0.30.4",
+    "drizzle-kit": "^0.30.5",
     "tsx": "^4.19.3"
   }
 }

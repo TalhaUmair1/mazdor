@@ -87,15 +87,16 @@ const showValue = ref(false);
 const toggleValue = () => {
     showValue.value = !showValue.value;
 };
-const isLoggedIn = ref(false);
-const showDropdown = ref(false);
+const { loggedIn, clear } = useUserSession()
+const isLoggedIn = computed(() => loggedIn.value)
+const showDropdown = ref(false); // Set to false initially
 
 const toggleDropdown = () => {
     showDropdown.value = !showDropdown.value;
 };
 
 const logout = () => {
-    isLoggedIn.value = false;
+    clear()
     showDropdown.value = false;
 };
 </script>
