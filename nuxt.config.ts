@@ -6,8 +6,13 @@ export default defineNuxtConfig({
   colorMode: {
     preference: 'light',
   },
-  router: {
-    base: `${process.env.ROUTER_BASE}`,
+  nitro: {
+    openAPI: {
+      meta: {
+        title: 'My Awesome Project',
+        description: 'This might become the next big thing.',
+        version: '1.0',
+      },
+    },
   },
-  routerMiddleware: ['redirect', 'authenticated'], // moved to root level
 })

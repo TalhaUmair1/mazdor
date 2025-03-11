@@ -19,6 +19,7 @@
     "nuxt": "^3.15.2",
     "nuxt-auth-utils": "^0.5.16",
     "pg": "^8.13.3",
+    "postgres": "^3.4.5",
     "vue": "latest",
     "vue-router": "latest",
     "zod": "^3.24.2"
