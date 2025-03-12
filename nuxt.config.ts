@@ -7,12 +7,9 @@ export default defineNuxtConfig({
     preference: 'light',
   },
   nitro: {
-    openAPI: {
-      meta: {
-        title: 'My Awesome Project',
-        description: 'This might become the next big thing.',
-        version: '1.0',
-      },
+    experimental: {
+      openAPI: true,
+      database: true,
     },
   },
 })

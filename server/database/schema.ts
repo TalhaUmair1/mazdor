@@ -11,7 +11,7 @@ import {
   uuid,
   customType,
 } from 'drizzle-orm/pg-core'
-import { relations } from 'drizzle-orm'
+import { relations, sql } from 'drizzle-orm'
 
 // Define the PostGIS geometry type
 const geometry = customType<{ data: string }>({
@@ -30,7 +30,9 @@ export const services = pgTable('services', {
 })
 
 export const users = pgTable('users', {
-  id: serial('id').primaryKey(),
+  id: serial('id')
+    .primaryKey()
+    .default(sql`nextval('users_id_seq')`),
   name: varchar('name', { length: 255 }).notNull(),
   email: varchar('email', { length: 255 }).notNull().unique(),
   phone: varchar('phone', { length: 11 }).unique(),
