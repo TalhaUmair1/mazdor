@@ -10,6 +10,7 @@ import {
   timestamp,
   uuid,
   customType,
+  pgEnum,
 } from 'drizzle-orm/pg-core'
 import { relations, sql } from 'drizzle-orm'
 
@@ -40,7 +41,11 @@ export const users = pgTable('users', {
   created_at: timestamp('created_at').defaultNow(),
   updated_at: timestamp('updated_at').defaultNow(),
 })
-
+export const serviceTypeEnum = pgEnum('service_type', [
+  'homeOnly',
+  'shopOnly',
+  'Both',
+])
 export const profile = pgTable(
   'profile',
   {
@@ -53,7 +58,7 @@ export const profile = pgTable(
       .references(() => users.id)
       .notNull(),
     min_price: decimal('min_price', { precision: 10, scale: 2 }).notNull(),
-    service_type: varchar('service_type', { length: 255 }).notNull(),
+    service_type: serviceTypeEnum('service_type').notNull(),
     shop_address: varchar('shop_address').notNull(),
     description: text('description').notNull(),
     created_at: timestamp('created_at').defaultNow(),
@@ -71,14 +76,16 @@ export const locations = pgTable(
   {
     id: serial('id').primaryKey(),
     name: varchar('name', { length: 200 }),
-    // Replace latitude and longitude with a PostGIS geometry column
-    location: geometry('location').notNull(),
+    location: geometry('location', {
+      type: 'point',
+      mode: 'xy',
+      srid: 4326,
+    }).notNull(),
     created_at: timestamp('created_at').defaultNow(),
     updated_at: timestamp('updated_at').defaultNow(),
-    // Add a spatial index
   },
-  (locations) => ({
-    locationIdx: index('location_idx').on(locations.location),
+  (t) => ({
+    locationIdx: index('spatial_index').using('gist', t.location),
   })
 )
 
