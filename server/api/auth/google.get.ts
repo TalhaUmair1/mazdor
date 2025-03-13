@@ -5,6 +5,7 @@ export default defineOAuthGoogleEventHandler({
     },
   },
   async onSuccess(event, { user }) {
+    console.log('google user', user)
     await setUserSession(event, {
       user: {
         google: user.email,

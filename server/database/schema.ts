@@ -11,6 +11,7 @@ import {
   uuid,
   customType,
   pgEnum,
+  AnyPgColumn,
 } from 'drizzle-orm/pg-core'
 import { relations, sql } from 'drizzle-orm'
 
@@ -81,13 +82,18 @@ export const locations = pgTable(
       mode: 'xy',
       srid: 4326,
     }).notNull(),
-    created_at: timestamp('created_at').defaultNow(),
-    updated_at: timestamp('updated_at').defaultNow(),
+    parentId: integer('parent_id').references((): AnyPgColumn => locations.id),
   },
-  (t) => ({
-    locationIdx: index('spatial_index').using('gist', t.location),
-  })
+  (t) => [index('spatial_index').using('gist', t.location)]
 )
+
+export const locationsRelations = relations(locations, ({ one, many }) => ({
+  parent: one(locations, {
+    fields: [locations.parentId],
+    references: [locations.id],
+  }),
+  children: many(locations),
+}))
 
 export const profilesToLocations = pgTable(
   'profiles_to_locations',
@@ -106,12 +112,7 @@ export const profilesToLocations = pgTable(
   })
 )
 
-// Relations
 export const profileRelations = relations(profile, ({ many }) => ({
-  profilesToLocations: many(profilesToLocations),
-}))
-
-export const locationsRelations = relations(locations, ({ many }) => ({
   profilesToLocations: many(profilesToLocations),
 }))
 

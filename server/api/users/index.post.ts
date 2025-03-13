@@ -3,6 +3,7 @@ import { users } from '~/server/database/schema'
 import db from '~/server/utils/db'
 export default defineEventHandler(async (event) => {
   const body = await useValidatedBody(event, {
+    id: z.string().min(1),
     name: z.string().min(1),
     email: z.string().email(),
     phone: z.string().min(11).max(11),
