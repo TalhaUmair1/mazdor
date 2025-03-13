@@ -14,6 +14,9 @@ export default defineEventHandler(async (event) => {
 
   try {
     const simpleUser = await db
+      .select()
+      .from(users)
+      .where(eq(users.email, email))
       .insert(users)
       .values({
         name,
