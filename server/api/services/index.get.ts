@@ -3,5 +3,7 @@ import { services } from '~/server/database/schema'
 
 export default defineEventHandler(async () => {
   const allServices = await db.select().from(services)
-  return { success: true, data: allServices }
+  console.log('allServices', allServices)
+
+  return allServices
 })

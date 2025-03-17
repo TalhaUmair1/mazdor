@@ -9,62 +9,89 @@
                     </h5>
                 </div>
             </template>
-            <UForm class="space-y-4">
+            <UForm class="space-y-4" @submit="createProfile" :state="form">
                 <UFormGroup label="Title of the profile" name="title">
-                    <UInput type="text" size="lg" variant="outline" placeholder="Title of the profile." />
+                    <UInput v-model="form.title" type="text" size="lg" variant="outline"
+                        placeholder="Title of the profile." required />
                 </UFormGroup>
 
-                <UFormGroup label="What kind of service you want to offer" name="service">
-                    <div class="w-full md:w-[620px] border rounded-md  border-gray-500">
-                        <UInputMenu trailing-icon="i-heroicons-chevron-up-down-20-solid"
-                            class="w-full text-lg shadow-none" placeholder="What service are you looking for?" :options="[
-                                'Plumber', 'Electrician', 'Carpenter', 'Painter',
-                            ]" size="xl"
-                            :ui="{ base: 'appearance-none shadow-none inset-shadow-none dark:appearance-none dark:shadow-none dark:inset-shadow-none dark:ring-0' }" />
-                    </div>
+                <UFormGroup label="What kind of service you want to offer" name="service_id">
+                    <UInputMenu v-model="form.service_id" trailing-icon="i-heroicons-chevron-up-down-20-solid"
+                        class="w-full text-lg shadow-none" placeholder="What service are you looking for?"
+                        :options="services?.data" option-attribute="name" value-attribute="id" size="xl" required />
                 </UFormGroup>
 
-                <UFormGroup label="Start from (minimum price)" name="price">
-                    <UInput type="text" size="lg" variant="outline" placeholder="Starting price" />
+                <UFormGroup label="Start from (minimum price)" name="min_price">
+                    <UInput v-model="form.min_price" type="number" size="lg" variant="outline"
+                        placeholder="Starting price" required />
                 </UFormGroup>
 
-                <UFormGroup label="What type of service do you offer?" name="service type">
-                    <div class="w-full md:w-[620px] border rounded-md border-gray-500">
-                        <UInputMenu trailing-icon="i-heroicons-chevron-down-20-solid" class="w-full text-lg shadow-none"
-                            placeholder="What service do you provide?" :options="[
-                                'Home Only Service', 'Shop Only Service', 'Both Home and Shop Service', 'Online Service',
-                            ]" size="xl"
-                            :ui="{ base: 'appearance-none shadow-none inset-shadow-none dark:appearance-none dark:shadow-none dark:inset-shadow-none dark:ring-0' }" />
-                    </div>
+                <UFormGroup label="Service Type" name="service_type">
+                    <USelect v-model="form.service_type" size="lg" :options="serviceOptions" required />
                 </UFormGroup>
 
-                <UFormGroup label="Share Your Shop Address" name="address">
-                    <UInput type="text" size="lg" variant="outline" placeholder="Your Shop Address" />
-                </UFormGroup>
-
-                <UFormGroup label="What Areas do you operate in? (Include city name)" name="areas">
-                    <UInput type="text" size="lg" variant="outline" placeholder="What areas do you operate in?" />
+                <UFormGroup label="Share Your Shop Address" name="shop_address">
+                    <UInput v-model="form.shop_address" type="text" size="lg" variant="outline"
+                        placeholder="Your Shop Address" required />
                 </UFormGroup>
 
                 <UFormGroup label="Describe Your Skill and Services in Detail" name="description">
-                    <UTextarea :rows="12" placeholder="Describe your skills and services" class="m-2" />
+                    <UTextarea v-model="form.description" :rows="6" placeholder="Describe your skills and services"
+                        class="m-2" required />
                 </UFormGroup>
 
                 <div class="text-center">
-                    <UButton class="w-full py-3 flex justify-center items-center" type="submit">
+                    <UButton class="w-full py-3 flex justify-center items-center" type="submit" :loading="loading">
                         Create Profile
                     </UButton>
                 </div>
             </UForm>
         </UCard>
     </div>
-
 </template>
 
 <script setup>
 definePageMeta({
     middleware: ['auth']
 })
-</script>
+import { ref, reactive } from 'vue';
 
-<style lang="scss" scoped></style>
+const loading = ref(false);
+
+const form = reactive({
+    title: '',
+    service_id: '',
+    min_price: '',
+    service_type: '',
+    shop_address: '',
+    description: ''
+});
+
+
+const { data: services } = await useFetch('/api/services');
+console.log('services', services);
+
+const serviceOptions = [
+    { label: 'Home Service', value: 'homeOnly' },
+    { label: 'Shop Service', value: 'shopOnly' },
+    { label: 'Both Home and Shop', value: 'Both' }
+];
+
+const createProfile = async () => {
+    loading.value = true;
+    try {
+        const response = await $fetch('/api/profile', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(form)
+        });
+
+        console.log('Profile created successfully!', response);
+    } catch (error) {
+        console.error('Error creating profile:', error?.data || error);
+    } finally {
+        loading.value = false;
+    }
+};
+
+</script>

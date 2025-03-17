@@ -11,30 +11,8 @@
 </template>
 
 <script setup>
-const services = [
-    {
-        id: 1,
-        title: "Plumbing",
-        image: "/download1.jpg"
-    },
-    {
-        id: 2,
-        title: "Electrical",
-        image: "/download2.png"
-    },
-    {
-        id: 3,
-        title: "Carpentry",
-        image: "/download3.jpg"
-    },
-    {
-        id: 4,
-        title: "machinery",
-        image: "/download2.png"
-    }
-];
+
+const { data: services } = await useFetch('/api/services');
 console.log("Services Data:", services);
-definePageMeta({
-    middleware: ['auth']
-})
+
 </script>

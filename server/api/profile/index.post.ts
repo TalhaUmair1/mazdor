@@ -5,13 +5,14 @@ import { profile } from '~/server/database/schema'
 export default defineEventHandler(async (event) => {
   const body = await useValidatedBody(event, {
     title: z.string().min(1),
-    service_id: z.string().min(1),
-    user_id: z.string().min(1),
-    min_price: z.string().regex(/^\d+(\.\d{1,2})?$/),
+    service_id: z.number().min(1),
+
+    min_price: z.number().min(1),
     service_type: z.string().min(1),
     shop_address: z.string().min(1),
     description: z.string().min(1),
   })
+  console.log(body)
 
   const {
     title,
@@ -24,12 +25,15 @@ export default defineEventHandler(async (event) => {
   } = body
 
   try {
+    const { user } = await requireUserSession(event)
+    console.log('user', user)
+
     const newProfile = await db
       .insert(profile)
       .values({
         title,
         service_id,
-        user_id,
+        user_id: user.id, // assuming 'id' is the correct property
         min_price,
         service_type,
         shop_address,

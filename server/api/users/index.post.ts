@@ -1,6 +1,7 @@
 import { useValidatedBody, z } from 'h3-zod'
 import { users } from '~/server/database/schema'
 import db from '~/server/utils/db'
+import { eq } from 'drizzle-orm'
 export default defineEventHandler(async (event) => {
   const body = await useValidatedBody(event, {
     id: z.string().min(1),
@@ -17,14 +18,6 @@ export default defineEventHandler(async (event) => {
       .select()
       .from(users)
       .where(eq(users.email, email))
-      .insert(users)
-      .values({
-        name,
-        email,
-        phone,
-        whatsapp,
-      })
-      .returning()
     return simpleUser
   } catch (simpleError) {
     console.error('Simple Test Error:', simpleError)
