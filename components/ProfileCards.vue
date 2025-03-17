@@ -11,7 +11,7 @@
             </div>
             <h4 class="my-2 mx-2 font-semibold mb-4">{{ }}</h4>
             <p class="text-gray-300 mb-3">{{ profile.description }}</p>
-            <NuxtLink to="/profile/detail" class="rounded-sm">learn more</NuxtLink>
+            <NuxtLink :to="`/profile/${profile.id}`" class="rounded-sm">learn more</NuxtLink>
         </UCard>
     </div>
 
