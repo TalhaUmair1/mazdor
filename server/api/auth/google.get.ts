@@ -29,6 +29,7 @@ export default defineOAuthGoogleEventHandler({
           email: user.email,
           phone: user?.phone || null, // Ensure null if undefined
           whatsapp: user?.whatsapp || null,
+          avatar: user?.picture || null,
         })
         .returning()
 
@@ -40,6 +41,7 @@ export default defineOAuthGoogleEventHandler({
         id: simpleUser[0].id,
         email: user.email,
         name: user.name,
+        avatar: simpleUser[0].avatar,
       },
       loggedInAt: Date.now(),
     })

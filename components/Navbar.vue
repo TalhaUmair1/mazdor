@@ -24,7 +24,8 @@
 
                         <div v-else class="relative ">
                             <button @click="toggleDropdown" class="flex items-center ">
-                                <img src="/images.jpg" alt="Profile" class="w-10 h-10 rounded-full border">
+                                <img :src="`/userFiles/${user.avatar}`" alt="Profile"
+                                    class="w-10 h-10 rounded-full border">
                             </button>
 
                             <!-- Dropdown Menu -->
@@ -87,7 +88,7 @@ const showValue = ref(false);
 const toggleValue = () => {
     showValue.value = !showValue.value;
 };
-const { loggedIn, clear } = useUserSession()
+const { loggedIn, clear, user } = useUserSession()
 const isLoggedIn = computed(() => loggedIn.value)
 const showDropdown = ref(false); // Set to false initially
 
@@ -99,4 +100,6 @@ const logout = () => {
     clear()
     showDropdown.value = false;
 };
+
+
 </script>

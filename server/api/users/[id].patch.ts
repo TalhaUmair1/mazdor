@@ -5,7 +5,14 @@ import db from '~/server/utils/db'
 import { eq } from 'drizzle-orm'
 
 export default defineEventHandler(async (event) => {
-  const { files } = await readBody<{ files: ServerFile[] }>(event)
+  const { avatar } = await readBody<{ avatar: ServerFile }>(event)
+
+  console.log('avatar', avatar)
+  let avatarName = ''
+  if (avatar) {
+    avatarName = `${Date.now().toString()}_${avatar.name}`
+    await storeFileLocally(avatar, avatarName, '/userFiles')
+  }
   const body = await useValidatedBody(event, {
     name: z.string().min(1).optional(),
     email: z.string().email(),
@@ -32,14 +39,10 @@ export default defineEventHandler(async (event) => {
         email,
         phone,
         whatsapp,
+        avatar: avatarName,
       })
       .where(eq(users.email, email))
 
-    if (files && files.length > 0) {
-      for (const file of files) {
-        await storeFileLocally(file, 8, '/userFiles')
-      }
-    }
     return { message: 'User updated successfully and files saved' }
   } catch (error) {
     console.error('Update Error:', error)

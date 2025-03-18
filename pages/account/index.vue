@@ -10,7 +10,7 @@
                 </div>
             </template>
             <UForm class="space-y-4" @submit="updateAccount" :state="form">
-                <UFormGroup label="Upload Photo" name="file">
+                <UFormGroup label="Upload Photo" name="avatar">
                     <UInput size="lg" type="file" @input="handleFileInput" />
                 </UFormGroup>
 
@@ -56,15 +56,22 @@ let form = reactive({
     name: '',
     email: '',
     phone: '',
-    whatsapp: ''
+    whatsapp: '',
+    avatar: ''
 });
 
+const { handleFileInput, files } = useFileStorage()
+// watch(files, (file) => {
+//     console.log(file);
+//     form.avatar = file[0]
+// })
 const { data: users } = await useFetch('/api/users');
 console.log('users', users);
 form = users.value;
 
 const updateAccount = async () => {
     loading.value = true;
+    form.avatar = files.value[0]
     try {
         const response = await $fetch(`api/users/${form.id}`, {
             method: 'PATCH',
