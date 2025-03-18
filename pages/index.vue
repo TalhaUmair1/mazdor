@@ -13,8 +13,8 @@
         To search & view all listings, create your free account.
       </h4>
       <div class="flex gap-4 justify-center">
-        <UButton class="rounded-sm py-2">Find More Workers</UButton>
-        <UButton class="rounded-sm py-2">List Your Profile</UButton>
+        <UButton to="/allServices" class="rounded-sm py-2">Find More Workers</UButton>
+        <UButton to="/profile" class="rounded-sm py-2">List Your Profile</UButton>
       </div>
     </div>
 

@@ -1,9 +1,8 @@
 import db from '~/server/utils/db'
-import { profile } from '~/server/database/schema'
 
 export default defineEventHandler(async (event) => {
   try {
-    const profiles = await db.query.profileWithUser.findMany({
+    const profiles = await db.query.profile.findMany({
       with: {
         user: true,
       },
