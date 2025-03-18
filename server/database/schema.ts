@@ -129,3 +129,14 @@ export const profilesToLocationsRelations = relations(
     }),
   })
 )
+
+export const profilesWithUsers = relations(profile, ({ one }) => ({
+  user: one(users, {
+    fields: [profile.user_id],
+    references: [users.id],
+  }),
+}))
+
+export const usersRelations = relations(users, ({ many }) => ({
+  profiles: many(profile),
+}))

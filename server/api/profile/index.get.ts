@@ -3,7 +3,11 @@ import { profile } from '~/server/database/schema'
 
 export default defineEventHandler(async (event) => {
   try {
-    const profiles = await db.select().from(profile)
+    const profiles = await db.query.profileWithUser.findMany({
+      with: {
+        user: true,
+      },
+    })
     return profiles
   } catch (error) {
     console.error('Profile Fetch Error:', error)
