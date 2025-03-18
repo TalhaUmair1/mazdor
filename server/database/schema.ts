@@ -39,6 +39,7 @@ export const users = pgTable('users', {
   email: varchar('email', { length: 255 }).notNull().unique(),
   phone: varchar('phone', { length: 11 }).unique(),
   whatsapp: varchar('whatsapp', { length: 11 }).unique(),
+  avatar: varchar('avatar', { length: 255 }),
   created_at: timestamp('created_at').defaultNow(),
   updated_at: timestamp('updated_at').defaultNow(),
 })

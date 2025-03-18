@@ -11,7 +11,7 @@
             </template>
             <UForm class="space-y-4" @submit="updateAccount" :state="form">
                 <UFormGroup label="Upload Photo" name="file">
-                    <UInput size="lg" type="file" />
+                    <UInput size="lg" type="file" @input="handleFileInput" />
                 </UFormGroup>
 
                 <UFormGroup label="Full Name" name="name">
