@@ -18,7 +18,7 @@
                 <UFormGroup label="What kind of service you want to offer" name="service_id">
                     <UInputMenu v-model="form.service_id" trailing-icon="i-heroicons-chevron-up-down-20-solid"
                         class="w-full text-lg shadow-none" placeholder="What service are you looking for?"
-                        :options="services?.data" option-attribute="name" value-attribute="id" size="xl" required />
+                        :options="services" option-attribute="name" value-attribute="id" size="xl" required />
                 </UFormGroup>
 
                 <UFormGroup label="Start from (minimum price)" name="min_price">
@@ -29,6 +29,11 @@
                 <UFormGroup label="Service Type" name="service_type">
                     <USelect v-model="form.service_type" size="lg" :options="serviceOptions" required />
                 </UFormGroup>
+
+                <UFormGroup label="Select people" name="people">
+                    <USelectMenu v-model="selected" :options="people" multiple placeholder="What areas you opreated" />
+                </UFormGroup>
+
 
                 <UFormGroup label="Share Your Shop Address" name="shop_address">
                     <UInput v-model="form.shop_address" type="text" size="lg" variant="outline"
