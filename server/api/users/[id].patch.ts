@@ -10,8 +10,11 @@ export default defineEventHandler(async (event) => {
   console.log('avatar', avatar)
   let avatarName = ''
   if (avatar) {
-    avatarName = `${Date.now().toString()}_${avatar.name}`
-    await storeFileLocally(avatar, avatarName, '/userFiles')
+    avatarName = await storeFileLocally(
+      avatar,
+      `${Date.now().toString()}_user_avatar`,
+      '/userFiles'
+    )
   }
   const body = await useValidatedBody(event, {
     name: z.string().min(1).optional(),

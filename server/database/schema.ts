@@ -25,8 +25,8 @@ const geometry = customType<{ data: string }>({
 export const services = pgTable('services', {
   id: serial('id').primaryKey(),
   name: varchar('name', { length: 255 }).notNull(),
-  svg: varchar('svg', { length: 500 }).notNull(),
-  view_box: varchar('view_box', { length: 10 }).notNull(),
+  svg: text('svg').notNull(),
+  view_box: varchar('view_box', { length: 100 }).notNull(),
   created_at: timestamp('created_at').defaultNow(),
   updated_at: timestamp('updated_at').defaultNow(),
 })

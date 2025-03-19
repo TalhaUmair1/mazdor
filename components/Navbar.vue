@@ -24,7 +24,7 @@
 
                         <div v-else class="relative ">
                             <button @click="toggleDropdown" class="flex items-center ">
-                                <img :src="`/userFiles/${user.avatar}`" alt="Profile"
+                                <img :src="`/userfiles/${user.avatar}`" alt="Profile"
                                     class="w-10 h-10 rounded-full border">
                             </button>
 

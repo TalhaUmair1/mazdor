@@ -36,6 +36,20 @@
       "when": 1742287718868,
       "tag": "0004_demonic_king_cobra",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1742367698836,
+      "tag": "0005_lush_the_renegades",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1742368094678,
+      "tag": "0006_wide_wolf_cub",
+      "breakpoints": true
     }
   ]
 }
