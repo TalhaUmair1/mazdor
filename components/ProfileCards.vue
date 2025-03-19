@@ -19,7 +19,5 @@
 
 <script setup>
 
-defineProps({
-    profiles: Array
-})
+const { data: profiles } = await useFetch('/api/profiles');
 </script>

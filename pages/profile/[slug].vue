@@ -3,9 +3,9 @@
         <UCard class="w-full max-w-3xl border border-gray-200  shadow-lg rounded-lg p-6">
             <template #header>
                 <div class="flex flex-col items-center gap-2">
-                    <img src="/images.jpg" alt="Profile" class="w-32 h-32 rounded-full border-2 border-gray-300" />
-                    <h6 class="text-gray-400 text-sm">Plumbing</h6>
-                    <h3 class="text-xl font-semibold ">Plumber with 5 years of experience</h3>
+                    <img :src="`/userfiles/${user.avatar}`" alt="Profile"
+                        class="w-32 h-32 rounded-full border-2 border-gray-300" />
+                    <h6 class="text-gray-400 text-sm"></h6>
                 </div>
             </template>
 
@@ -55,7 +55,8 @@
 definePageMeta({
     middleware: ['auth']
 })
-
+const { loggedIn, clear, user } = useUserSession()
+const { data: profiles } = await useFetch('/api/profiles');
 </script>
 
 <style lang="scss" scoped></style>
