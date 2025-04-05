@@ -1,26 +1,25 @@
 import {
-  serial,
-  varchar,
-  text,
-  decimal,
   pgTable,
+  serial,
+  text,
+  varchar,
   integer,
-  primaryKey,
-  index,
   timestamp,
+  decimal,
   uuid,
-  customType,
+  foreignKey,
   pgEnum,
-  AnyPgColumn,
+  index,
+  primaryKey,
 } from 'drizzle-orm/pg-core'
-import { relations, sql } from 'drizzle-orm'
+import { relations } from 'drizzle-orm'
 
-// Define the PostGIS geometry type
-const geometry = customType<{ data: string }>({
-  dataType() {
-    return 'geometry'
-  },
-})
+// Define enums first before tables
+export const serviceTypeEnum = pgEnum('service_type', [
+  'homeOnly',
+  'shopOnly',
+  'Both',
+])
 
 export const services = pgTable('services', {
   id: serial('id').primaryKey(),
@@ -32,9 +31,7 @@ export const services = pgTable('services', {
 })
 
 export const users = pgTable('users', {
-  id: serial('id')
-    .primaryKey()
-    .default(sql`nextval('users_id_seq')`),
+  id: serial('id').primaryKey(),
   name: varchar('name', { length: 255 }).notNull(),
   email: varchar('email', { length: 255 }).notNull().unique(),
   phone: varchar('phone', { length: 11 }).unique(),
@@ -43,50 +40,13 @@ export const users = pgTable('users', {
   created_at: timestamp('created_at').defaultNow(),
   updated_at: timestamp('updated_at').defaultNow(),
 })
-export const serviceTypeEnum = pgEnum('service_type', [
-  'homeOnly',
-  'shopOnly',
-  'Both',
-])
-export const profile = pgTable(
-  'profile',
-  {
-    id: uuid('id').primaryKey().defaultRandom(),
-    title: varchar('title', { length: 255 }).notNull(),
-    service_id: integer('service_id')
-      .references(() => services.id)
-      .notNull(),
-    user_id: integer('user_id')
-      .references(() => users.id)
-      .notNull(),
-    min_price: decimal('min_price', { precision: 10, scale: 2 }).notNull(),
-    service_type: serviceTypeEnum('service_type').notNull(),
-    shop_address: varchar('shop_address').notNull(),
-    description: text('description').notNull(),
-    created_at: timestamp('created_at').defaultNow(),
-    updated_at: timestamp('updated_at').defaultNow(),
-    deleted_at: timestamp('deleted_at'),
-  },
-  (profile) => ({
-    serviceIdIdx: index('service_id_idx').on(profile.service_id),
-    userIdIdx: index('user_id_idx').on(profile.user_id),
-  })
-)
 
-export const locations = pgTable(
-  'locations',
-  {
-    id: serial('id').primaryKey(),
-    name: varchar('name', { length: 200 }),
-    location: geometry('location', {
-      type: 'point',
-      mode: 'xy',
-      srid: 4326,
-    }).notNull(),
-    parentId: integer('parent_id').references((): AnyPgColumn => locations.id),
-  },
-  (t) => [index('spatial_index').using('gist', t.location)]
-)
+// Define locations before profile since it's referenced
+export const locations = pgTable('locations', {
+  id: serial('id').primaryKey(),
+  name: varchar('name', { length: 200 }),
+  parentId: integer('parent_id'),
+})
 
 export const locationsRelations = relations(locations, ({ one, many }) => ({
   parent: one(locations, {
@@ -95,6 +55,24 @@ export const locationsRelations = relations(locations, ({ one, many }) => ({
   }),
   children: many(locations),
 }))
+
+export const profile = pgTable('profile', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  title: varchar('title', { length: 255 }).notNull(),
+  service_id: integer('service_id')
+    .references(() => services.id)
+    .notNull(),
+  user_id: integer('user_id')
+    .references(() => users.id)
+    .notNull(),
+  min_price: decimal('min_price', { precision: 10, scale: 2 }).notNull(),
+  service_type: serviceTypeEnum('service_type').notNull(),
+  shop_address: varchar('shop_address').notNull(),
+  description: text('description').notNull(),
+  created_at: timestamp('created_at').defaultNow(),
+  updated_at: timestamp('updated_at').defaultNow(),
+  deleted_at: timestamp('deleted_at'),
+})
 
 export const profilesToLocations = pgTable(
   'profiles_to_locations',
@@ -106,15 +84,21 @@ export const profilesToLocations = pgTable(
       .notNull()
       .references(() => locations.id),
   },
-  (t) => ({
-    pk: primaryKey(t.profileId, t.locationId),
-    profileIdIdx: index('profile_id_idx').on(t.profileId),
-    locationIdIdx: index('location_id_idx').on(t.locationId),
+  (table) => ({
+    pk: primaryKey({ columns: [table.profileId, table.locationId] }),
   })
 )
 
-export const profileRelations = relations(profile, ({ many }) => ({
+export const profileRelations = relations(profile, ({ many, one }) => ({
   profilesToLocations: many(profilesToLocations),
+  user: one(users, {
+    fields: [profile.user_id],
+    references: [users.id],
+  }),
+}))
+
+export const usersRelations = relations(users, ({ many }) => ({
+  profiles: many(profile),
 }))
 
 export const profilesToLocationsRelations = relations(
@@ -130,14 +114,3 @@ export const profilesToLocationsRelations = relations(
     }),
   })
 )
-
-export const profilesWithUsers = relations(profile, ({ one }) => ({
-  user: one(users, {
-    fields: [profile.user_id],
-    references: [users.id],
-  }),
-}))
-
-export const usersRelations = relations(users, ({ many }) => ({
-  profiles: many(profile),
-}))

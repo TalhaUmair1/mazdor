@@ -27,11 +27,13 @@
                 </UFormGroup>
 
                 <UFormGroup label="Service Type" name="service_type">
-                    <USelect v-model="form.service_type" size="lg" :options="serviceOptions" required />
+                    <USelect v-model="form.service_type" size="lg" :options="serviceOptions" required
+                        placeholder="Select your service type" />
                 </UFormGroup>
 
-                <UFormGroup label="Select people" name="people">
-                    <USelectMenu v-model="selected" :options="people" multiple placeholder="What areas you opreated" />
+                <UFormGroup label="Select Areas(which you opreted)" name="people">
+                    <USelectMenu size="lg" v-model="selected" :options="people" multiple
+                        placeholder="What areas you opreated" />
                 </UFormGroup>
 
 
@@ -75,6 +77,14 @@ const form = reactive({
 
 const { data: services } = await useFetch('/api/services');
 console.log('services', services);
+
+// const { data: locations } = await useFetch('/api/locations');
+// console.log('locations', locations);
+
+const people = ['Wade Cooper', 'Arlene Mccoy', 'Devon Webb', 'Tom Cook', 'Tanya Fox', 'Hellen Schmidt', 'Caroline Schultz', 'Mason Heaney', 'Claudie Smitham', 'Emil Schaefer']
+
+const selected = ref([])
+
 
 const serviceOptions = [
     { label: 'Home Service', value: 'homeOnly' },

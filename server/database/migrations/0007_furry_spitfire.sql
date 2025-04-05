@@ -1,0 +1,1 @@
+ALTER TABLE "locations" ALTER COLUMN "location" SET DATA TYPE geography(point, 4326);

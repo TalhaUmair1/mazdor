@@ -1,5 +1,5 @@
 import { users } from '~/server/database/schema'
-import { eq } from 'drizzle-orm' // Replace 'some-library' with the actual library name
+import { eq } from 'drizzle-orm'
 
 export default defineOAuthGoogleEventHandler({
   config: {
@@ -29,11 +29,14 @@ export default defineOAuthGoogleEventHandler({
           email: user.email,
           phone: user?.phone || null, // Ensure null if undefined
           whatsapp: user?.whatsapp || null,
-          avatar: user?.picture || null,
+          avatar: user?.picture || null, // Set initial avatar from Google
         })
         .returning()
 
       console.log('Inserted user:', simpleUser)
+    } else {
+      // Always use the latest avatar from the database
+      console.log('Existing user, using stored avatar')
     }
 
     await setUserSession(event, {
@@ -41,7 +44,7 @@ export default defineOAuthGoogleEventHandler({
         id: simpleUser[0].id,
         email: user.email,
         name: user.name,
-        avatar: simpleUser[0].avatar,
+        avatar: simpleUser[0].avatar, // Use stored avatar, not Google’s picture
       },
       loggedInAt: Date.now(),
     })
