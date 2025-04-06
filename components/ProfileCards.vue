@@ -20,4 +20,6 @@
 <script setup>
 
 const { data: profiles } = await useFetch('/api/profiles');
+console.log('profiles', profiles);
+
 </script>

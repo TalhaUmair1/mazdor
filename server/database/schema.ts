@@ -1,24 +1,22 @@
+import { relations } from 'drizzle-orm'
 import {
+  decimal,
+  integer,
+  pgEnum,
   pgTable,
+  primaryKey,
   serial,
   text,
-  varchar,
-  integer,
   timestamp,
-  decimal,
   uuid,
-  foreignKey,
-  pgEnum,
-  index,
-  primaryKey,
+  varchar,
 } from 'drizzle-orm/pg-core'
-import { relations } from 'drizzle-orm'
 
 // Define enums first before tables
 export const serviceTypeEnum = pgEnum('service_type', [
   'homeOnly',
   'shopOnly',
-  'Both',
+  'both',
 ])
 
 export const services = pgTable('services', {
@@ -26,8 +24,6 @@ export const services = pgTable('services', {
   name: varchar('name', { length: 255 }).notNull(),
   svg: text('svg').notNull(),
   view_box: varchar('view_box', { length: 100 }).notNull(),
-  created_at: timestamp('created_at').defaultNow(),
-  updated_at: timestamp('updated_at').defaultNow(),
 })
 
 export const users = pgTable('users', {
@@ -41,7 +37,6 @@ export const users = pgTable('users', {
   updated_at: timestamp('updated_at').defaultNow(),
 })
 
-// Define locations before profile since it's referenced
 export const locations = pgTable('locations', {
   id: serial('id').primaryKey(),
   name: varchar('name', { length: 200 }),
@@ -74,8 +69,8 @@ export const profile = pgTable('profile', {
   deleted_at: timestamp('deleted_at'),
 })
 
-export const profilesToLocations = pgTable(
-  'profiles_to_locations',
+export const profileServiceAreas = pgTable(
+  'profile_service_areas',
   {
     profileId: uuid('profile_id')
       .notNull()
@@ -90,7 +85,7 @@ export const profilesToLocations = pgTable(
 )
 
 export const profileRelations = relations(profile, ({ many, one }) => ({
-  profilesToLocations: many(profilesToLocations),
+  serviceAreas: many(profileServiceAreas),
   user: one(users, {
     fields: [profile.user_id],
     references: [users.id],
@@ -101,15 +96,15 @@ export const usersRelations = relations(users, ({ many }) => ({
   profiles: many(profile),
 }))
 
-export const profilesToLocationsRelations = relations(
-  profilesToLocations,
+export const profileServiceAreasRelations = relations(
+  profileServiceAreas,
   ({ one }) => ({
     profile: one(profile, {
-      fields: [profilesToLocations.profileId],
+      fields: [profileServiceAreas.profileId],
       references: [profile.id],
     }),
     location: one(locations, {
-      fields: [profilesToLocations.locationId],
+      fields: [profileServiceAreas.locationId],
       references: [locations.id],
     }),
   })

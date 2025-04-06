@@ -31,11 +31,10 @@
                         placeholder="Select your service type" />
                 </UFormGroup>
 
-                <UFormGroup label="Select Areas(which you opreted)" name="people">
-                    <USelectMenu size="lg" v-model="selected" :options="people" multiple
-                        placeholder="What areas you opreated" />
+                <UFormGroup label="Select Areas(which you opreted)" name="locations">
+                    <USelectMenu size="lg" v-model="selected" :options="locations" multiple
+                        placeholder="What areas you opreated" option-attribute="name" />
                 </UFormGroup>
-
 
                 <UFormGroup label="Share Your Shop Address" name="shop_address">
                     <UInput v-model="form.shop_address" type="text" size="lg" variant="outline"
@@ -76,12 +75,12 @@ const form = reactive({
 
 
 const { data: services } = await useFetch('/api/services');
-console.log('services', services);
 
 // const { data: locations } = await useFetch('/api/locations');
 // console.log('locations', locations);
 
-const people = ['Wade Cooper', 'Arlene Mccoy', 'Devon Webb', 'Tom Cook', 'Tanya Fox', 'Hellen Schmidt', 'Caroline Schultz', 'Mason Heaney', 'Claudie Smitham', 'Emil Schaefer']
+const { data: locations } = await useFetch('/api/locations');
+console.log('locations', locations);
 
 const selected = ref([])
 
@@ -101,14 +100,13 @@ const createProfile = async () => {
             body: JSON.stringify(form)
         });
 
-        console.log('Profile created successfully!', response);
+        alert('Profile created successfully!');
     } catch (error) {
-        console.error('Error creating profile:', error?.data || error);
+        alert('Error creating profile: ' + (error?.data || error));
     } finally {
         loading.value = false;
     }
-
-
 };
+
 
 </script>
