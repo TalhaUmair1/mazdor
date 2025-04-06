@@ -53,7 +53,9 @@
 definePageMeta({
     middleware: ['auth']
 })
-
+const { data: profiles } = await useFetch('/api/profiles/' + route.params.slug);
+const { data: user } = await useFetch('/api/user/' + route.params.slug);
+console.log('profiles', profiles);
 </script>
 
 <style lang="scss" scoped></style>

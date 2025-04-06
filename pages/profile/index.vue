@@ -30,11 +30,12 @@
                     <USelect v-model="form.service_type" size="lg" :options="serviceOptions" required
                         placeholder="Select your service type" />
                 </UFormGroup>
-
-                <UFormGroup label="Select Areas(which you opreted)" name="locations">
-                    <USelectMenu size="lg" v-model="selected" :options="locations" multiple
-                        placeholder="What areas you opreated" option-attribute="name" />
+                <UFormGroup label="Select Areas (which you operated)" name="locations">
+                    <USelectMenu v-model="selected" :options="locations.data" multiple searchable
+                        placeholder="What areas you operated" option-attribute="name" size="lg">
+                    </USelectMenu>
                 </UFormGroup>
+
 
                 <UFormGroup label="Share Your Shop Address" name="shop_address">
                     <UInput v-model="form.shop_address" type="text" size="lg" variant="outline"
