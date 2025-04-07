@@ -16,9 +16,10 @@
                 </UFormGroup>
 
                 <UFormGroup label="What kind of service you want to offer" name="service_id">
-                    <UInputMenu v-model="form.service_id" trailing-icon="i-heroicons-chevron-up-down-20-solid"
-                        class="w-full text-lg shadow-none" placeholder="What service are you looking for?"
-                        :options="services" option-attribute="name" value-attribute="id" size="xl" required />
+                    <UInputMenu v-model="selectedService" :search="services" :loading="loadingService"
+                        trailing-icon="i-heroicons-chevron-up-down-20-solid" class="w-full text-lg shadow-none"
+                        placeholder="What service are you looking for?" option-attribute="name" value-attribute="id"
+                        size="xl" required />
                 </UFormGroup>
 
                 <UFormGroup label="Start from (minimum price)" name="min_price">
@@ -31,9 +32,8 @@
                         placeholder="Select your service type" />
                 </UFormGroup>
                 <UFormGroup label="Select Areas (which you operated)" name="locations">
-                    <USelectMenu v-model="selected" :options="locations.data" multiple searchable
-                        placeholder="What areas you operated" option-attribute="name" size="lg">
-                    </USelectMenu>
+                    <UInputMenu v-model="selected" :search="search" :loading="loading"
+                        placeholder="Search for a location..." option-attribute="name" trailing by="id" size="lg" />
                 </UFormGroup>
 
 
@@ -63,7 +63,7 @@ definePageMeta({
 })
 import { ref, reactive } from 'vue';
 
-const loading = ref(false);
+// const loading = ref(false);
 
 const form = reactive({
     title: '',
@@ -71,20 +71,39 @@ const form = reactive({
     min_price: '',
     service_type: '',
     shop_address: '',
+    services_area: '',
     description: ''
 });
 
 
-const { data: services } = await useFetch('/api/services');
+// const { data: services } = await useFetch('/api/services');
 
-// const { data: locations } = await useFetch('/api/locations');
-// console.log('locations', locations);
 
-const { data: locations } = await useFetch('/api/locations');
-console.log('locations', locations);
-
+const loading = ref(false)
 const selected = ref([])
 
+
+async function search(q) {
+    loading.value = true
+
+    const response = await $fetch('/api/locations', { params: { search: q } })
+
+    loading.value = false
+
+    return response?.data
+}
+
+const selectedService = ref([])
+const loadingService = ref(false)
+
+async function services(q) {
+    loadingService.value = true
+    const response = await $fetch('/api/services', { params: { search: q } })
+    loadingService.value = false
+    console.log(response);
+
+    return response?.data
+}
 
 const serviceOptions = [
     { label: 'Home Service', value: 'homeOnly' },

@@ -2,7 +2,7 @@
   <div>
     <HeroSection />
     <SearchBar />
-    <ServiceCards :services="services" />
+    <ServiceCards :services="services?.data" />
 
     <!-- Profiles Section -->
     <ProfileCards :profiles="profiles ?? []" />
@@ -27,4 +27,5 @@ const { data: profiles } = await useFetch('/api/profile');
 console.log("Profile Data:", profiles);
 
 const { data: services } = await useFetch('/api/services') ?? [];
+console.log("Services Data:", services);
 </script>
