@@ -1,5 +1,5 @@
 <template>
-    <div class="mx-2">
+    <div class="mx-2 my-5">
         <h1 class="text-3xl font-bold text-start mb-6">Top Places</h1>
         <div>
             <div v-if="locations.data"

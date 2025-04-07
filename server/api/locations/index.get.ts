@@ -10,7 +10,7 @@ export default defineEventHandler(async (event) => {
     limit?: number
   }
   const { search } = query
-  const { page = 1, limit = 10 } = query
+  const { page = 1, limit = 20 } = query
   const offset = (page - 1) * limit
   const [response, count] = await Promise.all([
     db

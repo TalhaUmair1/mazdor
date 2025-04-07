@@ -6,7 +6,7 @@
                 provide
             </h6>
         </div>
-        <ServiceCards :services="services" />
+        <ServiceCards :services="services.data" />
     </div>
 </template>
 
