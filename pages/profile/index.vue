@@ -16,7 +16,7 @@
                 </UFormGroup>
 
                 <UFormGroup label="What kind of service you want to offer" name="service_id">
-                    <UInputMenu v-model="selectedService" :search="services" :loading="loadingService"
+                    <UInputMenu v-model="form.service_id" :search="services" :loading="loadingService"
                         trailing-icon="i-heroicons-chevron-up-down-20-solid" class="w-full text-lg shadow-none"
                         placeholder="What service are you looking for?" option-attribute="name" value-attribute="id"
                         size="xl" required />
@@ -32,7 +32,7 @@
                         placeholder="Select your service type" />
                 </UFormGroup>
                 <UFormGroup label="Select Areas (which you operated)" name="locations">
-                    <UInputMenu v-model="selected" :search="search" :loading="loading"
+                    <UInputMenu v-model="form.services_area" :search="search" :loading="loading"
                         placeholder="Search for a location..." option-attribute="name" trailing by="id" size="lg" />
                 </UFormGroup>
 
@@ -74,6 +74,7 @@ const form = reactive({
     services_area: '',
     description: ''
 });
+
 
 
 // const { data: services } = await useFetch('/api/services');

@@ -13,6 +13,6 @@
 <script setup>
 
 const { data: services } = await useFetch('/api/services');
-console.log("Services Data:", services);
+// console.log("Services Data:", services);
 
 </script>
