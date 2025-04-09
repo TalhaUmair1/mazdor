@@ -23,8 +23,10 @@
 </template>
 
 <script setup lang="ts">
-const { data: profiles } = await useFetch('/api/profile');
-console.log("Profile Data:", profiles);
+const { data: profiles } = useFetch('/api/profile')
+console.log('profiles', profiles);
+
+
 
 const { data: services } = await useFetch('/api/services') ?? [];
 console.log("Services Data:", services);

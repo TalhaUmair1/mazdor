@@ -9,6 +9,7 @@
                     </h5>
                 </div>
             </template>
+
             <UForm class="space-y-4" @submit="createProfile" :state="form">
                 <UFormGroup label="Title of the profile" name="title">
                     <UInput v-model="form.title" type="text" size="lg" variant="outline"
@@ -31,11 +32,12 @@
                     <USelect v-model="form.service_type" size="lg" :options="serviceOptions" required
                         placeholder="Select your service type" />
                 </UFormGroup>
-                <UFormGroup label="Select Areas (which you operated)" name="locations">
-                    <UInputMenu v-model="form.services_area" :search="search" :loading="loading"
-                        placeholder="Search for a location..." option-attribute="name" trailing by="id" size="lg" />
-                </UFormGroup>
 
+                <UFormGroup label="Select Areas (which you operate)" name="locations">
+                    <USelectMenu v-model="form.service_area" :searchable="search" :loading="loading"
+                        option-attribute="name" value-attribute="id" multiple size="lg" trailing
+                        placeholder="Search for locations..." />
+                </UFormGroup>
 
                 <UFormGroup label="Share Your Shop Address" name="shop_address">
                     <UInput v-model="form.shop_address" type="text" size="lg" variant="outline"
@@ -61,9 +63,11 @@
 definePageMeta({
     middleware: ['auth']
 })
-import { ref, reactive } from 'vue';
 
-// const loading = ref(false);
+import { ref, reactive } from 'vue'
+
+const loading = ref(false)
+const loadingService = ref(false)
 
 const form = reactive({
     title: '',
@@ -71,63 +75,57 @@ const form = reactive({
     min_price: '',
     service_type: '',
     shop_address: '',
-    services_area: '',
+    service_area: [], // ✅ Must be an array
     description: ''
-});
-
-
-
-// const { data: services } = await useFetch('/api/services');
-
-
-const loading = ref(false)
-const selected = ref([])
-
-
-async function search(q) {
-    loading.value = true
-
-    const response = await $fetch('/api/locations', { params: { search: q } })
-
-    loading.value = false
-
-    return response?.data
-}
-
-const selectedService = ref([])
-const loadingService = ref(false)
-
-async function services(q) {
-    loadingService.value = true
-    const response = await $fetch('/api/services', { params: { search: q } })
-    loadingService.value = false
-    console.log(response);
-
-    return response?.data
-}
+})
 
 const serviceOptions = [
     { label: 'Home Service', value: 'homeOnly' },
     { label: 'Shop Service', value: 'shopOnly' },
     { label: 'Both Home and Shop', value: 'Both' }
-];
+]
+
+async function search(q) {
+    loading.value = true
+    const response = await $fetch('/api/locations', { params: { search: q } })
+    loading.value = false
+    return response?.data
+}
+
+async function services(q) {
+    loadingService.value = true
+    const response = await $fetch('/api/services', { params: { search: q } })
+    loadingService.value = false
+    return response?.data
+}
 
 const createProfile = async () => {
-    loading.value = true;
+    loading.value = true
+
     try {
+        console.log('Submitting form:', form) // 👀 Debugging output
         const response = await $fetch('/api/profile', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(form)
-        });
+        })
 
-        alert('Profile created successfully!');
+        alert('Profile created successfully!')
+
+        // ✅ Reset form correctly after submission
+        Object.assign(form, {
+            title: '',
+            service_id: '',
+            min_price: '',
+            service_type: '',
+            shop_address: '',
+            services_area: [], // ✅ Reset to an empty array
+            description: ''
+        })
     } catch (error) {
-        alert('Error creating profile: ' + (error?.data || error));
+        alert('Error creating profile: ' + (error?.data || error))
     } finally {
-        loading.value = false;
+        loading.value = false
     }
-};
-
-
+}
 </script>

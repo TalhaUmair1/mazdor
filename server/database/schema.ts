@@ -63,7 +63,7 @@ export const profile = pgTable('profile', {
   min_price: decimal('min_price', { precision: 10, scale: 2 }).notNull(),
   service_type: serviceTypeEnum('service_type').notNull(),
   shop_address: varchar('shop_address').notNull(),
-  description: text('description').notNull(),
+  description: varchar('description').notNull(),
   created_at: timestamp('created_at').defaultNow(),
   updated_at: timestamp('updated_at').defaultNow(),
   deleted_at: timestamp('deleted_at'),

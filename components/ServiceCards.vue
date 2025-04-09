@@ -9,7 +9,9 @@
                     stroke-width="0.5">
                     <path :d="service.svg"></path>
                 </svg>
-                <NuxtLink class="text-lg font-semibold mt-4">{{ service.name }}</NuxtLink>
+                <NuxtLink class="text-lg cursor-pointer font-semibold mt-4 hover:text-primary hover:underline ">{{
+                    service.name }}
+                </NuxtLink>
             </div>
         </UCard>
     </div>

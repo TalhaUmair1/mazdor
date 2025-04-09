@@ -11,16 +11,17 @@ export default defineEventHandler(async (event) => {
     service_type: z.string().min(1),
     shop_address: z.string().min(1),
     description: z.string().min(1),
+    service_area: z.array(z.number()).min(1),
   })
   console.log(body)
 
   const {
     title,
     service_id,
-    user_id,
     min_price,
     service_type,
     shop_address,
+    service_area,
     description,
   } = body
 
@@ -37,6 +38,7 @@ export default defineEventHandler(async (event) => {
         min_price,
         service_type,
         shop_address,
+        service_area,
         description,
       })
       .returning()
