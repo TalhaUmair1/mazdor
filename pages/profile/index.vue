@@ -28,6 +28,11 @@
                         placeholder="Starting price" required />
                 </UFormGroup>
 
+                <UFormGroup label="Experience" name="experience">
+                    <UInput v-model="form.experience" type="number" size="lg" variant="outline"
+                        placeholder="How many Years of experiance you have?" required />
+                </UFormGroup>
+
                 <UFormGroup label="Service Type" name="service_type">
                     <USelect v-model="form.service_type" size="lg" :options="serviceOptions" required
                         placeholder="Select your service type" />
@@ -73,6 +78,7 @@ const form = reactive({
     title: '',
     service_id: '',
     min_price: '',
+    experience: '',
     service_type: '',
     shop_address: '',
     service_area: [], // ✅ Must be an array
@@ -117,6 +123,7 @@ const createProfile = async () => {
             title: '',
             service_id: '',
             min_price: '',
+            experience: '',
             service_type: '',
             shop_address: '',
             services_area: [], // ✅ Reset to an empty array
