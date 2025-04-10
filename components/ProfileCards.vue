@@ -18,7 +18,7 @@
             <p class="text-gray-300 mb-3">
                 {{ truncateWords(profile.description, 20) }}
             </p>
-            <NuxtLink to="profile/detail" class="rounded-sm text-blue-500 hover:underline">
+            <NuxtLink :to="`/profile/${profile.id}`" class="rounded-sm text-blue-500 hover:underline">
                 Learn more
             </NuxtLink>
         </UCard>

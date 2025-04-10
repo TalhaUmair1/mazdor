@@ -85,5 +85,12 @@ const updateAccount = async () => {
     } finally {
         loading.value = false;
     }
+    form = reactive({
+        name: '',
+        email: '',
+        phone: '',
+        whatsapp: '',
+        avatar: ''
+    });
 };
 </script>

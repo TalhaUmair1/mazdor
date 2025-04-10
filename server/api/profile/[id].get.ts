@@ -14,6 +14,7 @@ export default defineEventHandler(async (event) => {
       title: true,
       min_price: true,
       description: true,
+      experience: true,
       service_type: true,
     },
     with: {
