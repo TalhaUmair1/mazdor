@@ -53,6 +53,7 @@ import { ref, reactive } from 'vue';
 const loading = ref(false);
 
 let form = reactive({
+    id: '',
     name: '',
     email: '',
     phone: '',
@@ -71,7 +72,8 @@ form = users.value;
 
 const updateAccount = async () => {
     loading.value = true;
-    form.avatar = files.value[0]
+    form.avatar = files.value[0];
+
     try {
         const response = await $fetch(`api/users/${form.id}`, {
             method: 'PATCH',
@@ -80,17 +82,15 @@ const updateAccount = async () => {
         });
 
         console.log('Account updated successfully!', response);
+        // Ensure this function is available in your context
+        await navigateTo('/profile');
+
     } catch (error) {
         console.error('Error updating account:', error?.data || error);
     } finally {
         loading.value = false;
     }
-    form = reactive({
-        name: '',
-        email: '',
-        phone: '',
-        whatsapp: '',
-        avatar: ''
-    });
 };
+
+
 </script>

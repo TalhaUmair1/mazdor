@@ -66,7 +66,7 @@
 
 <script setup>
 definePageMeta({
-    middleware: ['auth']
+    middleware: ['restrict', 'auth']
 })
 
 import { ref, reactive } from 'vue'

@@ -1,7 +1,7 @@
 <template>
     <div v-if="profiles.length > 0"
-        class="flex flex-col items-center gap-4 md:gap-0 md:flex-row md:justify-around my-6">
-        <UCard class="max-w-sm w-full h-96 border border-gray-50 bg-gray-950 py-4" v-for="profile in profiles"
+        class="flex flex-col items-center gap-4 md:gap-0 md:flex-row md:justify-around md:flex-wrap  my-6">
+        <UCard class="max-w-sm w-full h-96 border border-gray-50 bg-gray-950 py-4 my-2" v-for="profile in profiles"
             :key="profile.id">
             <div class="flex flex-col items-center">
                 <!-- ✅ Placeholder image or use profile.image if available -->

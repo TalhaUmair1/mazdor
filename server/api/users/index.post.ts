@@ -17,6 +17,19 @@ export default defineEventHandler(async (event) => {
       .select()
       .from(users)
       .where(eq(users.email, email))
+
+    await setUserSession(event, {
+      user: {
+        id: simpleUser[0].id,
+        email: simpleUser[0].email,
+        name: simpleUser[0].name,
+        phone: simpleUser[0].phone,
+        whatsapp: simpleUser[0].whatsapp,
+        avatar: simpleUser[0].avatar, // Use stored avatar, not Google’s picture
+      },
+      loggedInAt: Date.now(),
+    })
+
     return simpleUser
   } catch (simpleError) {
     console.error('Simple Test Error:', simpleError)

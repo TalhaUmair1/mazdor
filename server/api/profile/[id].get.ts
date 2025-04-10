@@ -26,6 +26,17 @@ export default defineEventHandler(async (event) => {
           phone: true,
         },
       },
+      serviceAreas: {
+        columns: {},
+        with: {
+          location: {
+            columns: {
+              id: true,
+              name: true,
+            },
+          },
+        },
+      },
     },
   })
 

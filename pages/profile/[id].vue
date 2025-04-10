@@ -8,7 +8,7 @@
                     </div>
                     <h6 class="text-gray-400 font-semibold text-lg">
                         I have
-                        {{ profile?.experience || 'No Experience provided' }} years in this field
+                        {{ profile?.experience || 'No Experience provided' }} years of experience in this field
                     </h6>
                 </div>
             </template>
@@ -49,11 +49,11 @@
                     <div class="py-2">
                         <p class="text-gray-200 text-sm font-semibold">Service Areas</p>
                         <ul class="list-disc list-inside text-gray-400 text-base">
-                            <li>Lahore</li>
-                            <li>Ichhra</li>
-                            <li>Qartaba Chowk</li>
-                            <li>Kalma Chowk</li>
+                            <li v-for="(area, index) in profile?.serviceAreas" :key="index">
+                                {{ area.location.name }}
+                            </li>
                         </ul>
+
                     </div>
 
                     <div class="py-2">
@@ -76,4 +76,6 @@ const route = useRoute()
 const { data: profile, error } = await useAsyncData(`profile-${route.params.id}`, () =>
     $fetch(`/api/profile/${route.params.id}`)
 )
+console.log('Profile Data:', profile.value);
+
 </script>
