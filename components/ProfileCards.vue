@@ -1,14 +1,14 @@
 <template>
     <div v-if="profiles.length > 0"
         class="flex flex-col items-center gap-4 md:gap-0 md:flex-row md:justify-around my-6">
-        <UCard class="max-w-sm w-full h-96 border border-gray-50 bg-gray-950" v-for="profile in profiles"
+        <UCard class="max-w-sm w-full h-96 border border-gray-50 bg-gray-950 py-4" v-for="profile in profiles"
             :key="profile.id">
             <div class="flex flex-col items-center">
                 <!-- ✅ Placeholder image or use profile.image if available -->
                 <img alt="User Image" class="w-36 h-36 rounded-full object-cover"
                     :src="`/userfiles/${profile.user.avatar}`" />
             </div>
-            <div class="flex justify-between my-7">
+            <div class="flex justify-between my-2">
                 <h6 class="text-gray-300">{{ profile.title }}</h6>
                 <h5 class="bg-gray-600 text-white py-1 px-6 rounded-sm">
                     {{ profile.min_price }}

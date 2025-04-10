@@ -88,7 +88,7 @@ const form = reactive({
 const serviceOptions = [
     { label: 'Home Service', value: 'homeOnly' },
     { label: 'Shop Service', value: 'shopOnly' },
-    { label: 'Both Home and Shop', value: 'Both' }
+    { label: 'Both Home and Shop', value: 'both' }
 ]
 
 async function search(q) {

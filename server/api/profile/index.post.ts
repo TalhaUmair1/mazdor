@@ -6,7 +6,7 @@ export default defineEventHandler(async (event) => {
   const body = await useValidatedBody(event, {
     title: z.string().min(1),
     service_id: z.number().min(1),
-
+    experience: z.number().min(1),
     min_price: z.number().min(1),
     service_type: z.string().min(1),
     shop_address: z.string().min(1),
@@ -21,6 +21,7 @@ export default defineEventHandler(async (event) => {
     min_price,
     service_type,
     shop_address,
+    experience,
     service_area,
     description,
   } = body
@@ -38,6 +39,7 @@ export default defineEventHandler(async (event) => {
         min_price,
         service_type,
         shop_address,
+        experience,
         service_area,
         description,
       })
