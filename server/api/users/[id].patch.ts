@@ -69,7 +69,9 @@ export default defineEventHandler(async (event) => {
         id: updatedUser.id,
         email: updatedUser.email,
         name: updatedUser.name,
-        avatar: updatedUser.avatar, // Use stored avatar
+        avatar: updatedUser.avatar,
+        phone: updatedUser.phone,
+        whatsapp: updatedUser.whatsapp, // Use stored avatar
       },
       loggedInAt: Date.now(),
     })
