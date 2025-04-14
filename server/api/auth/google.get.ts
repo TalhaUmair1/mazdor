@@ -20,8 +20,6 @@ export default defineOAuthGoogleEventHandler({
     console.log('simpleUser', simpleUser)
 
     if (simpleUser.length === 0) {
-      console.log('new user')
-
       simpleUser = await db
         .insert(users)
         .values({

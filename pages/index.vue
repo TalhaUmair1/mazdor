@@ -22,12 +22,12 @@
   </div>
 </template>
 
-<script setup lang="ts">
-const { data: profiles } = useFetch('/api/profile')
-console.log('profiles', profiles);
+<script setup>
+const { data: profiles } = await useFetch('/api/profile')
+
 
 
 
 const { data: services } = await useFetch('/api/services') ?? [];
-console.log("Services Data:", services);
+
 </script>

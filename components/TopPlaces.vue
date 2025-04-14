@@ -19,5 +19,5 @@
 
 <script setup>
 const { data: locations } = await useFetch('/api/locations');
-console.log('locations', locations);
+
 </script>

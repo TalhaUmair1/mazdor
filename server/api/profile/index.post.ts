@@ -14,7 +14,6 @@ export default defineEventHandler(async (event) => {
     description: z.string().min(1),
     service_area: z.array(z.number()).min(1),
   })
-  console.log(body)
 
   const {
     title,
