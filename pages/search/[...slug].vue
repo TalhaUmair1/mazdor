@@ -8,12 +8,7 @@
         <SearchBar />
 
         <div v-if="profiles?.length">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
-                <div v-for="profile in profiles" :key="profile.id" class="border p-4 rounded">
-                    <h3 class="text-xl font-semibold">{{ profile.name }}</h3>
-                    <!-- Add other profile details here -->
-                </div>
-            </div>
+            <ProfileCards :profiles="profiles ?? []" />
         </div>
 
         <div v-else>
@@ -48,39 +43,56 @@ const location = ref(null)
 const page = ref(1)
 const limit = ref(9)
 
-const getId = (str, type) => str.replace(type, '')
-const toTitleCase = str =>
-    str.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase())
 
 // Extract service and location from URL
 if (path.some(v => v.includes('service'))) {
     const servicePath = path.find(v => v.includes('service'))
+    const serviceId = servicePath.split('-service-')[1]
+    const serviceName = servicePath?.split('-service-')[0]?.replace(/-/g, ' ')?.replace(/\b\w/g, c => c.toUpperCase())
     service.value = {
-        id: getId(servicePath, 'service'),
-        name: toTitleCase(getId(servicePath, 'service'))
+        id: serviceId,
+        name: serviceName
     }
 }
 
-if (path.some(v => v.includes('place'))) {
-    const locationPath = path.find(v => v.includes('place'))
+if (path.some(v => v.includes('location'))) {
+    const locationPath = path.find(v => v.includes('location'))
+    const locationId = locationPath.split('-location-')[1]
+    const locationName = locationPath?.split('-location-')[0]?.replace(/-/g, ' ')?.replace(/\b\w/g, c => c.toUpperCase())
     location.value = {
-        id: getId(locationPath, 'place'),
-        name: toTitleCase(getId(locationPath, 'place'))
+        id: locationId,
+        name: locationName
     }
 }
 
-const { data: profiles, refresh } = await useFetch('/api/search', () => ({
-    query: {
-        page: page.value,
-        limit: limit.value,
-        serviceId: service.value?.id,
-        locationId: location.value?.id
-    },
-    watch: [service, location, page],
-    immediate: true
-}))
+// const { data: profiles, refresh } = await useFetch('/api/search', () => ({
+//     query: {
+//         page: page.value,
+//         limit: limit.value,
+//         serviceId: service.value?.id,
+//         locationId: location.value?.id
+//     },
+//     watch: [route, service, location, page],
+//     immediate: true
+// }))
 
-watch(page, () => {
-    refresh()
-})
+const profiles = ref([])
+
+const fetchProfiles = async () => {
+    const response = await $fetch('/api/search', {
+        params: {
+            page: page.value,
+            limit: limit.value,
+            serviceId: service.value?.id,
+            locationId: location.value?.id
+        }
+    })
+    profiles.value = response?.data
+}
+
+watch([service, location, page], () => {
+    if (service.value?.id && location.value?.id) {
+        fetchProfiles()
+    }
+}, { immediate: true })
 </script>

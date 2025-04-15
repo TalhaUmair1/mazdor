@@ -2,7 +2,7 @@
     <div>
 
         <div class="flex flex-col md:flex-row max-w-xl items-center my-3 justify-center mx-auto p-6">
-            <form @submit="search1"
+            <form @submit.prevent="search1"
                 class="flex flex-col md:flex-row items-center bg-gray-900 space-y-4 md:space-y-0 md:space-x-4 border border-gray-600 rounded-md p-2 shadow-md w-full md:w-[800px]">
                 <div class="w-full md:w-80">
                     <UInputMenu v-model="selectedService" :search="services" :loading="loadingService"
@@ -52,8 +52,8 @@ const searchResults = ref([])
 const searchDone = ref(false)
 
 const search1 = async () => {
-    const serviceUrl = `/service-${selectedService.value.name.toLowerCase().replaceAll(' ', '-')}-${selectedService.value.id}`
-    const locationUrl = `/location-${selectedLocations.value.name.toLowerCase().replaceAll(' ', '-')}-${selectedLocations.value.id}`
+    const serviceUrl = `/${selectedService.value.name.toLowerCase().replaceAll(' ', '-')}-service-${selectedService.value.id}`
+    const locationUrl = `/${selectedLocations.value.name.toLowerCase().replaceAll(' ', '-')}-location-${selectedLocations.value.id}`
 
     navigateTo(`/search${serviceUrl}${locationUrl}`)
 
