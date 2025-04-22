@@ -13,6 +13,6 @@ export default defineNuxtConfig({
     },
   },
   fileStorage: {
-		mount: './public',
-	},
+    mount: './public',
+  },
 })

@@ -5,7 +5,7 @@
             <h4 class="text-gray-300 text-xl my-3 font-medium">WE Cover your Back</h4>
         </div>
 
-        <SearchBar />
+        <SearchBar :service="service" :location="location" />
 
         <div v-if="profiles?.length">
             <ProfileCards :profiles="profiles ?? []" />
@@ -91,7 +91,7 @@ const fetchProfiles = async () => {
 }
 
 watch([service, location, page], () => {
-    if (service.value?.id && location.value?.id) {
+    if (service.value?.id || location.value?.id) {
         fetchProfiles()
     }
 }, { immediate: true })

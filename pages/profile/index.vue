@@ -10,17 +10,17 @@
                 </div>
             </template>
 
-            <UForm class="space-y-4" @submit="createProfile" :state="form">
+            <UForm class="space-y-4" @submit.prevent="createProfile" :state="form">
                 <UFormGroup label="Title of the profile" name="title">
                     <UInput v-model="form.title" type="text" size="lg" variant="outline"
                         placeholder="Title of the profile." required />
                 </UFormGroup>
 
                 <UFormGroup label="What kind of service you want to offer" name="service_id">
-                    <UInputMenu v-model="form.service_id" :search="services" :loading="loadingService"
+                    <UInputMenu v-model="form.service_id" :search="fetchServices" :loading="loadingService"
                         trailing-icon="i-heroicons-chevron-up-down-20-solid" class="w-full text-lg shadow-none"
                         placeholder="What service are you looking for?" option-attribute="name" value-attribute="id"
-                        size="xl" required />
+                        size="xl" />
                 </UFormGroup>
 
                 <UFormGroup label="Start from (minimum price)" name="min_price">
@@ -30,7 +30,7 @@
 
                 <UFormGroup label="Experience" name="experience">
                     <UInput v-model="form.experience" type="number" size="lg" variant="outline"
-                        placeholder="How many Years of experiance you have?" required />
+                        placeholder="How many Years of experience you have?" required />
                 </UFormGroup>
 
                 <UFormGroup label="Service Type" name="service_type">
@@ -39,7 +39,7 @@
                 </UFormGroup>
 
                 <UFormGroup label="Select Areas (which you operate)" name="locations">
-                    <USelectMenu v-model="form.service_area" :searchable="search" :loading="loading"
+                    <USelectMenu v-model="form.service_area" :searchable="searchLocations" :loading="loading"
                         option-attribute="name" value-attribute="id" multiple size="lg" trailing
                         placeholder="Search for locations..." />
                 </UFormGroup>
@@ -66,10 +66,10 @@
 
 <script setup>
 definePageMeta({
-    middleware: ['restrict', 'auth']
+    middleware: ['restrict', 'auth'],
 })
 
-import { ref, reactive } from 'vue'
+import { ref, reactive, onMounted } from 'vue'
 
 const loading = ref(false)
 const loadingService = ref(false)
@@ -81,44 +81,54 @@ const form = reactive({
     experience: '',
     service_type: '',
     shop_address: '',
-    service_area: [], // ✅ Must be an array
-    description: ''
+    service_area: [],
+    description: '',
 })
 
+// For service type select
 const serviceOptions = [
     { label: 'Home Service', value: 'homeOnly' },
     { label: 'Shop Service', value: 'shopOnly' },
-    { label: 'Both Home and Shop', value: 'both' }
+    { label: 'Both Home and Shop', value: 'both' },
 ]
 
-async function search(q) {
-    loading.value = true
-    const response = await $fetch('/api/locations', { params: { search: q } })
-    loading.value = false
-    return response?.data
-}
+// 🔁 For searchable services
+const serviceResults = ref([])
 
-async function services(q) {
+const fetchServices = async (q = '') => {
     loadingService.value = true
-    const response = await $fetch('/api/services', { params: { search: q } })
+    const response = await $fetch('/api/services', {
+        params: { search: q },
+    })
+    console.log('Service Results:', response?.data);
     loadingService.value = false
-    return response?.data
+    serviceResults.value = response?.data || []
+    return serviceResults.value
 }
 
+// 🔁 For searchable locations
+async function searchLocations(q) {
+    loading.value = true
+    const response = await $fetch('/api/locations', {
+        params: { search: q },
+    })
+    loading.value = false
+    return response?.data || []
+}
+
+// Submit handler
 const createProfile = async () => {
     loading.value = true
-
     try {
-        console.log('Submitting form:', form) // 👀 Debugging output
         const response = await $fetch('/api/profile', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(form)
+            body: JSON.stringify(form),
         })
 
         alert('Profile created successfully!')
 
-        // ✅ Reset form correctly after submission
+        // Reset form
         Object.assign(form, {
             title: '',
             service_id: '',
@@ -126,11 +136,11 @@ const createProfile = async () => {
             experience: '',
             service_type: '',
             shop_address: '',
-            services_area: [], // ✅ Reset to an empty array
-            description: ''
+            service_area: [],
+            description: '',
         })
     } catch (error) {
-        alert('Error creating profile: ' + (error?.data || error))
+        alert('Error creating profile: ' + (error?.data || error.message || error))
     } finally {
         loading.value = false
     }

@@ -19,6 +19,11 @@
                         <p class="text-gray-200 text-sm font-semibold">Full Name</p>
                         <p class="text-gray-400 text-base">{{ profile?.user?.name }}</p>
                     </div>
+                    <div class="py-2">
+                        <p class="text-gray-200 text-sm font-semibold">Skill</p>
+                        <p class="text-gray-400 text-base">Rs. {{ profile?.title }}</p>
+                    </div>
+
 
                     <div class="py-2">
                         <p class="text-gray-200 text-sm font-semibold">Start From</p>

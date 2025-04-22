@@ -5,9 +5,11 @@
             <div v-if="locations.data"
                 class="text-center grid grid-cols-3 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-7">
                 <div v-for="(location, index) in locations.data" :key="index">
-                    <a href="#" class="text-blue-600 hover:underline hover:text-blue-800">
+                    <NuxtLink
+                        :to="`/search/${location.name.toLowerCase().replaceAll(' ', '-')}-location-${location.id}`"
+                        class="text-blue-600 hover:underline hover:text-blue-800">
                         {{ location.name }}
-                    </a>
+                    </NuxtLink>
                 </div>
             </div>
             <div v-else>
@@ -19,5 +21,4 @@
 
 <script setup>
 const { data: locations } = await useFetch('/api/locations');
-
 </script>
