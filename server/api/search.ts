@@ -1,10 +1,10 @@
 import { defineEventHandler, getQuery } from 'h3'
-import db from '~/server/utils/db' // Adjust the import path if necessary
+import db from '../utils/db'
 import {
   locations,
   profile,
   profileServiceAreas,
-} from '~/server/database/schema' // Adjust the import path if necessary
+} from '../database/schema'
 import { eq, and, or, inArray } from 'drizzle-orm'
 
 export default defineEventHandler(async (event) => {

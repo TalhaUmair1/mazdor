@@ -1,8 +1,10 @@
 import { eq } from 'drizzle-orm'
 import { useValidatedBody, z } from 'h3-zod'
 import { ServerFile } from 'nuxt-file-storage'
-import { users } from '~/server/database/schema'
-import db from '~/server/utils/db' // Ensure correct import
+
+import { users } from '~~/server/database/schema'
+import db from '~~/server/utils/db'
+ 
 
 export default defineEventHandler(async (event) => {
   try {

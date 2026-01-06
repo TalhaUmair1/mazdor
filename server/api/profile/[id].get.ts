@@ -1,4 +1,6 @@
-import db from '~/server/utils/db'
+
+import db from '~~/server/utils/db'
+
 
 export default defineEventHandler(async (event) => {
   const id = getRouterParam(event, 'id')

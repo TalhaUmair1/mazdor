@@ -1,5 +1,5 @@
-import db from '~/server/utils/db'
-import { locations } from '~/server/database/schema'
+import db from '~~/server/utils/db'
+import { locations } from '~~/server/database/schema'
 import { sql, ilike } from 'drizzle-orm'
 
 export default defineEventHandler(async (event) => {

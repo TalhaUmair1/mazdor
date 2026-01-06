@@ -1,4 +1,5 @@
-import { users } from '~/server/database/schema'
+import { users } from '~~/server/database/schema'
+import db from '~~/server/utils/db'
 import { eq } from 'drizzle-orm'
 
 export default defineOAuthGoogleEventHandler({

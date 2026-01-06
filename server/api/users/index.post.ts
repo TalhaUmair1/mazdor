@@ -1,6 +1,7 @@
 import { useValidatedBody, z } from 'h3-zod'
-import { users } from '~/server/database/schema'
-import db from '~/server/utils/db'
+import { defineEventHandler } from 'h3'
+import { users } from '~~/server/database/schema'
+import db from '~~/server/utils/db'
 import { eq } from 'drizzle-orm'
 export default defineEventHandler(async (event) => {
   const body = await useValidatedBody(event, {

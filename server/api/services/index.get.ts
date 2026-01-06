@@ -1,6 +1,6 @@
 import { ilike, sql } from 'drizzle-orm'
-import db from '~/server/utils/db'
-import { services } from '~/server/database/schema'
+import db from '~~/server/utils/db'
+import { services } from '~~/server/database/schema'
 
 export default defineEventHandler(async (event) => {
   // Get query params

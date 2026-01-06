@@ -1,6 +1,6 @@
 import { useValidatedBody, z } from 'h3-zod'
-import db from '~/server/utils/db'
-import { profile, profileServiceAreas } from '~/server/database/schema'
+import db from '~~/server/utils/db'
+import { profile, profileServiceAreas } from '~~/server/database/schema'
 import { eq } from 'drizzle-orm'
 
 export default defineEventHandler(async (event) => {
