@@ -1,7 +1,8 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  compatibilityDate: '2024-11-01',
+  compatibilityDate: '2025-01-01',
   devtools: { enabled: true },
+  srcDir: 'app/',
   modules: ['@nuxt/ui', '@nuxt/icon', 'nuxt-auth-utils', 'nuxt-file-storage'],
   colorMode: {
     preference: 'light',
