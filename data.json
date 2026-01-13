@@ -1,0 +1,251 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "John Doe",
+      "email": "john@example.com",
+      "phone": "12345678901",
+      "whatsapp": "12345678901",
+      "avatar": "https://picsum.photos/100/100?random=1",
+      "created_at": "2024-01-01T00:00:00Z",
+      "updated_at": "2024-01-01T00:00:00Z"
+    },
+    {
+      "id": 2,
+      "name": "Jane Smith",
+      "email": "jane@example.com",
+      "phone": "98765432101",
+      "whatsapp": "98765432101",
+      "avatar": "https://picsum.photos/100/100?random=2",
+      "created_at": "2024-01-01T00:00:00Z",
+      "updated_at": "2024-01-01T00:00:00Z"
+    },
+    {
+      "id": 3,
+      "name": "Mike Johnson",
+      "email": "mike@example.com",
+      "phone": "55512345671",
+      "whatsapp": "55512345671",
+      "avatar": "https://picsum.photos/100/100?random=3",
+      "created_at": "2024-01-01T00:00:00Z",
+      "updated_at": "2024-01-01T00:00:00Z"
+    },
+    {
+      "id": 4,
+      "name": "Sarah Williams",
+      "email": "sarah@example.com",
+      "phone": "55598765431",
+      "whatsapp": "55598765431",
+      "avatar": "https://picsum.photos/100/100?random=4",
+      "created_at": "2024-01-01T00:00:00Z",
+      "updated_at": "2024-01-01T00:00:00Z"
+    },
+    {
+      "id": 5,
+      "name": "David Brown",
+      "email": "david@example.com",
+      "phone": "55555512341",
+      "whatsapp": "55555512341",
+      "avatar": "https://picsum.photos/100/100?random=5",
+      "created_at": "2024-01-01T00:00:00Z",
+      "updated_at": "2024-01-01T00:00:00Z"
+    }
+  ],
+  "services": [
+    {
+      "id": 1,
+      "name": "Plumbing",
+      "svg": "<svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='currentColor'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z'></path><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M15 12a3 3 0 11-6 0 3 3 0 016 0z'></path></svg>",
+      "view_box": "0 0 24 24"
+    },
+    {
+      "id": 2,
+      "name": "Electrical",
+      "svg": "<svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='currentColor'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M13 10V3L4 14h7v7l9-11h-7z'></path></svg>",
+      "view_box": "0 0 24 24"
+    },
+    {
+      "id": 3,
+      "name": "Cleaning",
+      "svg": "<svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='currentColor'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z'></path></svg>",
+      "view_box": "0 0 24 24"
+    },
+    {
+      "id": 4,
+      "name": "Painting",
+      "svg": "<svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='currentColor'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z'></path></svg>",
+      "view_box": "0 0 24 24"
+    },
+    {
+      "id": 5,
+      "name": "Carpentry",
+      "svg": "<svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='currentColor'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4'></path></svg>",
+      "view_box": "0 0 24 24"
+    },
+    {
+      "id": 6,
+      "name": "Gardening",
+      "svg": "<svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='currentColor'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z'></path></svg>",
+      "view_box": "0 0 24 24"
+    }
+  ],
+  "locations": [
+    {
+      "id": 1,
+      "name": "New York",
+      "parentId": null
+    },
+    {
+      "id": 2,
+      "name": "Manhattan",
+      "parentId": 1
+    },
+    {
+      "id": 3,
+      "name": "Brooklyn",
+      "parentId": 1
+    },
+    {
+      "id": 4,
+      "name": "Queens",
+      "parentId": 1
+    },
+    {
+      "id": 5,
+      "name": "Los Angeles",
+      "parentId": null
+    },
+    {
+      "id": 6,
+      "name": "Hollywood",
+      "parentId": 5
+    },
+    {
+      "id": 7,
+      "name": "Beverly Hills",
+      "parentId": 5
+    }
+  ],
+  "profiles": [
+    {
+      "id": "uuid-1",
+      "title": "Professional Plumber with 10+ Years Experience",
+      "service_id": 1,
+      "user_id": 1,
+      "min_price": 50,
+      "service_type": "both",
+      "shop_address": "123 Main St, Manhattan, NY",
+      "description": "Experienced plumber specializing in residential and commercial plumbing services. Available 24/7 for emergency repairs. Licensed and insured with excellent customer reviews.",
+      "experience": 10,
+      "created_at": "2024-01-01T00:00:00Z",
+      "updated_at": "2024-01-01T00:00:00Z"
+    },
+    {
+      "id": "uuid-2",
+      "title": "Expert Electrician - Residential & Commercial",
+      "service_id": 2,
+      "user_id": 2,
+      "min_price": 75,
+      "service_type": "homeOnly",
+      "shop_address": "456 Oak Ave, Brooklyn, NY",
+      "description": "Licensed electrician with 8 years of experience. Specializing in residential wiring, panel upgrades, and lighting installations. All work guaranteed.",
+      "experience": 8,
+      "created_at": "2024-01-01T00:00:00Z",
+      "updated_at": "2024-01-01T00:00:00Z"
+    },
+    {
+      "id": "uuid-3",
+      "title": "Deep Cleaning & Sanitization Services",
+      "service_id": 3,
+      "user_id": 3,
+      "min_price": 35,
+      "service_type": "homeOnly",
+      "shop_address": "789 Elm St, Queens, NY",
+      "description": "Professional cleaning service for homes and offices. Eco-friendly products, thorough deep cleaning, and post-construction cleanup available.",
+      "experience": 5,
+      "created_at": "2024-01-01T00:00:00Z",
+      "updated_at": "2024-01-01T00:00:00Z"
+    },
+    {
+      "id": "uuid-4",
+      "title": "Professional Interior & Exterior Painting",
+      "service_id": 4,
+      "user_id": 4,
+      "min_price": 40,
+      "service_type": "both",
+      "shop_address": "321 Pine St, Manhattan, NY",
+      "description": "Quality painting services for residential and commercial properties. Color consultation, preparation, and cleanup included. 6 years experience.",
+      "experience": 6,
+      "created_at": "2024-01-01T00:00:00Z",
+      "updated_at": "2024-01-01T00:00:00Z"
+    },
+    {
+      "id": "uuid-5",
+      "title": "Custom Furniture & Cabinet Making",
+      "service_id": 5,
+      "user_id": 5,
+      "min_price": 60,
+      "service_type": "shopOnly",
+      "shop_address": "654 Maple Dr, Brooklyn, NY",
+      "description": "Master carpenter creating custom furniture, kitchen cabinets, and built-in solutions. 15 years of woodworking experience.",
+      "experience": 15,
+      "created_at": "2024-01-01T00:00:00Z",
+      "updated_at": "2024-01-01T00:00:00Z"
+    },
+    {
+      "id": "uuid-6",
+      "title": "Landscape Design & Garden Maintenance",
+      "service_id": 6,
+      "user_id": 1,
+      "min_price": 45,
+      "service_type": "homeOnly",
+      "shop_address": "987 Garden Ave, Queens, NY",
+      "description": "Complete landscape services including design, installation, and regular maintenance. Specializing in native plants and sustainable gardens.",
+      "experience": 7,
+      "created_at": "2024-01-01T00:00:00Z",
+      "updated_at": "2024-01-01T00:00:00Z"
+    }
+  ],
+  "profileServiceAreas": [
+    {
+      "profileId": "uuid-1",
+      "locationId": 2
+    },
+    {
+      "profileId": "uuid-1",
+      "locationId": 3
+    },
+    {
+      "profileId": "uuid-2",
+      "locationId": 3
+    },
+    {
+      "profileId": "uuid-2",
+      "locationId": 4
+    },
+    {
+      "profileId": "uuid-3",
+      "locationId": 2
+    },
+    {
+      "profileId": "uuid-3",
+      "locationId": 3
+    },
+    {
+      "profileId": "uuid-3",
+      "locationId": 4
+    },
+    {
+      "profileId": "uuid-4",
+      "locationId": 2
+    },
+    {
+      "profileId": "uuid-5",
+      "locationId": 3
+    },
+    {
+      "profileId": "uuid-6",
+      "locationId": 4
+    }
+  ]
+}
