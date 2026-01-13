@@ -17,4 +17,8 @@ export default defineNuxtConfig({
   fileStorage: {
     mount: './public',
   },
+  // Force port 3000 for development
+  devServer: {
+    port: 3000,
+  },
 })
