@@ -2,18 +2,24 @@
   "name": "nuxt-app",
   "private": true,
   "type": "module",
+  "imports": {
+    "#auth": "./server/auth-compat.ts"
+  },
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "seed": "node ./scripts/seed.mjs"
   },
   "dependencies": {
     "@nuxt/icon": "^2.2.0",
     "@nuxt/ui": "^4.3.0",
     "@tiptap/core": "^3.15.1",
     "@tiptap/pm": "^3.15.1",
+    "@types/bcryptjs": "^2.4.6",
+    "bcryptjs": "^3.0.3",
     "better-sqlite3": "^12.6.0",
     "dotenv": "^16.4.7",
     "drizzle-orm": "^0.39.3",

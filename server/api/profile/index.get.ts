@@ -1,5 +1,7 @@
 import { defineEventHandler, getQuery } from 'h3'
-import db from '../../utils/db'
+import db from '~~/server/utils/db'
+import { profile, users, services } from '~~/server/database/schema'
+import { eq, and, desc } from 'drizzle-orm'
 
 export default defineEventHandler(async (event) => {
   try {
@@ -8,52 +10,47 @@ export default defineEventHandler(async (event) => {
     const limit = parseInt(query.limit as string) || 6
     const offset = (page - 1) * limit
 
-    // Get profiles data
-    const profilesQuery = db
-      .select()
-      .from('profiles')
-    
-    const profilesData = await profilesQuery.limit(limit)
-
-    // Get users data to join
-    const usersData = await db
-      .select()
-      .from('users')
-      .limit(100) // Get all users
-
-    // Get services data
-    const servicesData = await db
-      .select()
-      .from('services')
-      .limit(100) // Get all services
-
-    // Join profiles with users and services
-    const profiles = profilesData.map((profile: any) => {
-      const user = (usersData as any[]).find((u: any) => u.id === profile.user_id)
-      const service = (servicesData as any[]).find((s: any) => s.id === profile.service_id)
-      
-      return {
-        id: profile.id,
-        title: profile.title,
-        min_price: profile.min_price,
-        description: profile.description,
-        service_type: profile.service_type,
-        user: user ? {
-          name: user.name,
-          avatar: user.avatar,
-        } : null,
-        service: service ? {
-          name: service.name,
-          svg: service.svg,
-        } : null,
-      }
+    // Get profiles with joined user and service data
+    const profiles = await db.select({
+      id: profile.id,
+      title: profile.title,
+      min_price: profile.min_price,
+      description: profile.description,
+      service_type: profile.service_type,
+      experience: profile.experience,
+      user_name: users.name,
+      user_avatar: users.avatar,
+      service_name: services.name,
+      service_svg: services.svg,
     })
-
+    .from(profile)
+    .leftJoin(users, eq(profile.user_id, users.id))
+    .leftJoin(services, eq(profile.service_id, services.id))
+    .orderBy(desc(profile.created_at))
+    .offset(offset)
+    .limit(limit)
+    
     // Get total count
-    const total = (profilesData as any[]).length
+    const totalResult = await db.select({ count: db.fn.count() }).from(profile)
+    const total = totalResult[0].count
 
     return {
-      profiles,
+      profiles: profiles.map(p => ({
+        id: p.id,
+        title: p.title,
+        min_price: p.min_price,
+        description: p.description,
+        service_type: p.service_type,
+        experience: p.experience,
+        user: {
+          name: p.user_name,
+          avatar: p.user_avatar,
+        },
+        service: {
+          name: p.service_name,
+          svg: p.service_svg,
+        }
+      })),
       total,
       page,
       limit,

@@ -3,7 +3,7 @@ export default defineNuxtConfig({
   compatibilityDate: '2025-01-01',
   devtools: { enabled: true },
   srcDir: 'app/',
-  modules: ['@nuxt/ui', '@nuxt/icon', 'nuxt-auth-utils', 'nuxt-file-storage'],
+  modules: ['@nuxt/ui', '@nuxt/icon', 'nuxt-file-storage', 'nuxt-auth-utils'],
   css: ['~/assets/css/main.css'],
   colorMode: {
     preference: 'light',
@@ -16,6 +16,16 @@ export default defineNuxtConfig({
   },
   fileStorage: {
     mount: './public',
+  },
+  auth: {
+    session: {
+      cookie: {
+        maxAge: 7 * 24 * 60 * 60, // 7 days
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'lax',
+      }
+    },
+    secret: process.env.NUXT_SESSION_PASSWORD || 'your-super-long-and-secure-password-for-session-encryption',
   },
   // Force port 3000 for development
   devServer: {

@@ -2,6 +2,7 @@ import { useValidatedBody, z } from 'h3-zod'
 import db from '~~/server/utils/db'
 import { profile, profileServiceAreas } from '~~/server/database/schema'
 import { eq } from 'drizzle-orm'
+import { createError } from 'h3'
 
 export default defineEventHandler(async (event) => {
   const body = await useValidatedBody(event, {
@@ -27,7 +28,14 @@ export default defineEventHandler(async (event) => {
   } = body
 
   try {
-    const { user } = await requireUserSession(event)
+    const session = await getUserSession(event)
+    const userId = session?.user?.id
+    if (!userId) {
+      throw createError({
+        statusCode: 401,
+        statusMessage: 'Unauthorized'
+      })
+    }
 
     // Insert the profile
     const newProfileResult = await db
@@ -35,7 +43,7 @@ export default defineEventHandler(async (event) => {
       .values({
         title,
         service_id,
-        user_id: user.id,
+        user_id: userId,
         min_price,
         service_type,
         shop_address,
@@ -65,4 +73,4 @@ export default defineEventHandler(async (event) => {
       data: error,
     })
   }
-}
+})
