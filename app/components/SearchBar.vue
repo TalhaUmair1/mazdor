@@ -78,10 +78,26 @@ onMounted(() => {
 // })
 
 const search1 = async () => {
-    const serviceUrl = `/${selectedService.value.name.toLowerCase().replaceAll(' ', '-')}-service-${selectedService.value.id}`
-    const locationUrl = `/${selectedLocations.value.name.toLowerCase().replaceAll(' ', '-')}-location-${selectedLocations.value.id}`
-
-    navigateTo(`/search${serviceUrl}${locationUrl}`)
+    if (!selectedService.value) {
+        alert('Please select a service')
+        return
+    }
+    
+    let searchUrl = ''
+    
+    if (selectedService.value) {
+        const serviceUrl = `/${selectedService.value.name.toLowerCase().replaceAll(' ', '-')}-service-${selectedService.value.id}`
+        searchUrl += serviceUrl
+    }
+    
+    if (selectedLocations.value) {
+        const locationUrl = `/${selectedLocations.value.name.toLowerCase().replaceAll(' ', '-')}-location-${selectedLocations.value.id}`
+        searchUrl += locationUrl
+    }
+    
+    if (searchUrl) {
+        navigateTo(`/search${searchUrl}`)
+    }
 }
 </script>
 

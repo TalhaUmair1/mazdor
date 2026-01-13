@@ -1,1 +1,0 @@
-ALTER TABLE "services" ALTER COLUMN "svg" SET DATA TYPE text;

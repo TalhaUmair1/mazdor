@@ -1,45 +1,34 @@
 import { relations } from 'drizzle-orm'
 import {
-  decimal,
   integer,
-  pgEnum,
-  pgTable,
   primaryKey,
-  serial,
+  sqliteTable,
   text,
-  timestamp,
-  uuid,
-  varchar,
-} from 'drizzle-orm/pg-core'
+  real,
+} from 'drizzle-orm/sqlite-core'
 
-// Define enums first before tables
-export const serviceTypeEnum = pgEnum('service_type', [
-  'homeOnly',
-  'shopOnly',
-  'both',
-])
-
-export const services = pgTable('services', {
-  id: serial('id').primaryKey(),
-  name: varchar('name', { length: 255 }).notNull(),
+// Define enums using text with check constraints for SQLite
+export const services = sqliteTable('services', {
+  id: integer('id').primaryKey({ autoIncrement: true }),
+  name: text('name').notNull(),
   svg: text('svg').notNull(),
-  view_box: varchar('view_box', { length: 100 }).notNull(),
+  view_box: text('view_box').notNull(),
 })
 
-export const users = pgTable('users', {
-  id: serial('id').primaryKey(),
-  name: varchar('name', { length: 255 }).notNull(),
-  email: varchar('email', { length: 255 }).notNull().unique(),
-  phone: varchar('phone', { length: 11 }).unique(),
-  whatsapp: varchar('whatsapp', { length: 11 }).unique(),
-  avatar: varchar('avatar', { length: 255 }),
-  created_at: timestamp('created_at').defaultNow(),
-  updated_at: timestamp('updated_at').defaultNow(),
+export const users = sqliteTable('users', {
+  id: integer('id').primaryKey({ autoIncrement: true }),
+  name: text('name').notNull(),
+  email: text('email').notNull().unique(),
+  phone: text('phone', { length: 11 }).unique(),
+  whatsapp: text('whatsapp', { length: 11 }).unique(),
+  avatar: text('avatar'),
+  created_at: integer('created_at', { mode: 'timestamp' }).default(new Date()),
+  updated_at: integer('updated_at', { mode: 'timestamp' }).default(new Date()),
 })
 
-export const locations = pgTable('locations', {
-  id: serial('id').primaryKey(),
-  name: varchar('name', { length: 200 }),
+export const locations = sqliteTable('locations', {
+  id: integer('id').primaryKey({ autoIncrement: true }),
+  name: text('name'),
   parentId: integer('parent_id'),
 })
 
@@ -51,30 +40,29 @@ export const locationsRelations = relations(locations, ({ one, many }) => ({
   children: many(locations),
 }))
 
-export const profile = pgTable('profile', {
-  id: uuid('id').primaryKey().defaultRandom(),
-  title: varchar('title', { length: 255 }).notNull(),
+export const profile = sqliteTable('profile', {
+  id: text('id').primaryKey().$defaultFn(() => crypto.randomUUID()),
+  title: text('title').notNull(),
   service_id: integer('service_id')
     .references(() => services.id)
     .notNull(),
   user_id: integer('user_id')
     .references(() => users.id)
     .notNull(),
-  min_price: decimal('min_price', { precision: 10, scale: 2 }).notNull(),
-  service_type: serviceTypeEnum('service_type').notNull(),
-  shop_address: varchar('shop_address').notNull(),
-  description: varchar('description').notNull(),
+  min_price: real('min_price').notNull(),
+  service_type: text('service_type', { enum: ['homeOnly', 'shopOnly', 'both'] }).notNull(),
+  shop_address: text('shop_address').notNull(),
+  description: text('description').notNull(),
   experience: integer('experience').notNull(),
-  created_at: timestamp('created_at').defaultNow(),
-  updated_at: timestamp('updated_at').defaultNow(),
-
-  deleted_at: timestamp('deleted_at'),
+  created_at: integer('created_at', { mode: 'timestamp' }).default(new Date()),
+  updated_at: integer('updated_at', { mode: 'timestamp' }).default(new Date()),
+  deleted_at: integer('deleted_at', { mode: 'timestamp' }),
 })
 
-export const profileServiceAreas = pgTable(
+export const profileServiceAreas = sqliteTable(
   'profile_service_areas',
   {
-    profileId: uuid('profile_id')
+    profileId: text('profile_id')
       .notNull()
       .references(() => profile.id),
     locationId: integer('location_id')

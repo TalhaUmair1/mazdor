@@ -4,6 +4,7 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   srcDir: 'app/',
   modules: ['@nuxt/ui', '@nuxt/icon', 'nuxt-auth-utils', 'nuxt-file-storage'],
+  css: ['~/assets/css/main.css'],
   colorMode: {
     preference: 'light',
   },

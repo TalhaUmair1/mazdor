@@ -1,6 +1,4 @@
-import { users } from '~~/server/database/schema'
 import db from '~~/server/utils/db'
-import { eq } from 'drizzle-orm'
 
 export default defineOAuthGoogleEventHandler({
   config: {
@@ -12,42 +10,61 @@ export default defineOAuthGoogleEventHandler({
   async onSuccess(event, { user }) {
     console.log('google user', user)
 
-    let simpleUser = await db
-      .select()
-      .from(users)
-      .where(eq(users.email, user.email))
-      .limit(1)
+    try {
+      // Check if user already exists
+      let existingUsers = await db
+        .select()
+        .from('users')
+        .where((u: any) => u.email === user.email)
+        .limit(1)
 
-    console.log('simpleUser', simpleUser)
+      let newUser
+      if (existingUsers.length === 0) {
+        // Create new user
+        const insertedUsers = await db
+          .insert('users')
+          .values({
+            name: user.name,
+            email: user.email,
+            phone: user?.phone || null,
+            whatsapp: user?.whatsapp || null,
+            avatar: user?.picture || `https://picsum.photos/100/100?random=${Date.now()}`,
+            created_at: new Date().toISOString(),
+            updated_at: new Date().toISOString(),
+          })
+          .returning('*')
+        
+        newUser = insertedUsers[0]
+        console.log('Inserted new user:', newUser)
+      } else {
+        newUser = existingUsers[0]
+        console.log('Existing user found:', newUser)
+      }
 
-    if (simpleUser.length === 0) {
-      simpleUser = await db
-        .insert(users)
-        .values({
-          name: user.name,
-          email: user.email,
-          phone: user?.phone || null, // Ensure null if undefined
-          whatsapp: user?.whatsapp || null,
-          avatar: user?.picture || null, // Set initial avatar from Google
-        })
-        .returning()
+      await setUserSession(event, {
+        user: {
+          id: newUser.id,
+          email: newUser.email,
+          name: newUser.name,
+          avatar: newUser.avatar,
+          phone: newUser.phone,
+          whatsapp: newUser.whatsapp,
+        },
+        loggedInAt: Date.now(),
+      })
 
-      console.log('Inserted user:', simpleUser)
-    } else {
-      // Always use the latest avatar from the database
-      console.log('Existing user, using stored avatar')
+      return sendRedirect(event, '/')
+    } catch (error) {
+      console.error('Google auth error:', error)
+      throw createError({
+        statusCode: 500,
+        statusMessage: 'Authentication failed'
+      })
     }
-
-    await setUserSession(event, {
-      user: {
-        id: simpleUser[0].id,
-        email: user.email,
-        name: user.name,
-        avatar: simpleUser[0].avatar, // Use stored avatar, not Google’s picture
-      },
-      loggedInAt: Date.now(),
-    })
-
-    return sendRedirect(event, '/')
   },
+
+  onError(event, error) {
+    console.error('Google auth error:', error)
+    return sendRedirect(event, '/login?error=auth_failed')
+  }
 })

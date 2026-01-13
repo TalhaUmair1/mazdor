@@ -76,11 +76,15 @@
 <script setup>
 import { useRoute } from 'vue-router'
 
-const isLoggedIn = true // Replace this with actual auth logic later
+const { loggedIn } = useUserSession()
+const isLoggedIn = computed(() => loggedIn.value)
+
 const route = useRoute()
 const { data: profile, error } = await useAsyncData(`profile-${route.params.id}`, () =>
     $fetch(`/api/profile/${route.params.id}`)
 )
-console.log('Profile Data:', profile.value);
 
+if (error.value) {
+    console.error('Error fetching profile:', error.value)
+}
 </script>

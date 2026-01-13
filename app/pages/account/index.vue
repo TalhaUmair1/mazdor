@@ -62,13 +62,14 @@ let form = reactive({
 });
 
 const { handleFileInput, files } = useFileStorage()
-// watch(files, (file) => {
-//     console.log(file);
-//     form.avatar = file[0]
-// })
-const { data: users } = await useFetch('/api/users');
-console.log('users', users);
-form = users.value;
+
+const { data: users, error: userError } = await useFetch('/api/users')
+
+if (userError.value) {
+    console.error('Error fetching user data:', userError.value)
+} else if (users.value) {
+    form = users.value
+}
 
 const updateAccount = async () => {
     loading.value = true;

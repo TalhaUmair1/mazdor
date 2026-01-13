@@ -4,9 +4,10 @@
         <UCard class="max-w-sm w-full h-96 border border-gray-50 bg-gray-950 py-4 my-2" v-for="profile in profiles"
             :key="profile.id">
             <div class="flex flex-col items-center">
-                <!-- Placeholder image or use profile.image if available -->
+<!-- User avatar image -->
                 <img alt="User Image" class="w-36 h-36 rounded-full object-cover"
-                    :src="`/userfiles/${profile.user.avatar}`" />
+                    :src="profile.user.avatar" 
+                    onerror="this.src='https://picsum.photos/100/100?random=default'" />
             </div>
             <div class="flex justify-between my-2">
                 <h6 class="text-gray-300">{{ profile.title }}</h6>

@@ -37,13 +37,30 @@ const profileData = ref({
   totalPages: 1,
 })
 
+const profileError = ref(null)
+const servicesError = ref(null)
+
 // Automatically fetch new data when `page` changes
 watchEffect(async () => {
-  const { data } = await useFetch(`/api/profile?page=${page.value}&limit=${limit}`)
-  if (data.value) {
-    profileData.value = data.value
+  try {
+    const { data, error } = await useFetch(`/api/profile?page=${page.value}&limit=${limit}`)
+    if (error.value) {
+      profileError.value = error.value
+      console.error('Error fetching profiles:', error.value)
+    } else if (data.value) {
+      profileData.value = data.value
+      profileError.value = null
+    }
+  } catch (err) {
+    profileError.value = err
+    console.error('Error fetching profiles:', err)
   }
 })
+
 // Fetch services (static fetch)
-const { data: services } = await useFetch('/api/services')
+const { data: services, error: servicesErrorRef } = await useFetch('/api/services')
+if (servicesErrorRef.value) {
+  servicesError.value = servicesErrorRef.value
+  console.error('Error fetching services:', servicesErrorRef.value)
+}
 </script>
