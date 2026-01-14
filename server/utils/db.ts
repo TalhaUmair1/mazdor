@@ -1,10 +1,17 @@
 import { drizzle } from 'drizzle-orm/better-sqlite3'
 import Database from 'better-sqlite3'
-import * as schema from '../database/schema'
+import path from 'path'
 
-const DATABASE_URL = process.env.DATABASE_URL || 'file:mazdor.db'
-const sqlite = new Database(DATABASE_URL.replace('file:', ''))
+// Initialize SQLite database
+const dbPath = path.resolve(process.cwd(), 'mazdor.db')
+const sqlite = new Database(dbPath)
 
-const db = drizzle(sqlite, { schema })
+// Create Drizzle instance
+export const db = drizzle(sqlite)
 
+// Export as default for compatibility with existing imports
 export default db
+
+// Export schema for convenience
+import * as schema from '../database/schema'
+export { schema }

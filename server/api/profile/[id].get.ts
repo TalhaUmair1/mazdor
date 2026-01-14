@@ -10,7 +10,7 @@ export default defineEventHandler(async (event) => {
   }
 
   const profile = await db.query.profile.findFirst({
-    where: (fields, { eq }) => eq(fields.id, String(id)),
+    where: (fields, { eq }) => eq(fields.id, id),
     columns: {
       id: true,
       title: true,

@@ -1,7 +1,6 @@
 // @ts-nocheck
 import { defineEventHandler, readBody } from 'h3'
 import { getUserByEmail } from '../../../db'
-import bcrypt from 'bcryptjs'
 import { createToken } from '../../../auth'
 
 export default defineEventHandler(async (event) => {
@@ -15,7 +14,7 @@ export default defineEventHandler(async (event) => {
   if (!user) {
     return { success: false, error: 'Invalid credentials' }
   }
-  const ok = bcrypt.compareSync(password, user.password_hash)
+  const ok = await verifyPassword(password, user.password_hash)
   if (!ok) {
     return { success: false, error: 'Invalid credentials' }
   }

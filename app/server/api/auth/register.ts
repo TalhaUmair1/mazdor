@@ -1,7 +1,6 @@
 // @ts-nocheck
 import { defineEventHandler, readBody } from 'h3'
 import { ensureUserTable, getUserByEmail, insertUser } from '../../../db'
-import bcrypt from 'bcryptjs'
 import { createToken } from '../../../auth'
 
 export default defineEventHandler(async (event) => {
@@ -16,7 +15,7 @@ export default defineEventHandler(async (event) => {
   if (existing) {
     return { success: false, error: 'User already exists' }
   }
-  const hash = bcrypt.hashSync(password, 10)
+  const hash = await hashPassword(password, 10)
   const user = insertUser(email, hash)
   return { success: true, user }
 })

@@ -1,9 +1,8 @@
 import { defineEventHandler, readBody, createError } from 'h3'
 import { setUserSession } from '#auth'
-import db from '~~/server/utils/db'
-import { users } from '~~/server/database/schema'
+import { db } from '~~/server/utils/db'
+import { users } from '~~/server/db/schema'
 import { eq } from 'drizzle-orm'
-import { verifyPassword } from '~~/server/utils/hash'
 
 export default defineEventHandler(async (event) => {
   try {

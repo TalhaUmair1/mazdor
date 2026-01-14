@@ -3,7 +3,10 @@ export default defineNuxtConfig({
   compatibilityDate: '2025-01-01',
   devtools: { enabled: true },
   srcDir: 'app/',
-  modules: ['@nuxt/ui', '@nuxt/icon', 'nuxt-file-storage', 'nuxt-auth-utils'],
+  modules: ['@nuxt/ui', '@nuxt/icon', 'nuxt-file-storage', 'nuxt-auth-utils', '@nuxthub/core'],
+  hub: {
+    db: 'sqlite'
+  },
   css: ['~/assets/css/main.css'],
   colorMode: {
     preference: 'light',

@@ -29,6 +29,7 @@ export default defineEventHandler(async (event) => {
 
   try {
     const session = await getUserSession(event)
+    console.log('Session:', session);
     const userId = session?.user?.id
     if (!userId) {
       throw createError({

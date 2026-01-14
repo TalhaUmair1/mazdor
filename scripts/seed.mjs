@@ -1,7 +1,6 @@
 // Seed a clean database with a test user (compatible with Drizzle schema)
 import Database from 'better-sqlite3'
 import path from 'path'
-import bcrypt from 'bcryptjs'
 
 const dbPath = path.resolve(process.cwd(), 'mazdor.db')
 const db = new Database(dbPath)
@@ -20,7 +19,7 @@ db.exec(`CREATE TABLE users (
 
 const email = 'test@example.com'
 const password = 'password123'
-const hash = bcrypt.hashSync(password, 10)
+const hash = await hashPassword(password, 10)
 const now = new Date().toISOString()
 const stmt = db.prepare('INSERT INTO users (name, email, password, avatar, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?)')
 stmt.run('Test User', email, hash, '', now, now)

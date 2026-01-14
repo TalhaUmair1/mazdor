@@ -15,7 +15,7 @@ export default defineEventHandler(async (event) => {
   if (existing) {
     return { success: false, error: 'User already exists' }
   }
-  const hash = bcrypt.hashSync(password, 10)
+  const hash = await hashPassword(password, 10)
   const user = insertUser(email, hash)
   return { success: true, user }
 })
