@@ -3,7 +3,7 @@ import { defineEventHandler, readBody, createError } from 'h3'
 import { setUserSession } from '#auth'
 import { useValidatedBody, z } from 'h3-zod'
 import { db } from '~~/server/utils/db'
-import { users } from '~~/server/db/schema'
+import { users } from '~~/server/database/schema'
 import { eq } from 'drizzle-orm'
 
 export default defineEventHandler(async (event) => {

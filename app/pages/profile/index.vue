@@ -18,12 +18,12 @@ const router = useRouter()
 
 onMounted(() => {
   if (!loggedIn.value) {
-    router.push('/login')
+    router.push('/auth/login')
   }
 })
 
 function clearSession() {
   clear()
-  router.push('/login')
+  router.push('/auth/login')
 }
 </script>

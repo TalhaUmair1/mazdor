@@ -4,7 +4,7 @@ export default defineNuxtRouteMiddleware((to) => {
   if (to.path.startsWith('/profile')) {
     const sess = localStorage.getItem('mazdor_session')
     if (!sess) {
-      return navigateTo('/login')
+      return navigateTo('/auth/login')
     }
   }
 })
