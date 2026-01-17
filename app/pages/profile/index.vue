@@ -13,14 +13,15 @@
 <script setup>
 const { user, loggedIn, clear } = useUserSession()
 import { useRouter } from 'vue-router'
-import { onMounted } from 'vue'
+import { watch } from 'vue'
 const router = useRouter()
 
-onMounted(() => {
-  if (!loggedIn.value) {
+// Watch for authentication state changes
+watch(loggedIn, (newVal) => {
+  if (!newVal) {
     router.push('/auth/login')
   }
-})
+}, { immediate: true })
 
 function clearSession() {
   clear()

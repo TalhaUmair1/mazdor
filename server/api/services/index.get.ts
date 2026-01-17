@@ -1,4 +1,6 @@
-import db from '~~/server/utils/db'
+import { db } from '~~/server/utils/db'
+import { defineEventHandler, getQuery, createError } from 'h3'
+import { services } from '~~/server/database/schema'
 
 export default defineEventHandler(async (event) => {
   try {
@@ -15,7 +17,7 @@ export default defineEventHandler(async (event) => {
     const offset = (page - 1) * limit
 
     // Get all services
-    const servicesQuery = db.select().from('services')
+    const servicesQuery = db.select().from(services)
     let allServices = await servicesQuery.limit(100)
 
     // Filter by search if provided

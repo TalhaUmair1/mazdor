@@ -1,8 +1,9 @@
 import { defineEventHandler, readBody, createError } from 'h3'
-import { setUserSession } from '#auth'
-import { db } from '~~/server/utils/db'
-import { users } from '~~/server/database/schema'
+import { db } from '../../utils/db'
+import { users } from '../../database/schema'
 import { eq } from 'drizzle-orm'
+
+
 
 export default defineEventHandler(async (event) => {
   try {
@@ -18,6 +19,7 @@ export default defineEventHandler(async (event) => {
     // Find user by email
     const userResult = await db.select().from(users).where(eq(users.email, email)).limit(1)
     const user = userResult[0]
+
     
     if (!user || !user.password) {
       throw createError({
@@ -27,8 +29,8 @@ export default defineEventHandler(async (event) => {
     }
     
     // Verify password
-    const isValidPassword = await verifyPassword(password, user.password)
-    
+    const isValidPassword = await verifyPassword(user.password, password)
+    console.log('Password verification:', isValidPassword);
     if (!isValidPassword) {
       throw createError({
         statusCode: 401,

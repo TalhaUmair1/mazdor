@@ -1,4 +1,6 @@
 import { db } from '~~/server/utils/db'
+import { defineEventHandler, getQuery, createError } from 'h3'
+import { locations } from '~~/server/database/schema'
 
 export default defineEventHandler(async (event) => {
   try {
@@ -13,7 +15,7 @@ export default defineEventHandler(async (event) => {
     const offset = (page - 1) * limit
 
     // Get all locations
-    const locationsQuery = db.select().from('locations')
+    const locationsQuery = db.select().from(locations)
     let allLocations = await locationsQuery.limit(100)
 
     // Filter by search if provided

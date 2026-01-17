@@ -1,7 +1,7 @@
-import { defineEventHandler, getQuery } from 'h3'
-import db from '~~/server/utils/db'
+import { defineEventHandler, getQuery, createError } from 'h3'
+import { db } from '~~/server/utils/db'
 import { profile, users, services } from '~~/server/database/schema'
-import { eq, and, desc } from 'drizzle-orm'
+import { eq, and, desc, count } from 'drizzle-orm'
 
 export default defineEventHandler(async (event) => {
   try {
@@ -31,8 +31,8 @@ export default defineEventHandler(async (event) => {
     .limit(limit)
     
     // Get total count
-    const totalResult = await db.select({ count: db.fn.count() }).from(profile)
-    const total = totalResult[0].count
+    const totalResult = await db.select({ count: count() }).from(profile)
+    const total = Number(totalResult[0].count)
 
     return {
       profiles: profiles.map(p => ({

@@ -17,7 +17,7 @@
           </NuxtLink>
 
           <!-- Auth buttons for logged out users -->
-          <div v-if="!isLoggedIn" class="flex space-x-2">
+          <div v-if="!loggedIn" class="flex space-x-2">
             <NuxtLink to="/auth/signup"
               class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-sm text-sm px-5 py-2.5 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">
               Sign Up
@@ -89,9 +89,13 @@
 <script setup>
 const showValue = ref(false)
 const showDropdown = ref(false)
-const { loggedIn, clear, user } = useUserSession()
+const { loggedIn, user, clear } = useUserSession()
+console.log(loggedIn.value, user.value);
 
-const isLoggedIn = computed(() => loggedIn.value)
+// Debug logging
+watch(loggedIn, (newVal) => {
+  console.log('Navbar auth state changed:', { loggedIn: newVal, user: user.value })
+})
 
 const toggleValue = () => {
   showValue.value = !showValue.value
@@ -101,8 +105,10 @@ const toggleDropdown = () => {
   showDropdown.value = !showDropdown.value
 }
 
-const logout = () => {
-  clear()
+const logout = async () => {
+  await clear()
   showDropdown.value = false
+  // Refresh to update UI
+  window.location.reload()
 }
 </script>

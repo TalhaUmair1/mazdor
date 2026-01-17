@@ -1,9 +1,8 @@
 // @ts-nocheck
 import { defineEventHandler, readBody, createError } from 'h3'
-import { setUserSession } from '#auth'
 import { useValidatedBody, z } from 'h3-zod'
-import { db } from '~~/server/utils/db'
-import { users } from '~~/server/database/schema'
+import { db } from '../../utils/db'
+import { users } from '../../database/schema'
 import { eq } from 'drizzle-orm'
 
 export default defineEventHandler(async (event) => {
@@ -26,14 +25,13 @@ export default defineEventHandler(async (event) => {
     const now = new Date().toISOString()
 
     // Create new user
-    const inserted = await db.insert(users).values({
+        const user = await db.insert(users).values({
       name,
       email,
       password: hashedPassword,
       avatar: `https://picsum.photos/100/100?random=${Date.now()}`,
-    }).returning()
+    }).returning().get()
 
-    const user = inserted[0]
 
     // Create user session
     await setUserSession(event, {

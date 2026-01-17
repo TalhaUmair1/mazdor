@@ -99,8 +99,11 @@
 <script setup>
 import { ref, reactive } from 'vue'
 import { useRouter } from 'vue-router'
+import { useUserSession } from '#imports'
+import { navigateTo } from '#app'
 
 const router = useRouter()
+const { fetch: fetchUser } = useUserSession()
 
 // Form state
 const formData = reactive({
@@ -154,8 +157,8 @@ const handleSubmit = async () => {
   error.value = ''
   
   try {
-    // Mock API call - replace with actual API endpoint
-    const response = await fetch('/api/auth/register', {
+    // Call actual API endpoint
+    const response = await fetch('/api/auth/signup', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -168,8 +171,9 @@ const handleSubmit = async () => {
     })
     
     if (response.ok) {
-      // Success - redirect to login or dashboard
-      router.push('/auth/login')
+      await fetchUser()
+      // Refresh the page to ensure session is detected properly
+      await navigateTo('/')
     } else {
       const data = await response.json()
       error.value = data.message || 'Registration failed'

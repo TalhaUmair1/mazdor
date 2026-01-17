@@ -86,6 +86,9 @@
 <script setup>
 import { ref, reactive } from 'vue'
 import { useRouter } from 'vue-router'
+import { navigateTo } from '#app'
+
+const { isLoggedIn, user, clear, fetch: fetchUser } = useUserSession()
 
 const router = useRouter()
 
@@ -130,7 +133,7 @@ const handleSubmit = async () => {
   error.value = ''
   
   try {
-    // Mock API call - replace with actual API endpoint
+    // Call actual API endpoint
     const response = await fetch('/api/auth/login', {
       method: 'POST',
       headers: {
@@ -144,11 +147,11 @@ const handleSubmit = async () => {
     })
     
     if (response.ok) {
-      const data = await response.json()
-      // Store token/session
-      localStorage.setItem('auth-token', data.token)
-      // Redirect to dashboard/profile
-      router.push('/profile')
+      // Refresh the page to ensure session is detected properly
+      await fetchUser()
+      console.log(user.value, 'User logged in');
+      
+            await navigateTo('/')
     } else {
       const data = await response.json()
       error.value = data.message || 'Login failed'
