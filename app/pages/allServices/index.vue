@@ -16,8 +16,8 @@
     <ServiceCards v-if="services?.data" :services="services.data" />
 
     <!-- Pagination -->
-    <div class="flex justify-center mt-8 mb-2">
-      <UPagination v-model="page" :page-count="meta?.totalPages || 1" :total="meta?.total || 0" :per-page="limit" />
+    <div v-if="(meta?.total || 0) > limit" class="flex justify-center mt-8 mb-2">
+      <UPagination v-model:page="page" :total="meta?.total || 0" :items-per-page="limit" show-controls />
     </div>
   </div>
 </template>
@@ -28,7 +28,7 @@
 import { ref, watch } from 'vue'
 
 const page = ref(1)
-const limit = 8
+const limit = 12
 
 const services = ref(null)
 const pending = ref(false)

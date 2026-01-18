@@ -15,7 +15,3 @@ export const db = drizzle(client, { schema })
 
 // Export as default for compatibility with existing imports
 export default db
-
-// Export schema for convenience
-import * as schema from '../database/schema'
-export { schema }
