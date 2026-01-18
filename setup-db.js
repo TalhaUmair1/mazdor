@@ -1,13 +1,15 @@
 // Database setup and seed script
-import { drizzle } from 'drizzle-orm/better-sqlite3'
-import Database from 'better-sqlite3'
+import { drizzle } from 'drizzle-orm/libsql'
+import { createClient } from '@libsql/client'
 import * as schema from './server/database/schema.ts'
 import { readFileSync } from 'fs'
 
 try {
   // Create database connection
-  const sqlite = new Database('mazdor.db')
-  const db = drizzle(sqlite, { schema })
+  const client = createClient({
+    url: 'file:mazdor.db'
+  })
+  const db = drizzle(client, { schema })
   
   console.log('Database connection established!')
   
@@ -74,7 +76,6 @@ try {
     console.log('⚠ Database already has data, skipping seed')
   }
   
-  sqlite.close()
   console.log('\nDatabase setup complete!')
 } catch (error) {
   console.error('❌ Database setup error:', error)

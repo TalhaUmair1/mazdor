@@ -1,7 +1,6 @@
 import { useValidatedBody, z } from 'h3-zod'
 import db from '~~/server/utils/db'
 import { profile, profileServiceAreas } from '~~/server/database/schema'
-import { eq } from 'drizzle-orm'
 import { createError } from 'h3'
 
 export default defineEventHandler(async (event) => {
@@ -28,7 +27,7 @@ export default defineEventHandler(async (event) => {
   } = body
 
   try {
-    const session = await getUserSession(event)
+    const session: any = await getUserSession(event)
     console.log('Session:', session);
     const userId = session?.user?.id
     if (!userId) {
@@ -62,7 +61,7 @@ export default defineEventHandler(async (event) => {
           profileId: newProfile.id,
           locationId: locationId,
         }))
-      ).run()
+      ).execute()
     }
 
     return newProfile

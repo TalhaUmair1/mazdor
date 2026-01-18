@@ -1,5 +1,7 @@
+import db from '~~/server/utils/db'
+
 export default defineEventHandler(async (event) => {
-  const session = await getUserSession(event)
+  const session: any = await getUserSession(event)
   const userId = session.user?.id
   if (!userId) {
     throw new Error('User is not authenticated')

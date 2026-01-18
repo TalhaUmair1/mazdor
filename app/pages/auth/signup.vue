@@ -1,103 +1,86 @@
 <template>
-  <div class="min-h-screen flex items-center justify-center bg-gray-50 p-4">
-    <div class="bg-white rounded-lg shadow-lg p-8 w-full max-w-md">
-      <div class="text-center mb-8">
-        <h1 class="text-3xl font-bold text-gray-900">Create Account</h1>
-        <p class="text-gray-600 mt-2">Join our community today</p>
-      </div>
+  <div class="min-h-screen flex items-center justify-center p-4">
+    <UCard class="w-full max-w-md p-8 space-y-3 rounded-xl shadow-lg bg-primary-500">
+      <template #header>
+        <div class="text-center">
+          <h1 class="text-3xl font-bold text-center text-secondary-500">Create Account</h1>
+          <p class="text-secondary-500 mt-2">Join our community today</p>
+        </div>
+      </template>
       
-      <form @submit.prevent="handleSubmit" class="space-y-6">
-        <div>
-          <label class="block text-sm font-medium text-gray-700 mb-2">
-            Full Name
-          </label>
-          <input
-            v-model="formData.name"
-            type="text"
-            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            placeholder="Enter your full name"
-            required
+      <UForm class="space-y-6 mt-3" @submit="handleSubmit" :state="formState" :validate="validateForm" :validate-on="['blur', 'input']">
+        <UFormField label="Full Name" name="name" required :ui="{ label: 'text-neutral-500' }">
+          <UInput 
+            v-model="formData.name" 
+            type="text" 
+            placeholder="Enter your full name" 
+            size="lg"
+            variant="outline"
+            class="w-full"
           />
-        </div>
+        </UFormField>
         
-        <div>
-          <label class="block text-sm font-medium text-gray-700 mb-2">
-            Email Address
-          </label>
-          <input
-            v-model="formData.email"
-            type="email"
-            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            placeholder="you@example.com"
-            required
+        <UFormField label="Email Address" name="email" required :ui="{ label: 'text-neutral-500' }">
+          <UInput 
+            v-model="formData.email" 
+            type="email" 
+            placeholder="you@example.com" 
+            size="lg"
+            variant="outline"
+            class="w-full"
           />
-        </div>
+        </UFormField>
         
-        <div>
-          <label class="block text-sm font-medium text-gray-700 mb-2">
-            Password
-          </label>
-          <div class="relative">
-            <input
-              v-model="formData.password"
-              :type="showPassword ? 'text' : 'password'"
-              class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent pr-12"
-              placeholder="Create a password"
-              required
-            />
-            <button
-              type="button"
-              @click="showPassword = !showPassword"
-              class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
-            >
-              {{ showPassword ? '👁️' : '👁️‍🗨️' }}
-            </button>
-          </div>
-        </div>
+        <UFormField label="Password" name="password" required :ui="{ label: 'text-neutral-500' }">
+          <UInput 
+            v-model="formData.password" 
+            :type="showPassword ? 'text' : 'password'" 
+            placeholder="Create a password" 
+            size="lg"
+            variant="outline"
+            class="w-full"
+            :trailing-icon="showPassword ? 'heroicons:eye-solid' : 'heroicons:eye-closed'"
+            @trailing-click="showPassword = !showPassword"
+          />
+        </UFormField>
         
-        <div>
-          <label class="block text-sm font-medium text-gray-700 mb-2">
-            Confirm Password
-          </label>
-          <div class="relative">
-            <input
-              v-model="formData.confirmPassword"
-              :type="showPassword ? 'text' : 'password'"
-              class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent pr-12"
-              placeholder="Confirm your password"
-              required
-            />
-          </div>
-        </div>
+        <UFormField label="Confirm Password" name="confirmPassword" required :ui="{ label: 'text-neutral-500' }">
+          <UInput 
+            v-model="formData.confirmPassword" 
+            :type="showPassword ? 'text' : 'password'" 
+            placeholder="Confirm your password" 
+            size="lg"
+            variant="outline"
+            class="w-full"
+          />
+        </UFormField>
         
-        <div v-if="error" class="text-red-600 text-sm text-center py-2">
-          {{ error }}
-        </div>
-        
-        <button
-          type="submit"
-          :disabled="loading"
-          class="w-full bg-blue-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+        <UButton 
+          type="submit" 
+          class="w-full py-3 mt-4"
+          :loading="loading"
+          color="primary"
+          size="lg"
         >
           <span v-if="loading">Creating Account...</span>
           <span v-else>Create Account</span>
-        </button>
-      </form>
+        </UButton>
+      </UForm>
       
       <div class="text-center mt-6">
-        <p class="text-gray-600">
+        <p class="text-secondary-500">
           Already have an account? 
-          <router-link to="/auth/login" class="text-blue-600 hover:text-blue-800 font-medium">
+          <NuxtLink to="/auth/login" class="text-secondary-500 hover:text-secondary-700 font-medium">
             Sign in
-          </router-link>
+          </NuxtLink>
         </p>
       </div>
-    </div>
+    </UCard>
   </div>
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue'
+import { ref, reactive, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { useUserSession } from '#imports'
 import { navigateTo } from '#app'
@@ -117,44 +100,45 @@ const loading = ref(false)
 const error = ref('')
 const showPassword = ref(false)
 
+const formState = computed(() => {
+  return {
+    name: formData.name,
+    email: formData.email,
+    password: formData.password,
+    confirmPassword: formData.confirmPassword
+  }
+})
+
 // Simple validation
-const validateForm = () => {
-  error.value = ''
+const validateForm = (state) => {
+  const errors = []
   
-  if (!formData.name.trim()) {
-    error.value = 'Name is required'
-    return false
+  if (!state.name) {
+    errors.push({ path: 'name', message: 'Name is required' })
   }
   
-  if (!formData.email.trim()) {
-    error.value = 'Email is required'
-    return false
+  if (!state.email) {
+    errors.push({ path: 'email', message: 'Email is required' })
   }
   
-  if (!/\S+@\S+\.\S+/.test(formData.email)) {
-    error.value = 'Please enter a valid email'
-    return false
+  if (state.email && !/\S+@\S+\.\S+/.test(state.email)) {
+    errors.push({ path: 'email', message: 'Please enter a valid email' })
   }
   
-  if (formData.password.length < 6) {
-    error.value = 'Password must be at least 6 characters'
-    return false
+  if (state.password && state.password.length < 6) {
+    errors.push({ path: 'password', message: 'Password must be at least 6 characters' })
   }
   
-  if (formData.password !== formData.confirmPassword) {
-    error.value = 'Passwords do not match'
-    return false
+  if (state.password && state.confirmPassword && state.password !== state.confirmPassword) {
+    errors.push({ path: 'confirmPassword', message: 'Passwords do not match' })
   }
   
-  return true
+  return errors
 }
 
 // Form submission
-const handleSubmit = async () => {
-  if (!validateForm()) return
-  
+const handleSubmit = async ({ event }) => {
   loading.value = true
-  error.value = ''
   
   try {
     // Call actual API endpoint

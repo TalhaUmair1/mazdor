@@ -22,7 +22,7 @@
     "@tiptap/pm": "^3.15.1",
     "@types/bcryptjs": "^2.4.6",
     "bcryptjs": "^3.0.3",
-    "better-sqlite3": "^12.6.0",
+    "better-sqlite3": "^12.6.2",
     "dotenv": "^16.4.7",
     "drizzle-orm": "^0.39.3",
     "h3-zod": "^0.5.3",

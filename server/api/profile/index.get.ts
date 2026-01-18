@@ -8,10 +8,11 @@ export default defineEventHandler(async (event) => {
     const query = getQuery(event)
     const page = parseInt(query.page as string) || 1
     const limit = parseInt(query.limit as string) || 6
+    const userId = query.userId ? parseInt(query.userId as string) : null
     const offset = (page - 1) * limit
 
-    // Get profiles with joined user and service data
-    const profiles = await db.select({
+    // Build query with optional user filter
+    let queryBuilder = db.select({
       id: profile.id,
       title: profile.title,
       min_price: profile.min_price,
@@ -26,7 +27,12 @@ export default defineEventHandler(async (event) => {
     .from(profile)
     .leftJoin(users, eq(profile.user_id, users.id))
     .leftJoin(services, eq(profile.service_id, services.id))
-    .orderBy(desc(profile.created_at))
+    
+    if (userId) {
+      queryBuilder = queryBuilder.where(eq(profile.user_id, userId))
+    }
+    
+    const profiles = await queryBuilder.orderBy(desc(profile.created_at))
     .offset(offset)
     .limit(limit)
     

@@ -1,35 +1,35 @@
 <template>
     <div>
-        <UCard class="max-w-2xl mx-auto border my-6 border-gray-200 shadow-lg">
+        <UCard class="max-w-2xl mx-auto border my-6 border-gray-200 shadow-lg bg-primary-500">
             <template #header>
                 <div class="text-center">
-                    <h1 class="text-2xl font-bold">Account Details</h1>
-                    <h5 class="text-xl font-semibold my-2 p-2 text-gray-300">
+                    <h1 class="text-2xl font-bold text-neutral-500">Account Details</h1>
+                    <h5 class="text-xl font-semibold my-2 p-2 text-primary-500">
                         Please fill in the details below clearly to keep your profile updated.
                     </h5>
                 </div>
             </template>
             <UForm class="space-y-4" @submit="updateAccount" :state="form">
-                <UFormGroup label="Upload Photo" name="avatar">
+                <UFormGroup label="Upload Photo" name="avatar" :ui="{ label: 'text-primary-500' }">
                     <UInput size="lg" type="file" @input="handleFileInput" />
                 </UFormGroup>
 
-                <UFormGroup label="Full Name" name="name">
+                <UFormGroup label="Full Name" name="name" :ui="{ label: 'text-primary-500' }">
                     <UInput v-model="form.name" type="text" size="lg" variant="outline" placeholder="Full Name"
                         required />
                 </UFormGroup>
 
-                <UFormGroup label="Email" name="email">
+                <UFormGroup label="Email" name="email" :ui="{ label: 'text-primary-500' }">
                     <UInput v-model="form.email" type="email" size="lg" variant="outline" placeholder="Email"
                         required />
                 </UFormGroup>
 
-                <UFormGroup label="Phone No" name="phone">
+                <UFormGroup label="Phone No" name="phone" :ui="{ label: 'text-primary-500' }">
                     <UInput v-model="form.phone" type="text" size="lg" variant="outline" placeholder="Phone No"
                         required />
                 </UFormGroup>
 
-                <UFormGroup label="WhatsApp No" name="whatsapp">
+                <UFormGroup label="WhatsApp No" name="whatsapp" :ui="{ label: 'text-primary-500' }">
                     <UInput v-model="form.whatsapp" type="text" size="lg" variant="outline" placeholder="WhatsApp No"
                         required />
                 </UFormGroup>

@@ -1,57 +1,68 @@
 <template>
-  <nav class="bg-white border-gray-200 dark:bg-gray-900">
+  <nav class="bg-bg-base border-border">
     <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
       <div class="-mt-10 md:-mt-0">
         <NuxtLink to="/" class="flex items-center space-x-3 rtl:space-x-reverse">
           <img src="/images.jpg" class="h-10 rounded-full" alt="" />
-          <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Mazdoor</span>
+          <span class="self-center text-2xl font-semibold whitespace-nowrap text-default">Mazdoor</span>
         </NuxtLink>
       </div>
       
       <div class="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
         <div class="flex flex-col md:flex-row items-center space-x-3">
-          <NuxtLink 
-            class="py-3 px-4 bg-green-600 text-white rounded-sm" 
-            to="/profile">
+          <UButton 
+            color="primary"
+            variant="solid"
+            to="/profile/create">
             Create Profile
-          </NuxtLink>
+          </UButton>
 
           <!-- Auth buttons for logged out users -->
           <div v-if="!loggedIn" class="flex space-x-2">
-            <NuxtLink to="/auth/signup"
-              class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-sm text-sm px-5 py-2.5 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">
+            <UButton 
+              color="secondary"
+              variant="outline"
+              to="/auth/signup">
               Sign Up
-            </NuxtLink>
-            <NuxtLink to="/auth/login"
-              class="text-white bg-blue-700 border border-blue-700 focus:outline-none hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-sm text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+            </UButton>
+            <UButton 
+              color="primary"
+              variant="solid"
+              to="/auth/login">
               Login
-            </NuxtLink>
+            </UButton>
           </div>
 
           <!-- User dropdown for logged in users -->
           <div v-else class="relative mt-4 md:mt-0">
             <button @click="toggleDropdown" class="flex items-center">
               <img :src="user?.avatar ? `/userfiles/${user.avatar}` : '/default-avatar.png'" 
-                   alt="Profile" class="w-10 h-10 rounded-full border">
+                   alt="Profile" class="w-10 h-10 rounded-full border border-border">
             </button>
 
             <!-- Dropdown Menu -->
             <div v-if="showDropdown"
-              class="absolute text-center p-3 right-0 mt-2 w-40 bg-white border rounded-lg shadow-lg dark:bg-gray-800">
-              <NuxtLink to="/account"
-                class="block rounded-md w-full px-3 py-2 my-2 text-center border border-green-700 text-green-700 dark:text-white hover:bg-green-100 dark:hover:bg-green-700">
+              class="absolute text-center p-3 right-0 mt-2 w-40 bg-bg-base border border-border rounded-lg shadow-lg">
+              <UButton 
+                color="secondary"
+                variant="outline"
+                to="/account"
+                class="w-full">
                 Account
-              </NuxtLink>
-              <button @click="logout"
-                class="block rounded-md w-full px-3 py-2 text-center border border-red-600 text-red-600 dark:text-white hover:bg-red-100 dark:hover:bg-red-700">
+              </UButton>
+              <UButton 
+                color="error"
+                variant="outline"
+                @click="logout"
+                class="w-full mt-2">
                 Logout
-              </button>
+              </UButton>
             </div>
           </div>
         </div>
         
         <button @click="toggleValue" data-collapse-toggle="navbar-cta" type="button"
-          class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+          class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-muted rounded-lg md:hidden hover:bg-bg-muted focus:outline-none focus:ring-2 focus:ring-border"
           aria-controls="navbar-cta" :aria-expanded="showValue">
           <span class="sr-only">Open main menu</span>
           <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
@@ -62,23 +73,33 @@
       
       <div class="items-center justify-between w-full md:flex md:w-auto md:order-1" id="navbar-cta"
         :class="{ 'hidden': !showValue, 'block': showValue }">
-        <ul class="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+        <ul class="flex flex-col font-medium p-4 md:p-0 mt-4 border border-border rounded-lg bg-bg-muted md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-transparent">
           <li>
-            <NuxtLink to="/"
-              class="block py-2 px-3 md:p-0 text-white bg-blue-700 rounded-sm md:bg-transparent md:text-blue-700 md:dark:text-blue-500"
-              aria-current="page">Home</NuxtLink>
+            <UButton 
+              :active="$route.path === '/'"
+              variant="link"
+              to="/"
+              class="w-full md:w-auto md:p-0 text-default rounded-sm">
+              Home
+            </UButton>
           </li>
           <li>
-            <NuxtLink to="/allServices"
-              class="block py-2 px-3 md:p-0 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
+            <UButton 
+              :active="$route.path === '/allServices'"
+              variant="link"
+              to="/allServices"
+              class="w-full md:w-auto md:p-0 text-default rounded-sm">
               All Services
-            </NuxtLink>
+            </UButton>
           </li>
           <li>
-            <NuxtLink to="/myListing"
-              class="block py-2 px-3 md:p-0 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
+            <UButton 
+              :active="$route.path === '/myListing'"
+              variant="link"
+              to="/myListing"
+              class="w-full md:w-auto md:p-0 text-default rounded-sm">
               My Listing
-            </NuxtLink>
+            </UButton>
           </li>
         </ul>
       </div>

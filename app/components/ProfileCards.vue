@@ -1,32 +1,32 @@
 <template>
     <div v-if="profiles.length > 0"
         class="flex flex-col items-center gap-4 md:gap-0 md:flex-row md:justify-around md:flex-wrap my-6">
-        <UCard class="max-w-sm w-full h-96 border border-gray-50 bg-gray-950 py-4 my-2" v-for="profile in profiles"
+        <UCard class="max-w-sm w-full h-auto border border-gray-50 bg-primary-500 py-2 my-2" v-for="profile in profiles"
             :key="profile.id">
             <div class="flex flex-col items-center">
 <!-- User avatar image -->
-                <img alt="User Image" class="w-36 h-36 rounded-full object-cover"
+                <img alt="User Image" class="w-36 h-36 mb-3 rounded-full object-cover"
                     :src="profile.user.avatar" 
                     onerror="this.src='https://picsum.photos/100/100?random=default'" />
             </div>
             <div class="flex justify-between my-2">
-                <h6 class="text-gray-300">{{ profile.title }}</h6>
-                <h5 class="bg-gray-600 text-white py-1 px-6 rounded-sm">
+                <h2 class="text-white font-semibold">{{ truncateWords(profile.title, 4) }}</h2>
+                <h5 class="bg-neutral-600 text-white  px-4 rounded-sm">
                     {{ profile.min_price }}
                 </h5>
             </div>
             <!-- Truncate description to 20 words -->
-            <p class="text-gray-300 mb-3">
-                {{ truncateWords(profile.description, 20) }}
+            <p class="text-secondary-400 mb-3">
+                {{ truncateWords(profile.description, 15) }}
             </p>
-            <NuxtLink :to="`/profile/${profile.id}`" class="rounded-sm text-blue-500 hover:underline">
+            <NuxtLink :to="`/profile/${profile.id}`" class="rounded-sm text-neutral-700 hover:text-white hover:underline">
                 Learn more
             </NuxtLink>
         </UCard>
     </div>
 
-    <div v-else class="text-center text-gray-500 my-8">
-        No profiles found.
+    <div v-else class="text-center text-secondary-500 my-8">
+        <p class="text-secondary-500">No profiles found.</p>
     </div>
 </template>
 
