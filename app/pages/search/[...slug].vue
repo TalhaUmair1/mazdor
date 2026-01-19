@@ -32,7 +32,7 @@
 </template>
 
 <script setup>
-import { ref, watch } from 'vue'
+import { ref, watch, computed } from 'vue'
 import { useRoute } from 'vue-router'
 
 const route = useRoute()
@@ -65,34 +65,12 @@ if (path.some(v => v.includes('location'))) {
     }
 }
 
-// const { data: profiles, refresh } = await useFetch('/api/search', () => ({
-//     query: {
-//         page: page.value,
-//         limit: limit.value,
-//         serviceId: service.value?.id,
-//         locationId: location.value?.id
-//     },
-//     watch: [route, service, location, page],
-//     immediate: true
-// }))
-
-const profiles = ref([])
-
-const fetchProfiles = async () => {
-    const response = await $fetch('/api/search', {
-        params: {
-            page: page.value,
-            limit: limit.value,
-            serviceId: service.value?.id,
-            locationId: location.value?.id
-        }
-    })
-    profiles.value = response?.data
-}
-
-watch([service, location, page], () => {
-    if (service.value?.id || location.value?.id) {
-        fetchProfiles()
-    }
-}, { immediate: true })
+const { data: profiles } = await useFetch('/api/search', {
+    query: {
+        serviceId: computed(() => service.value?.id),
+        locationId: computed(() => location.value?.id),
+    },
+    watch: [service, location],
+    default: () => [],
+})
 </script>

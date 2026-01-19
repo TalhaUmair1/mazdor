@@ -6,7 +6,7 @@
             <div class="flex flex-col items-center">
 <!-- User avatar image -->
                 <img alt="User Image" class="w-36 h-36 mb-3 rounded-full object-cover"
-                    :src="profile.user.avatar" 
+                    :src="`/userfiles/${profile.user.avatar}`" 
                     onerror="this.src='https://picsum.photos/100/100?random=default'" />
             </div>
             <div class="flex justify-between my-2">
@@ -19,9 +19,9 @@
             <p class="text-secondary-400 mb-3">
                 {{ truncateWords(profile.description, 15) }}
             </p>
-            <NuxtLink :to="`/profile/${profile.id}`" class="rounded-sm text-neutral-700 hover:text-white hover:underline">
+            <UButton :to="`/profile/${profile.id}`" variant="outline" color="neutral" class="w-full">
                 Learn more
-            </NuxtLink>
+            </UButton>
         </UCard>
     </div>
 

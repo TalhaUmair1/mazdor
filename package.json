@@ -11,7 +11,8 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
-    "seed": "node ./scripts/seed.mjs"
+    "seed": "node ./scripts/seed.mjs",
+    "seed:locations": "tsx ./scripts/run_location_seeding.ts"
   },
   "dependencies": {
     "@libsql/client": "^0.17.0",

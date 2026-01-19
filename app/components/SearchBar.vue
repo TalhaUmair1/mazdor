@@ -5,14 +5,14 @@
                 class="flex flex-col md:flex-row items-center bg-bg-elevated space-y-4 md:space-y-0 md:space-x-4 border border-border rounded-md p-2 shadow-md w-full md:w-[800px]">
 
                 <div class="w-full md:w-80">
-                    <UInputMenu v-model="selectedService" :search="services" :loading="loadingService"
+                    <UInputMenu v-model="selectedService" :items="serviceItems" :search="services" :loading="loadingService"
                         trailing-icon="i-heroicons-chevron-up-down-20-solid" class="w-full text-lg shadow-none"
-                        placeholder="What service are you looking for?" option-attribute="name" size="xl" required />
+                        placeholder="What service are you looking for?" label-key="name" size="xl" required />
                 </div>
 
                 <div class="w-full md:w-80">
-                    <UInputMenu v-model="selectedLocations" :search="search" :loading="loadingLocations"
-                        placeholder="Search for a location..." option-attribute="name" trailing by="id" size="xl" />
+                    <UInputMenu v-model="selectedLocations" :items="locationItems" :search="search" :loading="loadingLocations"
+                        placeholder="Search for a location..." label-key="name" value-attribute="id" size="xl" />
                 </div>
 
                 <div>
@@ -39,26 +39,53 @@ const props = defineProps({
 
 const loadingService = ref(false)
 const selectedService = ref(null)
+const serviceItems = ref([])
 
 async function services(q) {
     loadingService.value = true
-    const response = await $fetch('/api/services', { params: { search: q } })
+    const params = q ? { search: q } : {};
+    const response = await $fetch('/api/services', { params })
+    serviceItems.value = response?.data || []
     loadingService.value = false
     return response?.data
 }
 
 const loadingLocations = ref(false)
 const selectedLocations = ref(null)
+const locationItems = ref([])
 
 async function search(q) {
     loadingLocations.value = true
-    const response = await $fetch('/api/locations', { params: { search: q } })
+    const params = q ? { search: q } : {};
+    const response = await $fetch('/api/locations', { params })
+    
+    locationItems.value = response?.data || []
+    
     loadingLocations.value = false
     return response?.data
 }
 
-// Prefill selected service and location from props
-onMounted(() => {
+// Load initial data and prefill selected service and location from props
+onMounted(async () => {
+    // Load initial services
+    try {
+        const servicesResponse = await $fetch('/api/services');
+        serviceItems.value = servicesResponse?.data || [];
+    } catch (error) {
+        console.error('Error loading services:', error);
+        serviceItems.value = [];
+    }
+    
+    // Load initial locations
+    try {
+        const locationsResponse = await $fetch('/api/locations');
+        locationItems.value = locationsResponse?.data || [];
+    } catch (error) {
+        console.error('Error loading locations:', error);
+        locationItems.value = [];
+    }
+    
+    // Prefill selected service and location from props
     if (props.service && Object.keys(props.service).length > 0) {
         selectedService.value = props.service
     }

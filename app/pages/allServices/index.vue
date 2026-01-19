@@ -16,8 +16,8 @@
     <ServiceCards v-if="services?.data" :services="services.data" />
 
     <!-- Pagination -->
-    <div v-if="(meta?.total || 0) > limit" class="flex justify-center mt-8 mb-2">
-      <UPagination v-model:page="page" :total="meta?.total || 0" :items-per-page="limit" show-controls />
+    <div v-if="(services?.total || 0) > limit" class="flex justify-center mt-8 mb-2">
+      <UPagination v-model:page="page" :total="services?.total || 0" :items-per-page="limit" show-controls />
     </div>
   </div>
 </template>
@@ -32,18 +32,15 @@ const limit = 12
 
 const services = ref(null)
 const pending = ref(false)
-const meta = ref(null)
 
 const fetchServices = async () => {
   pending.value = true
 
-  const { data } = await useFetch('/api/services', {
-    query: { page: page.value, limit },
-    key: `services-page-${page.value}`,
+  const response = await $fetch('/api/services', {
+    params: { page: page.value, limit },
   })
 
-  services.value = data.value
-  meta.value = data.value?.meta
+  services.value = response
   pending.value = false
 }
 

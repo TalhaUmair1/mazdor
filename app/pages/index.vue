@@ -25,7 +25,7 @@
       </h4>
       <div class="flex gap-4 justify-center">
         <UButton to="/allServices" class="rounded-sm py-2">Find More Workers</UButton>
-        <UButton to="/profile" class="rounded-sm py-2">List Your Profile</UButton>
+        <UButton to="/profile/create" class="rounded-sm py-2">List Your Profile</UButton>
       </div>
     </div>
 
@@ -88,8 +88,8 @@ async function fetchServices() {
     } else if (data.value) {
       serviceData.value = {
         services: data.value.data || [],
-        total: data.value.meta?.total || 0,
-        totalPages: data.value.meta?.totalPages || 1
+        total: data.value.total || 0,
+        totalPages: data.value.totalPages || 1
       }
       servicesError.value = null
     }
