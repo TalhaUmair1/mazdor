@@ -6,7 +6,8 @@
             <div class="flex flex-col items-center text-secondary-500">
 <!-- Service icon - use v-html to render SVG -->
                 <div class="w-8 h-8 mx-auto" v-html="service.svg"></div>
-                <NuxtLink class="text-lg cursor-pointer font-semibold mt-4 text-secondary-500 hover:text-secondary-700 hover:underline ">{{
+                <NuxtLink class="text-lg cursor-pointer font-semibold mt-4 text-secondary-500 hover:text-secondary-700 hover:underline "
+                    @click.prevent="$emit('service-selected', service)">{{
                     truncate(service.name, 15) }}
                 </NuxtLink>
             </div>
@@ -18,12 +19,15 @@
 </template>
 
 <script setup>
-defineProps({
+const props = defineProps({
     services: {
         type: Array,
         default: () => []
     }
 })
+
+defineEmits(['service-selected'])
+
 const truncate = (text, length) => {
     return text.length > length ? text.substring(0, length) + '...' : text
 }

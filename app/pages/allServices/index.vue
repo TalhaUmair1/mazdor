@@ -26,7 +26,9 @@
 
 <script setup>
 import { ref, watch } from 'vue'
-
+definePageMeta({
+  middleware: ['auth']
+})
 const page = ref(1)
 const limit = 12
 

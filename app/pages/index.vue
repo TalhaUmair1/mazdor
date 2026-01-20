@@ -2,9 +2,9 @@
   <div>
     <!-- Test Color Theme (temporary) -->
     <HeroSection />
-    <SearchBar />
+    <SearchBar ref="searchBarRef" />
     <!-- Services Section -->
-    <ServiceCards :services="serviceData?.services ?? []" />
+    <ServiceCards :services="serviceData?.services ?? []" @service-selected="handleServiceSelected" />
     
     <!-- Service Pagination -->
     <div v-if="(serviceData?.total || 0) > serviceLimit" class="flex justify-center mt-4">
@@ -41,6 +41,7 @@ const profilePage = ref(1)
 const profileLimit = 3
 const servicePage = ref(1)
 const serviceLimit = 8
+const searchBarRef = ref(null)
 
 const profileData = ref({
   profiles: [],
@@ -102,4 +103,14 @@ async function fetchServices() {
 // Watch page changes
 watch(profilePage, fetchProfiles, { immediate: true })
 watch(servicePage, fetchServices, { immediate: true })
+
+// Handle service selection from ServiceCards
+const handleServiceSelected = (service) => {
+  if (searchBarRef.value && typeof searchBarRef.value.setSelectedService === 'function') {
+    // Call the method to set the selected service in the search bar
+    searchBarRef.value.setSelectedService(service);
+  } else {
+    console.warn('SearchBar ref not available or setSelectedService method not found');
+  }
+}
 </script>

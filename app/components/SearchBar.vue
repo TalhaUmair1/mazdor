@@ -126,6 +126,16 @@ const search1 = async () => {
         navigateTo(`/search${searchUrl}`)
     }
 }
+
+// Method to set the selected service from parent component
+const setSelectedService = (service) => {
+  selectedService.value = service;
+};
+
+// Expose the method to parent components
+defineExpose({
+  setSelectedService
+});
 </script>
 
 <style lang="scss" scoped></style>

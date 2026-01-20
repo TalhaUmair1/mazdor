@@ -84,7 +84,7 @@ const updateAccount = async () => {
 
         console.log('Account updated successfully!', response);
         // Ensure this function is available in your context
-        await navigateTo('/profile');
+        await navigateTo('/profile/create');
 
     } catch (error) {
         console.error('Error updating account:', error?.data || error);
