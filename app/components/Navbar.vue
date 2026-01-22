@@ -130,6 +130,6 @@ const logout = async () => {
   await clear()
   showDropdown.value = false
   // Refresh to update UI
-  window.location.reload()
+  navigateTo('/auth/login')
 }
 </script>

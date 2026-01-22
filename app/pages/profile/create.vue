@@ -1,128 +1,180 @@
 <template>
   <div class="flex items-center justify-center mt-5">
-    <UCard class="w-full max-w-xl p-8 space-y-3 rounded-xl shadow bg-primary-500">
+    <UCard class="w-full max-w-2xl p-8 rounded-xl shadow bg-primary-500">
       <template #header>
-        <div class="text-center">
-          <h2 class="text-2xl font-bold text-center text-secondary-500 lg:text-3xl">Create New Profile</h2>
-          <p class="max-w-screen-md mx-auto text-center text-secondary-500 md:text-lg">
-            Please fill in the details below clearly so that you can reach more people.
+        <div class="text-center mb-6">
+          <h2 class="text-2xl font-bold text-center text-secondary-500 lg:text-3xl">
+            Create Your Service Profile
+          </h2>
+          <p class="max-w-screen-md mx-auto text-center text-secondary-500 md:text-lg mt-2">
+            Fill in your service details to connect with customers looking for your expertise.
           </p>
         </div>
       </template>
-      
-      <UForm class="space-y-6 mt-3" @submit="createProfile" :state="formState" :validate="validateForm" :validate-on="['blur', 'input']">
-        <UFormField label="Title of profile" name="title" required :ui="{ label: 'text-neutral-500' }">
-          <UInput 
-            v-model="form.title" 
-            type="text" 
-            placeholder="Title of profile" 
-            size="lg"
-            variant="outline"
-            class="w-full"
-          />
-        </UFormField>
 
-        <UFormField label="What kind of service you want to offer" name="serviceId" required :ui="{ label: 'text-neutral-500' }">
-          <USelectMenu 
-            v-model="form.serviceId" 
-            :items="services.data" 
-            value-key="id" 
-            label-key="name"
-            placeholder="Select a service"
-            size="lg"
-            class="w-full"
+      <UForm
+        :schema="profileSchema"
+        :state="form"
+        class="space-y-6 mt-4"
+        @submit="createProfile"
+      >
+        <div>
+          <UFormField
+            label="Title of profile"
+            name="title"
+            
+            required
+            :ui="{ label: 'text-neutral-500' }"
           >
-            <template #label>
-              {{ form.serviceId ? services.find(s => s.id === form.serviceId)?.name : 'What kind of service you want to offer' }}
-            </template>
-          </USelectMenu>
-        </UFormField>
+            <UInput
+              v-model="form.title"
+              type="text"
+              placeholder="Title of profile"
+              size="xl"
+              variant="outline"
+              class="w-full"
+            />
+          </UFormField>
 
-        <UFormField label="Years of experience" name="experience" required :ui="{ label: 'text-neutral-500' }">
-          <UInput 
-            v-model.number="form.experience" 
-            type="number" 
-            :min="0" 
-            :max="50" 
-            placeholder="Years of experience" 
-            size="lg"
-            variant="outline"
-            class="w-full"
-          />
-        </UFormField>
+          <UFormField
+            label="What kind of service you want to offer"
+            name="serviceId"
+            required
+            :ui="{ label: 'text-neutral-500' }"
+          >
+            <USelectMenu
+              v-model="form.serviceId"
+              :items="services"
+              value-key="id"
+              label-key="name"
+              searchable
+              placeholder="Select a service"
+              :disabled="!servicesLoaded"
+              size="xl"
+              class="w-full"
+              :loading="!servicesLoaded"
+            />
+            <template #help v-if="!servicesLoaded"> Loading services... </template>
+          </UFormField>
 
-        <UFormField label="Start from (minimum service price)" name="minPrice" required :ui="{ label: 'text-neutral-500' }">
-          <UInput 
-            v-model.number="form.minPrice" 
-            type="number" 
-            :min="0" 
-            :max="50000" 
-            placeholder="Start from (minimum service price)" 
-            size="lg"
-            variant="outline"
-            class="w-full"
-          />
-        </UFormField>
+          <UFormField
+            label="Years of experience"
+            name="experience"
+            required
+            :ui="{ label: 'text-neutral-500' }"
+          >
+            <UInput
+              v-model.number="form.experience"
+              type="number"
+              :min="0"
+              :max="50"
+              placeholder="Years of experience"
+              size="xl"
+              variant="outline"
+              class="w-full"
+            />
+          </UFormField>
 
-        <UFormField label="What type of service you offer" name="serviceType" required :ui="{ label: 'text-neutral-500' }">
-          <USelect 
-            v-model="form.serviceType" 
-            :items="[
-              { label: 'Home Only Services', value: 'homeOnly' },
-              { label: 'Shop Only Services', value: 'shopOnly' },
-              { label: 'Both Home and at Shop Services', value: 'both' }
-            ]"
-            placeholder="What type of service you offer"
-            size="lg"
-            class="w-full"
-          />
-        </UFormField>
+          <UFormField
+            label="Start from (minimum service price)"
+            name="minPrice"
+            required
+            :ui="{ label: 'text-neutral-500' }"
+          >
+            <UInput
+              v-model.number="form.minPrice"
+              type="number"
+              :min="0"
+              :max="50000"
+              placeholder="Start from (minimum service price)"
+              size="xl"
+              variant="outline"
+              class="w-full"
+            />
+          </UFormField>
 
-        <UFormField label="What areas you operate (must add city first)" name="service_area" required :ui="{ label: 'text-neutral-500' }">
-          <USelectMenu
-            v-model="form.service_area"
-            :items="locations.data"
-            value-key="id"
-            label-key="name"
-            placeholder="What areas you operate (must add city first)"
-            multiple
-            searchable
-            size="lg"
-            class="w-full"
-          />
-        </UFormField>
+          <UFormField
+            label="What type of service you offer"
+            name="serviceType"
+            required
+            :ui="{ label: 'text-neutral-500' }"
+          >
+            <USelect
+              v-model="form.serviceType"
+              :items="[
+                { label: 'Home Only Services', value: 'homeOnly' },
+                { label: 'Shop Only Services', value: 'shopOnly' },
+                { label: 'Both Home and at Shop Services', value: 'both' },
+              ]"
+              placeholder="What type of service you offer"
+              size="xl"
+              class="w-full"
+            />
+          </UFormField>
 
-        <UFormField label="Share your shop address" name="shopAddress" :ui="{ label: 'text-neutral-500' }">
-          <UInput 
-            v-model="form.shop_address" 
-            type="text" 
-            placeholder="Share your shop address" 
-            size="lg"
-            variant="outline"
-            class="w-full"
-          />
-        </UFormField>
+          <UFormField
+            label="What areas you operate (must add city first)"
+            name="service_area"
+            required
+            :ui="{ label: 'text-neutral-500' }"
+          >
+            <USelectMenu
+              v-model="form.service_area"
+              :items="locations"
+              value-key="id"
+              label-key="name"
+              placeholder="What areas you operate (must add city first)"
+              multiple
+              searchable
+              :disabled="!locationsLoaded"
+              size="xl"
+              class="w-full"
+              :loading="!locationsLoaded"
+            />
+            <template #help v-if="!locationsLoaded"> Loading locations... </template>
+          </UFormField>
 
-        <UFormField label="Describe your skills and services you offer in details" name="description" required :ui="{ label: 'text-neutral-500' }">
-          <UTextarea 
-            v-model="form.description" 
-            rows="5"
-            placeholder="Describe your skills and services you offer in details"
-            size="lg"
-            variant="outline"
-            class="w-full"
-          />
-        </UFormField>
+          <UFormField
+            label="Share your shop address"
+            name="shopAddress"
+            :ui="{ label: 'text-neutral-500' }"
+          >
+            <UInput
+              v-model="form.shop_address"
+              type="text"
+              placeholder="Share your shop address"
+              size="xl"
+              variant="outline"
+              class="w-full"
+            />
+          </UFormField>
 
-        <UButton 
-          type="submit" 
-          class="w-full py-3 mt-4"
-          :loading="loading"
-          color="primary"
-          size="lg"
-        >
-          Create Profile
-        </UButton>
+          <UFormField
+            label="Describe your skills and services you offer in details"
+            name="description"
+            required
+            :ui="{ label: 'text-neutral-500' }"
+          >
+            <UTextarea
+              v-model="form.description"
+              rows="5"
+              placeholder="Describe your skills and services you offer in details"
+              size="xl"
+              variant="outline"
+              class="w-full"
+            />
+          </UFormField>
+
+          <UButton
+            type="submit"
+            class=" py-3 mt-6"
+            :loading="loading"
+            color="secondary"
+            size="xl"
+          >
+            Create Profile
+          </UButton>
+        </div>
       </UForm>
     </UCard>
   </div>
@@ -130,116 +182,106 @@
 
 <script setup>
 definePageMeta({
-  middleware: ['auth', 'restrict']
-})
+  middleware: ["auth", "restrict"],
+});
 
 const { user } = useUserSession()
 const loading = ref(false)
 
+import { z } from 'zod'
+
+const profileSchema = z.object({
+  title: z.string().min(1, 'Title is required'),
+  serviceId: z.number().int().positive('Service is required'),
+  minPrice: z.number().min(0, 'Minimum price must be a positive number'),
+  serviceType: z.enum(['homeOnly', 'shopOnly', 'both'], {
+    errorMap: () => ({ message: 'Service type is required and must be homeOnly, shopOnly, or both' })
+  }),
+  experience: z.number().min(0, 'Experience is required'),
+  description: z.string().min(1, 'Description is required'),
+  service_area: z.array(z.number()).nonempty('Service area is required'),
+  shop_address: z.string().min(1, 'Shop address is required')
+})
+
 // Form state
 const form = reactive({
-  title: '',
-  service_id: null,
+  title: "",
+  serviceId: null,
   minPrice: 0,
-  serviceType: 'homeOnly',
-  shop_address: '',
-  description: '',
+  serviceType: "homeOnly",
+  shop_address: "",
+  description: "",
   experience: 0,
-  service_area: []
-})
-
-const formState = computed(() => {
-  return {
-    title: form.title,
-    service_id: form.service_id,
-    minPrice: form.minPrice,
-    serviceType: form.serviceType,
-    description: form.description,
-    service_area: form.service_area || [],
-    shop_address: form.shop_address || '',
-    experience: form.experience
-  }
-})
-
-const validateForm = (state) => {
-  const errors = []
-  
-  if (!state.title) {
-    errors.push({ path: 'title', message: 'Title is required' })
-  }
-  
-  if (!state.service_id) {
-    errors.push({ path: 'service_id', message: 'Service is required' })
-  }
-  
-  if (!state.minPrice || state.minPrice < 0) {
-    errors.push({ path: 'minPrice', message: 'Minimum price must be a positive number' })
-  }
-  
-  if (!state.serviceType) {
-    errors.push({ path: 'serviceType', message: 'Service type is required' })
-  }
-  
-  if (!state.experience && state.experience !== 0) {
-    errors.push({ path: 'experience', message: 'Experience is required' })
-  }
-  
-  if (!state.description) {
-    errors.push({ path: 'description', message: 'Description is required' })
-  }
-  if (!state.service_area) {
-    errors.push({ path: 'service_area', message: 'Service area is required' })
-  }
-  if (!state.shop_address) {
-    errors.push({ path: 'shop_address', message: 'Shop address is required' })
-  }
-  return errors
-}
+  service_area: [],
+});
 
 // Selected locations
-const selectedLocations = ref([])
+const selectedLocations = ref([]);
 
 // Fetch services and locations
-const { data: servicesData } = await useFetch('/api/services')
-const { data: locationsData } = await useFetch('/api/locations')
-console.log(servicesData.value,'services dats', locationsData,'location data');
+const { data: servicesData, error: servicesError } = await useFetch("/api/services");
+const { data: locationsData, error: locationsError } = await useFetch("/api/locations");
+console.log("Services data:", servicesData.value);
+console.log("Locations data:", locationsData.value);
+console.log("Services error:", servicesError.value);
+console.log("Locations error:", locationsError.value);
 
-const services = computed(() => servicesData.value || [])
-const locations = computed(() => locationsData.value || [])
+// Computed properties to extract data from paginated API responses
+const services = computed(() => servicesData.value?.data || []);
+const locations = computed(() => locationsData.value?.data || []);
+
+// Check if data is loaded
+const servicesLoaded = computed(() => !!servicesData.value?.data);
+const locationsLoaded = computed(() => !!locationsData.value?.data);
 
 // Create profile function
-const createProfile = async () => {
+const createProfile = async (event) => {
   if (!user.value?.id) {
-    console.error('User not authenticated')
-    return
+    console.error("User not authenticated");
+    return;
+  }
+  
+  // Check if required data is loaded
+  if (!servicesLoaded.value) {
+    console.error('Services data is still loading');
+    return;
+  }
+  
+  if (!locationsLoaded.value) {
+    console.error('Locations data is still loading');
+    return;
   }
 
-  loading.value = true
-  
+  loading.value = true;
+
   try {
+    console.log("Creating profile with form data:", event.data);
+
     const profileData = {
-      title: form.title,
-      service_id: form.service_id,
-      experience: form.experience,
-      min_price: form.minPrice,
-      service_type: form.serviceType,
-      shop_address: form.shop_address,
-      description: form.description,
-      service_area: form.service_area
-    }
+      title: event.data.title,
+      service_id: event.data.serviceId,
+      experience: event.data.experience,
+      min_price: event.data.minPrice,
+      service_type: event.data.serviceType,
+      shop_address: event.data.shop_address,
+      description: event.data.description,
+      service_area: event.data.service_area,
+    };
 
-    const response = await $fetch('/api/profile', {
-      method: 'POST',
-      body: profileData
-    })
+    console.log("Sending profile data:", profileData);
 
-    console.log('Profile created successfully!', response)
-    await navigateTo('/profile')
+    const response = await $fetch("/api/profile", {
+      method: "POST",
+      body: profileData,
+    });
+
+    console.log("Profile created successfully!", response);
+    await navigateTo("/");
   } catch (error) {
-    console.error('Error creating profile:', error)
+    console.error("Error creating profile:", error);
     // Handle error appropriately
   } finally {
-    loading.value = false
+    loading.value = false;
   }
-}
+};
 </script>

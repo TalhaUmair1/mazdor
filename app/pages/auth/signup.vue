@@ -8,10 +8,10 @@
         </div>
       </template>
       
-      <UForm class="space-y-6 mt-3" @submit="handleSubmit" :state="formState" :validate="validateForm" :validate-on="['blur', 'input']">
+      <UForm :schema="schema" :state="state" class="space-y-6 mt-3" @submit="handleSubmit">
         <UFormField label="Full Name" name="name" required :ui="{ label: 'text-neutral-500' }">
           <UInput 
-            v-model="formData.name" 
+            v-model="state.name" 
             type="text" 
             placeholder="Enter your full name" 
             size="lg"
@@ -22,7 +22,7 @@
         
         <UFormField label="Email Address" name="email" required :ui="{ label: 'text-neutral-500' }">
           <UInput 
-            v-model="formData.email" 
+            v-model="state.email" 
             type="email" 
             placeholder="you@example.com" 
             size="lg"
@@ -33,7 +33,7 @@
         
         <UFormField label="Password" name="password" required :ui="{ label: 'text-neutral-500' }">
           <UInput 
-            v-model="formData.password" 
+            v-model="state.password" 
             :type="showPassword ? 'text' : 'password'" 
             placeholder="Create a password" 
             size="lg"
@@ -46,7 +46,7 @@
         
         <UFormField label="Confirm Password" name="confirmPassword" required :ui="{ label: 'text-neutral-500' }">
           <UInput 
-            v-model="formData.confirmPassword" 
+            v-model="state.confirmPassword" 
             :type="showPassword ? 'text' : 'password'" 
             placeholder="Confirm your password" 
             size="lg"
@@ -59,7 +59,7 @@
           type="submit" 
           class="w-full py-3 mt-4"
           :loading="loading"
-          color="primary"
+          color="secondary"
           size="lg"
         >
           <span v-if="loading">Creating Account...</span>
@@ -79,17 +79,30 @@
   </div>
 </template>
 
-<script setup>
-import { ref, reactive, computed } from 'vue'
+<script setup lang="ts">
+import { ref, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import { useUserSession } from '#imports'
 import { navigateTo } from '#app'
+import * as z from 'zod'
+import type { FormSubmitEvent } from '@nuxt/ui'
 
 const router = useRouter()
 const { fetch: fetchUser } = useUserSession()
 
-// Form state
-const formData = reactive({
+const schema = z.object({
+  name: z.string().min(1, 'Name is required'),
+  email: z.string().email('Invalid email'),
+  password: z.string().min(6, 'Password must be at least 6 characters'),
+  confirmPassword: z.string().min(1, 'Confirm password is required')
+}).refine((data) => data.password === data.confirmPassword, {
+  message: 'Passwords do not match',
+  path: ['confirmPassword'],
+})
+
+type Schema = z.infer<typeof schema>
+
+const state = reactive<Partial<Schema>>({
   name: '',
   email: '',
   password: '',
@@ -100,44 +113,7 @@ const loading = ref(false)
 const error = ref('')
 const showPassword = ref(false)
 
-const formState = computed(() => {
-  return {
-    name: formData.name,
-    email: formData.email,
-    password: formData.password,
-    confirmPassword: formData.confirmPassword
-  }
-})
-
-// Simple validation
-const validateForm = (state) => {
-  const errors = []
-  
-  if (!state.name) {
-    errors.push({ path: 'name', message: 'Name is required' })
-  }
-  
-  if (!state.email) {
-    errors.push({ path: 'email', message: 'Email is required' })
-  }
-  
-  if (state.email && !/\S+@\S+\.\S+/.test(state.email)) {
-    errors.push({ path: 'email', message: 'Please enter a valid email' })
-  }
-  
-  if (state.password && state.password.length < 6) {
-    errors.push({ path: 'password', message: 'Password must be at least 6 characters' })
-  }
-  
-  if (state.password && state.confirmPassword && state.password !== state.confirmPassword) {
-    errors.push({ path: 'confirmPassword', message: 'Passwords do not match' })
-  }
-  
-  return errors
-}
-
-// Form submission
-const handleSubmit = async ({ event }) => {
+async function handleSubmit(event: FormSubmitEvent<Schema>) {
   loading.value = true
   
   try {
@@ -148,16 +124,24 @@ const handleSubmit = async ({ event }) => {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        name: formData.name,
-        email: formData.email,
-        password: formData.password
+        name: event.data.name,
+        email: event.data.email,
+        password: event.data.password
       })
     })
     
     if (response.ok) {
+      // Clear form state after successful submission
+      state.name = ''
+      state.email = ''
+      state.password = ''
+      state.confirmPassword = ''
+      
       await fetchUser()
-      // Refresh the page to ensure session is detected properly
-      await navigateTo('/')
+      
+      // Show success alert and redirect to services page
+      alert('You\'ve signed up successfully')
+      await navigateTo('/allServices')
     } else {
       const data = await response.json()
       error.value = data.message || 'Registration failed'

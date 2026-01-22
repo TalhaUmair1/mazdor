@@ -1,5 +1,5 @@
 import { useValidatedBody, z } from 'h3-zod'
-import db from '~~/server/utils/db'
+import { db } from '~~/server/utils/db'
 import { profile, profileServiceAreas } from '~~/server/database/schema'
 import { createError } from 'h3'
 
@@ -61,7 +61,7 @@ export default defineEventHandler(async (event) => {
           profileId: newProfile.id,
           locationId: locationId,
         }))
-      ).execute()
+      )
     }
 
     return newProfile

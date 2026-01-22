@@ -116,11 +116,16 @@ export default defineEventHandler(async (event) => {
 
     // Prepare update data
     const updateData: Partial<typeof users.$inferSelect> = {};
-    if (name !== undefined) updateData.name = name;
-    if (email !== undefined) updateData.email = email;
-    if (phone !== undefined) updateData.phone = phone;
-    if (whatsapp !== undefined) updateData.whatsapp = whatsapp;
+    if (name !== undefined && name !== '') updateData.name = name;
+    if (email !== undefined && email !== '') updateData.email = email;
+    if (phone !== undefined && phone !== '') updateData.phone = phone;
+    if (whatsapp !== undefined && whatsapp !== '') updateData.whatsapp = whatsapp;
     if (avatarName) updateData.avatar = avatarName;
+
+    // Check if there's anything to update
+    if (Object.keys(updateData).length === 0) {
+      return { message: 'No changes provided, user not updated' };
+    }
 
     // Update user in the database
     const updateResult = await db
@@ -148,7 +153,7 @@ export default defineEventHandler(async (event) => {
       loggedInAt: Date.now(),
     });
 
-    return { message: 'User updated successfully and session updated' };
+    // return { message: 'User updated successfully and session updated' };
   } catch (error: any) {
     console.error('Update Error:', error);
     throw createError({
