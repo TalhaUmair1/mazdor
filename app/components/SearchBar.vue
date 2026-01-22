@@ -132,9 +132,15 @@ const setSelectedService = (service) => {
   selectedService.value = service;
 };
 
-// Expose the method to parent components
+// Method to set the selected location from parent component
+const setSelectedLocation = (location) => {
+  selectedLocations.value = location;
+};
+
+// Expose the methods to parent components
 defineExpose({
-  setSelectedService
+  setSelectedService,
+  setSelectedLocation
 });
 </script>
 

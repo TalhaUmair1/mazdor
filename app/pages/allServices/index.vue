@@ -13,7 +13,7 @@
     </div>
 
     <!-- Services Cards -->
-    <ServiceCards v-if="services?.data" :services="services.data" />
+    <ServiceCards v-if="services?.data" :services="services.data" @service-selected="handleServiceSelected" />
 
     <!-- Pagination -->
     <div v-if="(services?.total || 0) > limit" class="flex justify-center mt-8 mb-2">
@@ -26,9 +26,11 @@
 
 <script setup>
 import { ref, watch } from 'vue'
+
 definePageMeta({
   middleware: ['auth']
 })
+
 const page = ref(1)
 const limit = 12
 
@@ -48,4 +50,10 @@ const fetchServices = async () => {
 
 // Fetch data when page changes, or on first load
 watch(page, fetchServices, { immediate: true })
+
+// Handle service selection from ServiceCards
+const handleServiceSelected = (service) => {
+  // Navigate to the search page with the selected service
+  navigateTo(`/search/${service.name.toLowerCase().replaceAll(' ', '-')}-service-${service.id}`);
+}
 </script>

@@ -9,8 +9,8 @@
                 class="text-center grid grid-cols-3 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-7">
                 <div v-for="(location, index) in paginatedLocations" :key="index">
                     <NuxtLink
-                        :to="`/search/${location.name.toLowerCase().replaceAll(' ', '-')}-location-${location.id}`"
-                        class="text-blue-600 hover:underline hover:text-blue-800">
+                        @click.prevent="handleLocationClick(location)"
+                        class="text-blue-600 hover:underline hover:text-blue-800 cursor-pointer">
                         {{ truncate(location.name, 15) }}
                     </NuxtLink>
                 </div>
@@ -92,5 +92,10 @@ const paginatedLocations = computed(() => {
 
 const truncate = (text, length) => {
     return text.length > length ? text.substring(0, length) + '...' : text;
+};
+
+// Handle location click to navigate to search page with location data
+const handleLocationClick = (location) => {
+  navigateTo(`/search/${location.name.toLowerCase().replaceAll(' ', '-')}-location-${location.id}`);
 };
 </script>

@@ -113,4 +113,6 @@ const handleServiceSelected = (service) => {
     console.warn('SearchBar ref not available or setSelectedService method not found');
   }
 }
+
+
 </script>
