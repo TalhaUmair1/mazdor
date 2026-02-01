@@ -17,7 +17,9 @@ function generateUniqueId(length: number = 8): string {
 
 // Custom file storage function
 async function storeFileLocallyCustom(buffer: Buffer, originalName: string, folder: string): Promise<string> {
-  const uploadDir = path.join(process.cwd(), 'public', folder)
+  // Use userFiles (capital F) to match existing directory structure
+  const actualFolder = folder === 'userfiles' ? 'userFiles' : folder
+  const uploadDir = path.join(process.cwd(), 'public', actualFolder)
   
   // Create directory if it doesn't exist
   await fs.mkdir(uploadDir, { recursive: true })
@@ -30,8 +32,8 @@ async function storeFileLocallyCustom(buffer: Buffer, originalName: string, fold
   // Write file to disk
   await fs.writeFile(filePath, buffer)
   
-  // Return the relative path for database storage
-  return `${folder}/${uniqueName}`
+  // Return the relative path for database storage (using actual folder name)
+  return `${actualFolder}/${uniqueName}`
 }
 
 
@@ -94,18 +96,16 @@ try {
       .returning();
 
     if (!updateResult.length) {
+      console.error('Database update failed for user:', userId);
       throw createError({ statusCode: 500, message: 'Failed to update user' });
     }
 
     const updatedUser = updateResult[0];
-    await setUserSession(event, {
-      user: {
-        id: updatedUser.id,
-        email: updatedUser.email,
-        name: updatedUser.name,
-        avatar: updatedUser.avatar
-      }
-    })
+    console.log('User updated successfully:', { id: updatedUser.id, email: updatedUser.email, avatar: updatedUser.avatar });
+    
+    // Session will be automatically refreshed on client side via userFetch()
+    // No need to setUserSession on server - client handles refresh
+    
     return {
       message: 'User updated successfully',
       user: updatedUser

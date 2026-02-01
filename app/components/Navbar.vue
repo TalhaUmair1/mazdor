@@ -36,11 +36,14 @@
             </UButton>
           </div>
 
-          <!-- User dropdown for logged in users -->
+<!-- User dropdown for logged in users -->
           <div v-else class="relative mt-4 md:mt-0">
             <button @click="toggleDropdown" class="flex items-center">
-<img :src="avatarUrl" 
-                   alt="Profile" class="w-10 h-10 rounded-full border border-border">
+              <img :src="avatarUrl" 
+                   alt="Profile" 
+                   class="w-10 h-10 rounded-full border border-border"
+                   @error="handleAvatarError"
+                   @load="handleAvatarLoad">
             </button>
 
             <!-- Dropdown Menu -->
@@ -114,19 +117,44 @@
 const showValue = ref(false)
 const showDropdown = ref(false)
 const { loggedIn, user, clear, refresh } = useUserSession()
-console.log(loggedIn.value, user.value);
+const { watchAvatarUpdate } = useAvatarUpdate()
+
+// Debug helper
+const debug = (message, data = null) => {
+  const timestamp = new Date().toLocaleTimeString()
+  console.log(`[${timestamp}] Navbar: ${message}`, data || '')
+}
+
+// Watch for avatar update events
+const avatarUpdateCounter = watchAvatarUpdate()
+watch(avatarUpdateCounter, () => {
+  debug('Avatar update event received', { counter: avatarUpdateCounter.value })
+  refresh()
+})
+
+debug('Component mounted', { loggedIn: loggedIn.value, hasUser: !!user.value })
 
 // Refresh session when route changes to account or profile pages
 watch(() => useRoute().path, (newPath) => {
   if (loggedIn.value && (newPath.includes('/account') || newPath.includes('/profile'))) {
+    debug('Route changed to account/profile, refreshing session', { path: newPath })
     refresh()
   }
 })
 
-// Debug logging
+// Watch auth state changes
 watch(loggedIn, (newVal) => {
-  console.log('Navbar auth state changed:', { loggedIn: newVal, user: user.value })
+  debug('Auth state changed', { loggedIn: newVal })
 })
+
+// Watch user data changes
+watch(user, (newUser) => {
+  debug('User data updated', { 
+    id: newUser?.id, 
+    email: newUser?.email, 
+    hasAvatar: !!newUser?.avatar 
+  })
+}, { deep: true })
 
 const toggleValue = () => {
   showValue.value = !showValue.value
@@ -136,19 +164,40 @@ const toggleDropdown = () => {
   showDropdown.value = !showDropdown.value
 }
 
+// Image error handler with debugging
+const handleAvatarError = (event) => {
+  debug('Avatar image failed to load', { 
+    src: event.target.src,
+    userAvatar: user.value?.avatar 
+  })
+}
+
+// Image load handler with debugging
+const handleAvatarLoad = (event) => {
+  debug('Avatar image loaded successfully', { src: event.target.src })
+}
+
 // Computed property for avatar URL with cache busting
 const avatarUrl = computed(() => {
   if (user.value?.avatar) {
-    // Add timestamp to force image refresh when updated
-    return `/userfiles/${user.value.avatar}?t=${Date.now()}`
+    // Construct the full path - avatar field already contains 'userFiles/filename'
+    const url = `/${user.value.avatar}?t=${Date.now()}`
+    debug('Avatar URL computed', { avatar: user.value.avatar, url })
+    return url
   }
+  debug('Using default avatar - no user avatar found')
   return '/default-avatar.svg'
 })
 
+// Watch avatar URL changes for debugging
+watch(avatarUrl, (newUrl) => {
+  debug('Avatar URL changed', { url: newUrl })
+})
+
 const logout = async () => {
+  debug('Logout initiated')
   await clear()
   showDropdown.value = false
-  // Refresh to update UI
   navigateTo('/auth/login')
 }
 </script>

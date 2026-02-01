@@ -105,7 +105,8 @@ const handleFileInput = (event) => {
     avatarFile.value = event.target.files[0];
 };
 // const { handleFileInput, files } = useFileStorage()
-const { fetch:userFetch } = useUserSession()
+const { user, fetch:userFetch } = useUserSession()
+const { triggerAvatarUpdate } = useAvatarUpdate()
 
 const { data: users, error: userError } = await useFetch('/api/users')
 
@@ -129,21 +130,34 @@ const updateAccount = async (event) => {
         if (event.data.whatsapp) formData.append('whatsapp', event.data.whatsapp);
         
         // Add avatar file if selected
-        // if (files.value && files.value.length > 0) {
-        //     formData.append('avatar', files.value[0]);
-        //     console.log('Avatar file added to form data', files.value[0]);
-        // }
-        formData.append('avatar', avatarFile.value);
-        console.log('Form data:', formData.get('avatar'));
-const response = await $fetch(`/api/users/${form.id}`, {
+        if (avatarFile.value) {
+            formData.append('avatar', avatarFile.value);
+            console.log('[Account] Avatar file added:', {
+                name: avatarFile.value.name,
+                size: avatarFile.value.size,
+                type: avatarFile.value.type
+            });
+        }
+        
+        console.log('[Account] Sending update request for user:', form.id);
+        
+        const response = await $fetch(`/api/users/${form.id}`, {
             method: 'PATCH',
             body: formData
         });
         
-        // Force refresh the user session to get updated avatar
+        console.log('[Account] Update response received:', response);
+        
+        // Force refresh the user session to get updated data
+        console.log('[Account] Refreshing user session...');
         await userFetch()
         
-        // Show success message and trigger UI update
+        console.log('[Account] Session refreshed, current user:', user.value);
+        
+        // Trigger avatar update event
+        triggerAvatarUpdate()
+        
+        // Show success message
         const toast = useToast()
         toast.add({
             title: 'Success',
@@ -151,13 +165,20 @@ const response = await $fetch(`/api/users/${form.id}`, {
             color: 'green'
         })
         
+        console.log('[Account] Navigating to profile creation...');
         // Navigate after a short delay to allow session to update
         setTimeout(() => {
             navigateTo('/profile/create')
-        }, 500)
+        }, 1000)
 
     } catch (error) {
-        console.error('Error updating account:', error?.data || error);
+        console.error('[Account] Error updating account:', error);
+        const toast = useToast()
+        toast.add({
+            title: 'Error',
+            description: error?.data?.message || 'Failed to update account. Please try again.',
+            color: 'red'
+        })
     } finally {
         loading.value = false;
     }
