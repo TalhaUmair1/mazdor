@@ -1,9 +1,9 @@
 <template>
   <div class="min-h-screen flex items-center justify-center p-4">
-    <UCard class="w-full max-w-md p-8 space-y-3 rounded-xl shadow-lg bg-primary-500">
+    <UCard class="w-full max-w-md p-8 space-y-3 rounded-xl shadow-lg bg-primary-400">
       <template #header>
         <div class="text-center">
-          <h1 class="text-3xl font-bold text-center text-secondary-500">Create Account</h1>
+          <h1 class="text-3xl font-bold text-center text-secondary-800">Create Account</h1>
           <p class="text-secondary-500 mt-2">Join our community today</p>
         </div>
       </template>
@@ -57,7 +57,7 @@
         
         <UButton 
           type="submit" 
-          class="w-full py-3 mt-4"
+          class="w-auto py-3 mt-4"
           :loading="loading"
           color="secondary"
           size="lg"
@@ -68,9 +68,9 @@
       </UForm>
       
       <div class="text-center mt-6">
-        <p class="text-secondary-500">
+        <p class="text-secondary-600">
           Already have an account? 
-          <NuxtLink to="/auth/login" class="text-secondary-500 hover:text-secondary-700 font-medium">
+          <NuxtLink to="/auth/login" class="text-neutral-700 hover:text-neutral-800 font-medium">
             Sign in
           </NuxtLink>
         </p>

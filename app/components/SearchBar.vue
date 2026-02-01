@@ -12,7 +12,7 @@
 
                 <div class="w-full md:w-80">
                     <UInputMenu v-model="selectedLocations" :items="locationItems" :search="search" :loading="loadingLocations"
-                        placeholder="Search for a location..." label-key="name" value-attribute="id" size="xl" />
+                        placeholder="Search for a location..." label-key="name" value-attribute="id" size="xl" class="w-full text-lg shadow-none" />
                 </div>
 
                 <div>

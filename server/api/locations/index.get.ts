@@ -7,7 +7,7 @@ export default defineEventHandler(async (event) => {
   try {
     const query = getQuery(event)
     const page = parseInt(query.page as string) || 1
-    const limit = parseInt(query.limit as string) || 20
+    const limit = parseInt(query.limit as string) || 40
     const search = query.search as string
     const offset = (page - 1) * limit
 

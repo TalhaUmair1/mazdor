@@ -1,8 +1,8 @@
 <template>
     <div>
         <div class="text-center my-6 mx-4">
-            <h2 class="text-3xl font-semibold mt-8">Search Services of Your Liking</h2>
-            <h4 class="text-gray-300 text-xl my-3 font-medium">WE Cover your Back</h4>
+            <h2 class="text-3xl text-secondary-800 font-semibold mt-8">Search Services of Your Liking</h2>
+            <h4 class="text-secondary-600 text-xl my-3 font-medium">WE Cover your Back</h4>
         </div>
 
         <SearchBar :service="service" :location="location" />
@@ -13,18 +13,18 @@
 
         <div v-else>
             <div>
-                <h1 class="text-center text-xl font-semibold mt-8">Nothing Found</h1>
+                <h1 class="text-center text-secondary-600 text-xl font-semibold mt-8">Nothing Found</h1>
             </div>
 
             <div class="text-center my-6 mx-4">
-                <h2 class="text-3xl font-semibold mt-8">Want to See More?</h2>
-                <h4 class="text-gray-300 text-xl my-3 font-medium">
+                <h2 class="text-3xl font-semibold text-secondary-800 mt-8">Want to See More?</h2>
+                <h4 class="text-secondary-600 text-xl my-3 font-medium">
                     To search & view all listings, create your free account.
                 </h4>
 
                 <div class="flex gap-4 justify-center">
                     <UButton to="/allServices" class="rounded-sm py-2">Find More Workers</UButton>
-                    <UButton to="/profile" class="rounded-sm py-2">List Your Profile</UButton>
+                    <UButton to="/profile" class="rounded-sm py-2 bg-secondary-700">List Your Profile</UButton>
                 </div>
             </div>
         </div>

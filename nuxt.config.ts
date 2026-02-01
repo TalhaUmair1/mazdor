@@ -3,7 +3,7 @@ export default defineNuxtConfig({
   compatibilityDate: '2025-01-01',
   devtools: { enabled: true },
   srcDir: 'app/',
-  modules: ['@nuxt/ui', '@nuxt/icon', 'nuxt-file-storage', 'nuxt-auth-utils', '@nuxthub/core'],
+  modules: ['@nuxt/ui', '@nuxt/icon', 'nuxt-auth-utils', '@nuxthub/core'],
   hub: {
     db: 'sqlite'
   },
@@ -17,9 +17,7 @@ export default defineNuxtConfig({
       database: true,
     },
   },
-  fileStorage: {
-    mount: './public',
-  },
+
   auth: {
     session: {
       cookie: {

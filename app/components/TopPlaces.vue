@@ -1,6 +1,6 @@
 <template>
     <div class="mx-2 my-5">
-        <h1 class="text-3xl font-bold text-start mb-6">Top Places</h1>
+        <h1 class="text-3xl text-secondary-700 font-bold text-start mb-6">Top Places</h1>
         <div>
             <div v-if="error" class="text-red-500">
                 <p>Failed to load locations. Please check your database connection.</p>
@@ -10,7 +10,7 @@
                 <div v-for="(location, index) in paginatedLocations" :key="index">
                     <NuxtLink
                         @click.prevent="handleLocationClick(location)"
-                        class="text-blue-600 hover:underline hover:text-blue-800 cursor-pointer">
+                        class="text-neutral-500 hover:underline hover:text-blue-800 cursor-pointer">
                         {{ truncate(location.name, 15) }}
                     </NuxtLink>
                 </div>
@@ -34,7 +34,7 @@
 import { ref, computed, watch } from 'vue'
 
 const currentPage = ref(1);
-const itemsPerPage = 20;
+const itemsPerPage = 40;
 
 // State for location data
 const locationData = ref({

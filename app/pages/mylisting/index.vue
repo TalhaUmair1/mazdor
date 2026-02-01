@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="text-center w-full max-w-[500px] mx-auto">
-            <h1 class="text-4xl font-bold mt-14"> My Listings</h1>
+            <h1 class="text-3xl text-secondary-700 font-bold mt-14"> My Listings</h1>
             
             <div v-if="pending">
                 <p>Loading your profile...</p>
@@ -37,9 +37,7 @@
                         <UButton :to="`/profile/${data.id}`" variant="outline" color="neutral" class="w-full">
                             View Profile
                         </UButton>
-                        <UButton to="/profile/create" variant="outline" color="primary" class="w-full mt-2">
-                            Edit Profile
-                        </UButton>
+                       
                     </UCard>
                 </div>
             </div>

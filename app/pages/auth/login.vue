@@ -33,21 +33,21 @@
           />
         </UFormField>
         
-        <div class="flex items-center justify-between">
+        <!-- <div class="flex items-center justify-between">
           <UCheckbox 
             v-model="rememberMe" 
             label="Remember me" 
             size="sm"
           />
           
-          <a href="#" class="text-sm text-secondary-500 hover:text-secondary-700">
+          <a href="#" class="text-sm text-secondary-500 hover:text-secondary-800">
             Forgot password?
           </a>
-        </div>
+        </div> -->
         
         <UButton 
           type="submit" 
-          class="w-full py-3 mt-4"
+          class="w-auto py-3 px-6 mt-4"
           :loading="loading"
           color="secondary"
           size="lg"
@@ -60,7 +60,7 @@
       <div class="text-center mt-6">
         <p class="text-secondary-500">
           Don't have an account? 
-          <NuxtLink to="/auth/signup" class="text-secondary-500 hover:text-secondary-700 font-medium">
+          <NuxtLink to="/auth/signup" class="text-neutral-600 hover:text-neutral-700 font-medium">
             Create one
           </NuxtLink>
         </p>

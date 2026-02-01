@@ -1,12 +1,12 @@
 <template>
     <div v-if="services && services.length > 0"
         class="grid grid-cols-2 gap-2 m-2 md:flex md:flex-row md:flex-wrap md:justify-center md:gap-8 md:mx-24 mt-8 mb-12">
-        <UCard :ui="{ body: { padding: 'px-4 py-2 sm:p-4' } }" class="w-full max-w-60 p-0 rounded-sm bg-primary-500"
+        <UCard :ui="{ body: { padding: 'px-4 py-2 sm:p-4' } }" class="w-full max-w-60 p-0 rounded-sm bg-secondary-800"
             v-for="service in services" :key="service.id">
             <div class="flex flex-col items-center text-secondary-500">
 <!-- Service icon - use v-html to render SVG -->
-                <div class="w-8 h-8 mx-auto" v-html="service.svg"></div>
-                <NuxtLink class="text-lg cursor-pointer font-semibold mt-4 text-secondary-500 hover:text-secondary-700 hover:underline "
+                <div class="w-8 h-8 mx-auto text-primary-400 " v-html="service.svg"></div>
+                <NuxtLink class="text-lg cursor-pointer font-semibold mt-4 text-primary-400 hover:text-secondary-600 hover:underline "
                     @click.prevent="$emit('service-selected', service)">{{
                     truncate(service.name, 15) }}
                 </NuxtLink>

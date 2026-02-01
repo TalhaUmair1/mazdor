@@ -1,6 +1,6 @@
 <template>
     <div>
-        <footer class="bg-gray-900 text-white p-4">
+        <footer class="bg-primary-700 text-white p-4">
             <div class="container mx-auto flex flex-col md:flex-row items-center justify-between">
                 <div class="flex items-center space-x-2">
                     <span class="text-teal-400">
@@ -25,7 +25,7 @@
 
 
                 <div class="flex space-x-2 mt-4 md:mt-0 relative">
-                    <ColorMode />
+                   <UColorModeButton>button</UColorModeButton>
                 </div>
             </div>
         </footer>

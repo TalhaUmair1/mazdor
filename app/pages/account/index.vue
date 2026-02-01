@@ -1,17 +1,17 @@
 <template>
     <div>
-        <UCard class="max-w-2xl mx-auto mt-6 mb-10 p-8 rounded-xl shadow bg-primary-500">
+        <UCard class="max-w-2xl mx-auto mt-6 mb-10 p-8 rounded-xl shadow">
             <template #header>
                 <div class="text-center mb-6">
                     <h1 class="text-2xl font-bold text-center text-secondary-500 lg:text-3xl">Account Settings</h1>
-                    <p class="max-w-screen-md mx-auto text-center text-secondary-500 md:text-lg mt-2">
+                    <p class="max-w-3xl mx-auto text-center text-secondary-500 md:text-lg mt-2">
                         Update your personal information and preferences here.
                     </p>
                 </div>
             </template>
             <UForm :schema="accountSchema" :state="form" class="space-y-6 mt-4" @submit="updateAccount">
                 <UFormField label="Upload Photo" name="avatar" :ui="{ label: 'text-neutral-500' }" class="mb-6">
-                    <UInput size="lg" type="file" @input="handleFileInput" class="w-full" variant="outline" />
+                    <UInput size="lg" type="file" @change="handleFileInput" class="w-full" variant="outline" />
                 </UFormField>
 
                 <UFormField label="Full Name" name="name" required :ui="{ label: 'text-neutral-500' }">
@@ -100,8 +100,12 @@ let form = reactive({
     whatsapp: '',
     avatar: ''
 });
-
-const { handleFileInput, files } = useFileStorage()
+const avatarFile = ref(null);
+const handleFileInput = (event) => {
+    avatarFile.value = event.target.files[0];
+};
+// const { handleFileInput, files } = useFileStorage()
+const { fetch:userFetch } = useUserSession()
 
 const { data: users, error: userError } = await useFetch('/api/users')
 
@@ -125,17 +129,32 @@ const updateAccount = async (event) => {
         if (event.data.whatsapp) formData.append('whatsapp', event.data.whatsapp);
         
         // Add avatar file if selected
-        if (files.value && files.value.length > 0) {
-            formData.append('avatar', files.value[0]);
-        }
-
-        const response = await $fetch(`/api/users/${form.id}`, {
+        // if (files.value && files.value.length > 0) {
+        //     formData.append('avatar', files.value[0]);
+        //     console.log('Avatar file added to form data', files.value[0]);
+        // }
+        formData.append('avatar', avatarFile.value);
+        console.log('Form data:', formData.get('avatar'));
+const response = await $fetch(`/api/users/${form.id}`, {
             method: 'PATCH',
             body: formData
         });
-
-        // console.log('Account updated successfully!', response);
-        await navigateTo('/profile/create');
+        
+        // Force refresh the user session to get updated avatar
+        await userFetch()
+        
+        // Show success message and trigger UI update
+        const toast = useToast()
+        toast.add({
+            title: 'Success',
+            description: 'Your account has been updated successfully!',
+            color: 'green'
+        })
+        
+        // Navigate after a short delay to allow session to update
+        setTimeout(() => {
+            navigateTo('/profile/create')
+        }, 500)
 
     } catch (error) {
         console.error('Error updating account:', error?.data || error);

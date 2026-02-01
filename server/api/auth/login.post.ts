@@ -44,7 +44,9 @@ export default defineEventHandler(async (event) => {
         id: user.id,
         email: user.email,
         name: user.name,
-        avatar: user.avatar
+        avatar: user.avatar,
+        phone: user.phone,
+        whatsapp: user.whatsapp
       }
     })
     

@@ -1,12 +1,12 @@
 <template>
   <div class="flex items-center justify-center mt-5">
-    <UCard class="w-full max-w-2xl p-8 rounded-xl shadow bg-primary-500">
+    <UCard class="w-full max-w-2xl p-8 rounded-xl shadow ">
       <template #header>
         <div class="text-center mb-6">
-          <h2 class="text-2xl font-bold text-center text-secondary-500 lg:text-3xl">
+          <h2 class="text-2xl font-bold text-center text-secondary-700 lg:text-3xl">
             Create Your Service Profile
           </h2>
-          <p class="max-w-screen-md mx-auto text-center text-secondary-500 md:text-lg mt-2">
+          <p class="max-w-screen-md mx-auto text-center text-secondary-600 md:text-lg mt-2">
             Fill in your service details to connect with customers looking for your expertise.
           </p>
         </div>
@@ -20,19 +20,19 @@
       >
         <div>
           <UFormField
-            label="Title of profile"
+            label="Profile Title"
             name="title"
-            
-            required
+           class="text-semibold"
+                       required
             :ui="{ label: 'text-neutral-500' }"
           >
             <UInput
               v-model="form.title"
               type="text"
-              placeholder="Title of profile"
+              placeholder="Profile Title"
               size="xl"
               variant="outline"
-              class="w-full"
+              class="w-full my-2"
             />
           </UFormField>
 
@@ -42,16 +42,15 @@
             required
             :ui="{ label: 'text-neutral-500' }"
           >
-            <USelectMenu
+            <UInputMenu
               v-model="form.serviceId"
               :items="services"
               value-key="id"
               label-key="name"
-              searchable
               placeholder="Select a service"
               :disabled="!servicesLoaded"
               size="xl"
-              class="w-full"
+              class="w-full my-2"
               :loading="!servicesLoaded"
             />
             <template #help v-if="!servicesLoaded"> Loading services... </template>
@@ -71,7 +70,7 @@
               placeholder="Years of experience"
               size="xl"
               variant="outline"
-              class="w-full"
+              class="w-full my-2"
             />
           </UFormField>
 
@@ -89,7 +88,7 @@
               placeholder="Start from (minimum service price)"
               size="xl"
               variant="outline"
-              class="w-full"
+              class="w-full my-2"
             />
           </UFormField>
 
@@ -108,7 +107,7 @@
               ]"
               placeholder="What type of service you offer"
               size="xl"
-              class="w-full"
+              class="w-full my-2"
             />
           </UFormField>
 
@@ -128,7 +127,7 @@
               searchable
               :disabled="!locationsLoaded"
               size="xl"
-              class="w-full"
+              class="w-full my-2"
               :loading="!locationsLoaded"
             />
             <template #help v-if="!locationsLoaded"> Loading locations... </template>
@@ -145,7 +144,7 @@
               placeholder="Share your shop address"
               size="xl"
               variant="outline"
-              class="w-full"
+              class="w-full my-2"
             />
           </UFormField>
 
@@ -161,7 +160,7 @@
               placeholder="Describe your skills and services you offer in details"
               size="xl"
               variant="outline"
-              class="w-full"
+              class="w-full my-2"
             />
           </UFormField>
 
@@ -192,7 +191,7 @@ import { z } from 'zod'
 
 const profileSchema = z.object({
   title: z.string().min(1, 'Title is required'),
-  serviceId: z.number().int().positive('Service is required'),
+  serviceId: z.union([z.number().int().positive('Service is required'), z.object({}).passthrough()]),
   minPrice: z.number().min(0, 'Minimum price must be a positive number'),
   serviceType: z.enum(['homeOnly', 'shopOnly', 'both'], {
     errorMap: () => ({ message: 'Service type is required and must be homeOnly, shopOnly, or both' })
@@ -206,7 +205,7 @@ const profileSchema = z.object({
 // Form state
 const form = reactive({
   title: "",
-  serviceId: null,
+  serviceId: undefined,
   minPrice: 0,
   serviceType: "homeOnly",
   shop_address: "",
@@ -218,7 +217,7 @@ const form = reactive({
 // Selected locations
 const selectedLocations = ref([]);
 
-// Fetch services and locations
+// Fetch initial services and locations
 const { data: servicesData, error: servicesError } = await useFetch("/api/services");
 const { data: locationsData, error: locationsError } = await useFetch("/api/locations");
 console.log("Services data:", servicesData.value);
@@ -257,9 +256,14 @@ const createProfile = async (event) => {
   try {
     console.log("Creating profile with form data:", event.data);
 
+    // Extract service ID from either a number or an object
+    const serviceIdValue = typeof event.data.serviceId === 'object' && event.data.serviceId !== null
+      ? event.data.serviceId.id
+      : event.data.serviceId;
+
     const profileData = {
       title: event.data.title,
-      service_id: event.data.serviceId,
+      service_id: serviceIdValue,
       experience: event.data.experience,
       min_price: event.data.minPrice,
       service_type: event.data.serviceType,

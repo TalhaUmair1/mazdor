@@ -19,12 +19,12 @@
       <UPagination v-model:page="profilePage" :total="profileData.total || 0" :items-per-page="profileLimit" show-controls />
     </div>
     <div class="text-center my-6 mx-4">
-      <h2 class="text-3xl font-semibold mt-8">Want to See More?</h2>
-      <h4 class="text-gray-300 text-xl my-3 font-medium">
+      <h2 class="text-3xl font-semibold mt-8 text-secondary-800">Want to See More?</h2>
+      <h4 class="text-secondary-600 text-xl my-3 font-medium">
         To search & view all listings, create your free account.
       </h4>
       <div class="flex gap-4 justify-center">
-        <UButton to="/allServices" class="rounded-sm py-2">Find More Workers</UButton>
+        <UButton to="/allServices" class="rounded-sm py-2 :hover bg-secondary-700">Find More Workers</UButton>
         <UButton to="/profile/create" class="rounded-sm py-2">List Your Profile</UButton>
       </div>
     </div>
