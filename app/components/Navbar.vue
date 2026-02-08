@@ -119,6 +119,9 @@ const showDropdown = ref(false)
 const { loggedIn, user, clear, refresh } = useUserSession()
 const { watchAvatarUpdate } = useAvatarUpdate()
 
+// Force refresh counter - used to force avatar URL recomputation
+const avatarRefreshCounter = ref(0)
+
 // Debug helper
 const debug = (message, data = null) => {
   const timestamp = new Date().toLocaleTimeString()
@@ -127,9 +130,14 @@ const debug = (message, data = null) => {
 
 // Watch for avatar update events
 const avatarUpdateCounter = watchAvatarUpdate()
-watch(avatarUpdateCounter, () => {
+watch(avatarUpdateCounter, async () => {
   debug('Avatar update event received', { counter: avatarUpdateCounter.value })
-  refresh()
+  // Increment refresh counter to force URL change
+  avatarRefreshCounter.value++
+  debug('Avatar refresh counter incremented', { counter: avatarRefreshCounter.value })
+  // Force immediate refresh of user session
+  await refresh()
+  debug('Session refreshed after avatar update')
 })
 
 debug('Component mounted', { loggedIn: loggedIn.value, hasUser: !!user.value })
@@ -154,6 +162,8 @@ watch(user, (newUser) => {
     email: newUser?.email, 
     hasAvatar: !!newUser?.avatar 
   })
+  // Force avatar refresh when user data changes
+  avatarRefreshCounter.value++
 }, { deep: true })
 
 const toggleValue = () => {
@@ -179,13 +189,19 @@ const handleAvatarLoad = (event) => {
 
 // Computed property for avatar URL with cache busting
 const avatarUrl = computed(() => {
+  // Use refresh counter to force recomputation
+  const refreshTrigger = avatarRefreshCounter.value
+  
   if (user.value?.avatar) {
-    // Construct the full path - avatar field already contains 'userFiles/filename'
-    const url = `/${user.value.avatar}?t=${Date.now()}`
-    debug('Avatar URL computed', { avatar: user.value.avatar, url })
+    // Use avatar path + timestamp + refresh counter for unique cache busting
+    // This ensures every update gets a completely unique URL
+    const avatarHash = user.value.avatar.split('/').pop() || ''
+    const timestamp = Date.now()
+    const url = `/${user.value.avatar}?t=${timestamp}_${refreshTrigger}_${avatarHash}`
+    debug('Avatar URL computed', { avatar: user.value.avatar, refreshCounter: refreshTrigger, url })
     return url
   }
-  debug('Using default avatar - no user avatar found')
+  debug('Using default avatar - no user avatar found', { refreshCounter: refreshTrigger })
   return '/default-avatar.svg'
 })
 
@@ -196,6 +212,8 @@ watch(avatarUrl, (newUrl) => {
 
 const logout = async () => {
   debug('Logout initiated')
+  // Reset refresh counter on logout
+  avatarRefreshCounter.value = 0
   await clear()
   showDropdown.value = false
   navigateTo('/auth/login')

@@ -105,7 +105,19 @@ try {
     
     // Session will be automatically refreshed on client side via userFetch()
     // No need to setUserSession on server - client handles refresh
-    
+     await setUserSession(event, {
+      user: {
+        id: updatedUser.id,
+        email: updatedUser.email,
+        name: updatedUser.name,
+        avatar: updatedUser.avatar,
+        phone: updatedUser.phone,
+        whatsapp: updatedUser.whatsapp
+      }
+    })
+
+
+
     return {
       message: 'User updated successfully',
       user: updatedUser

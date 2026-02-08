@@ -6,7 +6,7 @@
             <div class="flex flex-col items-center">
 <!-- User avatar image -->
                 <img alt="User Image" class="w-36 h-36 mb-3 rounded-full object-cover"
-                    :src="`/userfiles/${profile.user.avatar}`" 
+                    :src="`/${profile.user.avatar}`" 
                     onerror="this.src='https://picsum.photos/100/100?random=default'" />
             </div>
             <div class="flex justify-between my-2">
@@ -16,9 +16,11 @@
                 </h5>
             </div>
             <!-- Truncate description to 20 words -->
+            <div class="h-24 overflow-hidden">
             <p class="text-white mb-3">
                 {{ truncateWords(profile.description, 15) }}
             </p>
+            </div>
             <UButton :to="`/profile/${profile.id}`" variant="outline" color="neutral" class="w-auto bg-secondary-500 rounded-sm">
                 Learn more
             </UButton>
@@ -34,6 +36,8 @@
 defineProps({
     profiles: Array
 })
+
+//
 
 // Word-based truncation function
 function truncateWords(text, maxWords) {

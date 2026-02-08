@@ -62,6 +62,10 @@ const servicesError = ref(null)
 async function fetchProfiles() {
   try {
     const { data, error } = await useFetch(`/api/profile?page=${profilePage.value}&limit=${profileLimit}`)
+    console.log('🟡 Raw useFetch data:', data.value)
+    console.log('🟡 First profile object:', data.value?.profiles?.[0])
+    console.log('🟡 Avatar value:', data.value?.profiles?.[0]?.user?.avatar)
+    
     if (error.value) {
       profileError.value = error.value
       console.error('Error fetching profiles:', error.value)
@@ -71,6 +75,7 @@ async function fetchProfiles() {
         total: data.value.total || 0,
         totalPages: data.value.totalPages || 1
       }
+      console.log('🟡 profileData.value.profiles:', profileData.value.profiles)
       profileError.value = null
     }
   } catch (err) {

@@ -154,7 +154,11 @@ const updateAccount = async (event) => {
         
         console.log('[Account] Session refreshed, current user:', user.value);
         
-        // Trigger avatar update event
+        // Trigger avatar update event twice - once immediately, once after delay
+        triggerAvatarUpdate()
+        
+        // Add delay to ensure image cache is invalidated
+        await new Promise(resolve => setTimeout(resolve, 300))
         triggerAvatarUpdate()
         
         // Show success message

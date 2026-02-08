@@ -11,7 +11,7 @@
             <template #header>
                 <div class="flex flex-col items-center gap-2">
                     <div>
-                        <img class="w-24 h-24 rounded-full" :src="profile?.user?.avatar || '/default-avatar.png'" alt="Avatar" />
+                        <img class="w-24 h-24 rounded-full" :src="`/${profile.user.avatar}`" onerror="this.src = '/default-avatar.png'" alt="Avatar" />
                     </div>
                     <h6 class="text-secondary-700 font-semibold text-lg">
                         I have
