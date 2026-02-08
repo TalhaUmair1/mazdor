@@ -44,11 +44,13 @@
           >
             <UInputMenu
               v-model="form.serviceId"
+              v-model:search-term="serviceSearchTerm"
               :items="services"
               value-key="id"
               label-key="name"
               placeholder="Select a service"
               :disabled="!servicesLoaded"
+              searchable
               size="xl"
               class="w-full my-2"
               :loading="!servicesLoaded"
@@ -119,6 +121,7 @@
           >
             <USelectMenu
               v-model="form.service_area"
+              v-model:search-term="locationSearchTerm"
               :items="locations"
               value-key="id"
               label-key="name"
@@ -186,6 +189,8 @@ definePageMeta({
 
 const { user } = useUserSession()
 const loading = ref(false)
+const serviceSearchTerm = ref("")
+const locationSearchTerm = ref("")
 
 import { z } from 'zod'
 
@@ -217,13 +222,25 @@ const form = reactive({
 // Selected locations
 const selectedLocations = ref([]);
 
-// Fetch initial services and locations
-const { data: servicesData, error: servicesError } = await useFetch("/api/services");
-const { data: locationsData, error: locationsError } = await useFetch("/api/locations");
-console.log("Services data:", servicesData.value);
-console.log("Locations data:", locationsData.value);
-console.log("Services error:", servicesError.value);
-console.log("Locations error:", locationsError.value);
+// Fetch services with search support
+const { data: servicesData } = useFetch(() => {
+  const query = serviceSearchTerm.value && serviceSearchTerm.value.trim() 
+    ? `?search=${encodeURIComponent(serviceSearchTerm.value)}`
+    : '';
+  return `/api/services${query}`;
+}, {
+  watch: [serviceSearchTerm]
+});
+
+// Fetch locations with search support
+const { data: locationsData } = useFetch(() => {
+  const query = locationSearchTerm.value && locationSearchTerm.value.trim() 
+    ? `?search=${encodeURIComponent(locationSearchTerm.value)}`
+    : '';
+  return `/api/locations${query}`;
+}, {
+  watch: [locationSearchTerm]
+});
 
 // Computed properties to extract data from paginated API responses
 const services = computed(() => servicesData.value?.data || []);

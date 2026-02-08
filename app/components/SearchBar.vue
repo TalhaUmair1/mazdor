@@ -5,14 +5,35 @@
                 class="flex flex-col md:flex-row items-center bg-bg-elevated space-y-4 md:space-y-0 md:space-x-4 border border-border rounded-md p-2 shadow-md w-full md:w-[800px]">
 
                 <div class="w-full md:w-80">
-                    <UInputMenu v-model="selectedService" :items="serviceItems" :search="services" :loading="loadingService"
-                        trailing-icon="i-heroicons-chevron-up-down-20-solid" class="w-full text-lg shadow-none"
-                        placeholder="What service are you looking for?" label-key="name" size="xl" required />
+                    <UInputMenu 
+                        v-model="selectedService" 
+                        :items="serviceItems" 
+                        :search="searchServices" 
+                        :loading="loadingService"
+                        trailing-icon="i-heroicons-chevron-up-down-20-solid" 
+                        class="w-full text-lg shadow-none"
+                        placeholder="What service are you looking for?" 
+                        label-key="name" 
+                        value-key="id"
+                        searchable
+                        size="xl" 
+                        required 
+                    />
                 </div>
 
                 <div class="w-full md:w-80">
-                    <UInputMenu v-model="selectedLocations" :items="locationItems" :search="search" :loading="loadingLocations"
-                        placeholder="Search for a location..." label-key="name" value-attribute="id" size="xl" class="w-full text-lg shadow-none" />
+                    <UInputMenu 
+                        v-model="selectedLocations" 
+                        :items="locationItems" 
+                        :search="searchLocations" 
+                        :loading="loadingLocations"
+                        placeholder="Search for a location..." 
+                        label-key="name" 
+                        value-key="id"
+                        searchable
+                        size="xl" 
+                        class="w-full text-lg shadow-none" 
+                    />
                 </div>
 
                 <div>
@@ -41,35 +62,45 @@ const loadingService = ref(false)
 const selectedService = ref(null)
 const serviceItems = ref([])
 
-async function services(q) {
+async function searchServices(q) {
     loadingService.value = true
-    const params = q ? { search: q } : {};
-    const response = await $fetch('/api/services', { params })
-    serviceItems.value = response?.data || []
-    loadingService.value = false
-    return response?.data
+    try {
+        const params = q ? { search: q, limit: 10000 } : { limit: 10000 };
+        const response = await $fetch('/api/services', { params })
+        serviceItems.value = response?.data || []
+        return response?.data
+    } catch (error) {
+        console.error('Error searching services:', error)
+        return []
+    } finally {
+        loadingService.value = false
+    }
 }
 
 const loadingLocations = ref(false)
 const selectedLocations = ref(null)
 const locationItems = ref([])
 
-async function search(q) {
+async function searchLocations(q) {
     loadingLocations.value = true
-    const params = q ? { search: q } : {};
-    const response = await $fetch('/api/locations', { params })
-    
-    locationItems.value = response?.data || []
-    
-    loadingLocations.value = false
-    return response?.data
+    try {
+        const params = q ? { search: q } : {};
+        const response = await $fetch('/api/locations', { params })
+        locationItems.value = response?.data || []
+        return response?.data
+    } catch (error) {
+        console.error('Error searching locations:', error)
+        return []
+    } finally {
+        loadingLocations.value = false
+    }
 }
 
 // Load initial data and prefill selected service and location from props
 onMounted(async () => {
-    // Load initial services
+    // Load initial services - get all services without pagination
     try {
-        const servicesResponse = await $fetch('/api/services');
+        const servicesResponse = await $fetch('/api/services', { params: { limit: 10000 } });
         serviceItems.value = servicesResponse?.data || [];
     } catch (error) {
         console.error('Error loading services:', error);
@@ -110,16 +141,27 @@ const search1 = async () => {
         return
     }
     
-    let searchUrl = ''
+    // Find the full service object
+    const selectedServiceObj = serviceItems.value.find(s => s.id === selectedService.value)
     
-    if (selectedService.value) {
-        const serviceUrl = `/${selectedService.value.name.toLowerCase().replaceAll(' ', '-')}-service-${selectedService.value.id}`
-        searchUrl += serviceUrl
+    if (!selectedServiceObj) {
+        alert('Service not found')
+        return
     }
     
+    let searchUrl = ''
+    
+    // Build service URL
+    const serviceUrl = `/${selectedServiceObj.name.toLowerCase().replaceAll(' ', '-')}-service-${selectedServiceObj.id}`
+    searchUrl += serviceUrl
+    
+    // Build location URL if selected
     if (selectedLocations.value) {
-        const locationUrl = `/${selectedLocations.value.name.toLowerCase().replaceAll(' ', '-')}-location-${selectedLocations.value.id}`
-        searchUrl += locationUrl
+        const selectedLocationObj = locationItems.value.find(l => l.id === selectedLocations.value)
+        if (selectedLocationObj) {
+            const locationUrl = `/${selectedLocationObj.name.toLowerCase().replaceAll(' ', '-')}-location-${selectedLocationObj.id}`
+            searchUrl += locationUrl
+        }
     }
     
     if (searchUrl) {
