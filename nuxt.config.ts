@@ -16,6 +16,10 @@ export default defineNuxtConfig({
       openAPI: true,
       database: true,
     },
+    cors: {
+      origin: true,
+      credentials: true
+    }
   },
 
   auth: {

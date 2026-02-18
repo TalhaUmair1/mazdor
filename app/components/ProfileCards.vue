@@ -1,7 +1,7 @@
 <template>
     <div v-if="profiles.length > 0"
         class="flex flex-col items-center gap-4 md:gap-0 md:flex-row md:justify-around md:flex-wrap my-6">
-        <UCard class="max-w-sm w-full h-auto border border-gray-50 bg-primary-600 py-2 my-2" v-for="profile in profiles"
+        <UCard class="max-w-sm w-full h-auto border border-neutral-200 hover:shadow-md rounded-xl py-2" v-for="profile in profiles"
             :key="profile.id">
             <div class="flex flex-col items-center">
 <!-- User avatar image -->
@@ -9,19 +9,15 @@
                     :src="`/${profile.user.avatar}`" 
                     onerror="this.src='https://picsum.photos/100/100?random=default'" />
             </div>
-            <div class="flex justify-between my-2">
-                <h2 class="text-secondary-300 font-semibold">{{ truncateWords(profile.title, 4) }}</h2>
-                <h5 class="bg-neutral-600 text-white  px-4 rounded-sm">
-                    {{ profile.min_price }}
-                </h5>
+            <div class="flex justify-between items-center my-2">
+                <h2 class="text-neutral-900 font-semibold">{{ truncateWords(profile.title, 4) }}</h2>
+                <h5 class="bg-neutral-100 text-neutral-800 px-4 rounded-sm">Rs:{{ profile.min_price }}</h5>
             </div>
-            <!-- Truncate description to 20 words -->
+            <!-- Truncate description -->
             <div class="h-24 overflow-hidden">
-            <p class="text-white mb-3">
-                {{ truncateWords(profile.description, 15) }}
-            </p>
+              <p class="text-neutral-700 mb-3">{{ truncateWords(profile.description, 15) }}</p>
             </div>
-            <UButton :to="`/profile/${profile.id}`" variant="outline" color="neutral" class="w-auto bg-secondary-500 rounded-sm">
+            <UButton :to="`/profile/${profile.id}`" variant="solid" color="primary" class="w-auto mt-2 rounded-sm">
                 Learn more
             </UButton>
         </UCard>

@@ -1,15 +1,13 @@
 <template>
     <div v-if="services && services.length > 0"
-        class="grid grid-cols-2 gap-2 m-2 md:flex md:flex-row md:flex-wrap md:justify-center md:gap-8 md:mx-24 mt-8 mb-12">
-        <UCard :ui="{ body: { padding: 'px-4 py-2 sm:p-4' } }" class="w-full max-w-60 p-0 rounded-sm bg-secondary-800"
+        class=" flex flex-wrap justify-center gap-4 mt-8 mb-12">
+        <UCard :ui="{ body: { padding: 'px-0 py-0 sm:p-0' } }" class="bg-white border border-neutral-200 hover:border-neutral-300 hover:shadow-md rounded-md py-4 w-full max-w-72 h-auto flex flex-col items-center"
             v-for="service in services" :key="service.id">
-            <div class="flex flex-col items-center text-secondary-500">
-<!-- Service icon - use v-html to render SVG -->
-                <div class="w-8 h-8 mx-auto text-primary-400 " v-html="service.svg"></div>
-                <NuxtLink class="text-lg cursor-pointer font-semibold mt-4 text-primary-400 hover:text-secondary-600 hover:underline "
-                    @click.prevent="$emit('service-selected', service)">{{
-                    truncate(service.name, 15) }}
-                </NuxtLink>
+            <div class="flex flex-col items-center text-neutral-700">
+                <!-- Service icon - use v-html to render SVG -->
+                <div class="w-8 h-8 mx-auto text-primary-500 " v-html="service.svg"></div>
+                <NuxtLink class="text-lg cursor-pointer font-semibold mt-4 text-primary-600 hover:text-primary-800 hover:underline" 
+                    @click.prevent="$emit('service-selected', service)"><span>{{ truncate(service.name, 15) }}</span></NuxtLink>
             </div>
         </UCard>
     </div>

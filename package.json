@@ -2,9 +2,6 @@
   "name": "nuxt-app",
   "private": true,
   "type": "module",
-  "imports": {
-    "#auth": "./server/auth-compat.ts"
-  },
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",
@@ -28,7 +25,7 @@
     "drizzle-orm": "^0.39.3",
     "h3-zod": "^0.5.3",
     "nuxt": "^4.2.2",
-    "nuxt-auth-utils": "^0.5.16",
+    "nuxt-auth-utils": "0.5.16",
     "sqlite3": "^5.1.6",
     "vee-validate": "^4.15.0",
     "vue": "latest",

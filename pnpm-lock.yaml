@@ -48,8 +48,8 @@ importers:
         specifier: ^4.2.2
         version: 4.2.2(@libsql/client@0.17.0(encoding@0.1.13))(@parcel/watcher@2.5.4)(@types/node@25.0.9)(@vue/compiler-sfc@3.5.26)(better-sqlite3@12.6.2)(cac@6.7.14)(db0@0.3.4(@libsql/client@0.17.0(encoding@0.1.13))(better-sqlite3@12.6.2)(drizzle-orm@0.39.3(@cloudflare/workers-types@4.20260117.0)(@libsql/client@0.17.0(encoding@0.1.13))(@types/better-sqlite3@7.6.13)(better-sqlite3@12.6.2)(sqlite3@5.1.7))(sqlite3@5.1.7))(drizzle-orm@0.39.3(@cloudflare/workers-types@4.20260117.0)(@libsql/client@0.17.0(encoding@0.1.13))(@types/better-sqlite3@7.6.13)(better-sqlite3@12.6.2)(sqlite3@5.1.7))(encoding@0.1.13)(ioredis@5.9.2)(lightningcss@1.30.2)(magicast@0.5.1)(rolldown@1.0.0-beta.57)(rollup@4.55.1)(sqlite3@5.1.7)(terser@5.46.0)(tsx@4.21.0)(typescript@5.9.3)(vite@7.3.1(@types/node@25.0.9)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.46.0)(tsx@4.21.0)(yaml@2.8.2))(yaml@2.8.2)
       nuxt-auth-utils:
-        specifier: ^0.5.16
-        version: 0.5.27(magicast@0.5.1)
+        specifier: 0.5.16
+        version: 0.5.16(magicast@0.5.1)
       sqlite3:
         specifier: ^5.1.6
         version: 5.1.7
@@ -3738,6 +3738,9 @@ packages:
     resolution: {integrity: sha512-ekilCSN1jwRvIbgeg/57YFh8qQDNbwDb9xT/qu2DAHbFFZUicIl4ygVaAvzveMhMVr3LnpSKTNnwt8PoOfmKhQ==}
     hasBin: true
 
+  jose@5.10.0:
+    resolution: {integrity: sha512-s+3Al/p9g32Iq+oqXxkW//7jk2Vig6FF1CFqzVXoTUXt2qz89YWbL+OwS17NFYEvxC35n0FKeGO2LGYSxeM2Gg==}
+
   jose@6.1.3:
     resolution: {integrity: sha512-0TpaTfihd4QMNwrz/ob2Bp7X04yuxJkjRGi4aKmOqwhov54i6u79oCv7T+C7lo70MKH6BesI3vscD1yb/yzKXQ==}
 
@@ -4184,8 +4187,8 @@ packages:
   nth-check@2.1.1:
     resolution: {integrity: sha512-lqjrjmaOoAnWfMmBPL+XNnynZh2+swxiX3WUE0s4yEHI6m+AwrK2UZOimIRl3X/4QctVqS8AiZjFqyOGrMXb/w==}
 
-  nuxt-auth-utils@0.5.27:
-    resolution: {integrity: sha512-nXV/479IaP+g8z3+OqTgv7SNcNqPn0zyhD1t8tBxtskt+LFX1nKCZ6ZbpBGLL2wFdobh+gvzNHQjIIzqigr5Bw==}
+  nuxt-auth-utils@0.5.16:
+    resolution: {integrity: sha512-mCJEwZWoFmOyEynCWWWFbRsVfNekbU06MxC+bfoPlxeJT3Pi58Wx61m03cRECQRS+AUUl3ZYqtNSOGP8u+XjxQ==}
     peerDependencies:
       '@atproto/api': ^0.13.15
       '@atproto/oauth-client-node': ^0.2.0
@@ -4230,6 +4233,9 @@ packages:
 
   ofetch@1.5.1:
     resolution: {integrity: sha512-2W4oUZlVaqAPAil6FUg/difl6YhqhUR7x2eZY4bQCko22UXg3hptq9KLQdqFClV+Wu85UX7hNtdGTngi/1BxcA==}
+
+  ohash@1.1.6:
+    resolution: {integrity: sha512-TBu7PtV8YkAZn0tSxobKY2n2aAQva936lhRrj6957aDaCf9IEtqsKbgMzXE/F/sjqYOwmrukeORHNLe5glk7Cg==}
 
   ohash@2.0.11:
     resolution: {integrity: sha512-RdR9FQrFwNBNXAr4GixM8YaRZRJ5PUWbKYbE5eOsrwAjJW0q2REGcf79oYPsLyskQCZG1PLN+S/K1V00joZAoQ==}
@@ -9384,6 +9390,8 @@ snapshots:
 
   jiti@2.6.1: {}
 
+  jose@5.10.0: {}
+
   jose@6.1.3: {}
 
   js-base64@3.7.8: {}
@@ -9922,15 +9930,16 @@ snapshots:
     dependencies:
       boolbase: 1.0.0
 
-  nuxt-auth-utils@0.5.27(magicast@0.5.1):
+  nuxt-auth-utils@0.5.16(magicast@0.5.1):
     dependencies:
       '@adonisjs/hash': 9.1.1
-      '@nuxt/kit': 4.2.2(magicast@0.5.1)
+      '@nuxt/kit': 3.20.2(magicast@0.5.1)
       defu: 6.1.4
       h3: 1.15.5
-      hookable: 6.0.1
-      jose: 6.1.3
+      hookable: 5.5.3
+      jose: 5.10.0
       ofetch: 1.5.1
+      ohash: 1.1.6
       openid-client: 6.8.1
       pathe: 2.0.3
       scule: 1.3.0
@@ -10087,6 +10096,8 @@ snapshots:
       destr: 2.0.5
       node-fetch-native: 1.6.7
       ufo: 1.6.3
+
+  ohash@1.1.6: {}
 
   ohash@2.0.11: {}
 

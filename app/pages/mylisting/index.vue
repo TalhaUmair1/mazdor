@@ -21,7 +21,7 @@
                     <UCard class="max-w-sm w-full h-auto border border-gray-50 bg-primary-500 py-2 mx-auto">
                         <div class="flex flex-col items-center">
                             <img alt="User Image" class="w-36 h-36 mb-3 rounded-full object-cover"
-                                :src="`/userfiles/${data.user.avatar}`" 
+                                :src="`/${data.user.avatar}`" 
                                 onerror="this.src='https://picsum.photos/100/100?random=default'" />
                         </div>
                         <div class="flex justify-between my-2">
@@ -60,9 +60,13 @@ definePageMeta({
     middleware: ['auth']
 })
 
-const { data, pending, error } = await useAsyncData('user-profile', () =>
-    $fetch('/api/profile/me')
-)
+const { user } = useUserSession()
+console.log(user, 'this is me user')
+
+// useFetch automatically forwards cookies during SSR
+const { data, pending, error } = await useFetch('/api/profile/me', {
+    key: 'user-profile',
+})
 
 // Word-based truncation function
 function truncateWords(text, maxWords) {
