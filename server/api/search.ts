@@ -1,5 +1,5 @@
 import { defineEventHandler, getQuery } from 'h3'
-import db from '../utils/db'
+import {db} from '~~/server/utils/db'
 import {
   locations,
   profile,

@@ -1,6 +1,8 @@
 import { useValidatedBody, z } from 'h3-zod'
-import { defineEventHandler } from 'h3'
-import db from '~~/server/utils/db'
+import { defineEventHandler, createError } from 'h3'
+import { db } from '~~/server/utils/db'
+import { users } from '~~/server/database/schema'
+import { eq } from 'drizzle-orm'
 
 export default defineEventHandler(async (event) => {
   const body = await useValidatedBody(event, {
@@ -15,8 +17,8 @@ export default defineEventHandler(async (event) => {
     // Check if user already exists
     const existingUsers = await db
       .select()
-      .from('users')
-      .where((user: any) => user.email === email)
+      .from(users)
+      .where(eq(users.email, email))
       .limit(1)
 
     let user
@@ -25,17 +27,17 @@ export default defineEventHandler(async (event) => {
     } else {
       // Create new user
       const newUsers = await db
-        .insert('users')
+        .insert(users)
         .values({
           name,
           email,
           phone,
           whatsapp,
           avatar: `https://picsum.photos/100/100?random=${Date.now()}`,
-          created_at: new Date().toISOString(),
-          updated_at: new Date().toISOString(),
+          created_at: new Date(),
+          updated_at: new Date(),
         })
-        .returning('*')
+        .returning()
       
       user = newUsers[0]
     }

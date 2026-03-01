@@ -1,6 +1,6 @@
 import { defineEventHandler, readBody, createError } from 'h3'
-import { db } from '../../utils/db'
-import { users } from '../../database/schema'
+import { db } from '~~/server/utils/db'
+import { users } from '~~/server/database/schema'
 import { eq } from 'drizzle-orm'
 
 

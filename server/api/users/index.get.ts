@@ -1,4 +1,6 @@
-import db from '~~/server/utils/db'
+import { db } from '~~/server/utils/db'
+import { users } from '~~/server/database/schema'
+import { eq } from 'drizzle-orm'
 
 export default defineEventHandler(async (event) => {
   const session = await getUserSession(event)
@@ -8,9 +10,7 @@ export default defineEventHandler(async (event) => {
   }
 
   try {
-    const user = await db.query.users.findFirst({
-      where: (users, { eq }) => eq(users.id, userId),
-    })
+    const user = await db.select().from(users).where(eq(users.id, userId)).get()
     return user
   } catch (error) {
     console.error('User Fetch Error:', error)

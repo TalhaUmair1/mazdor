@@ -1,5 +1,5 @@
 
-import db from '~~/server/utils/db'
+import {db} from '~~/server/utils/db'
 
 
 export default defineEventHandler(async (event) => {
@@ -10,7 +10,7 @@ export default defineEventHandler(async (event) => {
   }
 
   const profile = await db.query.profile.findFirst({
-    where: (fields, { eq }) => eq(fields.id, id),
+    where: (fields, {eq}) => eq(fields.id, id),
     columns: {
       id: true,
       title: true,
