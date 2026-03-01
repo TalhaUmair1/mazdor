@@ -4,7 +4,8 @@ export default defineConfig({
   out: './server/database/migrations',
   schema: './server/database/schema.ts',
   dialect: 'sqlite',
+  driver: 'sqlite-cloud',
   dbCredentials: {
-    url: 'file:mazdor.db',
+    url: process.env.SQLITE_CLOUD_URL!,
   },
 })

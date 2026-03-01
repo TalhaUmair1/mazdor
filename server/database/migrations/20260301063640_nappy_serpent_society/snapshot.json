@@ -1,0 +1,464 @@
+{
+  "version": "7",
+  "dialect": "sqlite",
+  "id": "637179f7-3e00-4e15-af71-1c13e4eb4f1f",
+  "prevIds": [
+    "00000000-0000-0000-0000-000000000000"
+  ],
+  "ddl": [
+    {
+      "name": "locations",
+      "entityType": "tables"
+    },
+    {
+      "name": "profile",
+      "entityType": "tables"
+    },
+    {
+      "name": "profile_service_areas",
+      "entityType": "tables"
+    },
+    {
+      "name": "services",
+      "entityType": "tables"
+    },
+    {
+      "name": "users",
+      "entityType": "tables"
+    },
+    {
+      "type": "integer",
+      "notNull": false,
+      "autoincrement": true,
+      "default": null,
+      "generated": null,
+      "name": "id",
+      "entityType": "columns",
+      "table": "locations"
+    },
+    {
+      "type": "text",
+      "notNull": false,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "name",
+      "entityType": "columns",
+      "table": "locations"
+    },
+    {
+      "type": "integer",
+      "notNull": false,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "parent_id",
+      "entityType": "columns",
+      "table": "locations"
+    },
+    {
+      "type": "text",
+      "notNull": false,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "id",
+      "entityType": "columns",
+      "table": "profile"
+    },
+    {
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "title",
+      "entityType": "columns",
+      "table": "profile"
+    },
+    {
+      "type": "integer",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "service_id",
+      "entityType": "columns",
+      "table": "profile"
+    },
+    {
+      "type": "integer",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "user_id",
+      "entityType": "columns",
+      "table": "profile"
+    },
+    {
+      "type": "real",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "min_price",
+      "entityType": "columns",
+      "table": "profile"
+    },
+    {
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "service_type",
+      "entityType": "columns",
+      "table": "profile"
+    },
+    {
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "shop_address",
+      "entityType": "columns",
+      "table": "profile"
+    },
+    {
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "description",
+      "entityType": "columns",
+      "table": "profile"
+    },
+    {
+      "type": "integer",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "experience",
+      "entityType": "columns",
+      "table": "profile"
+    },
+    {
+      "type": "integer",
+      "notNull": false,
+      "autoincrement": false,
+      "default": "1772347000",
+      "generated": null,
+      "name": "created_at",
+      "entityType": "columns",
+      "table": "profile"
+    },
+    {
+      "type": "integer",
+      "notNull": false,
+      "autoincrement": false,
+      "default": "1772347000",
+      "generated": null,
+      "name": "updated_at",
+      "entityType": "columns",
+      "table": "profile"
+    },
+    {
+      "type": "integer",
+      "notNull": false,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "deleted_at",
+      "entityType": "columns",
+      "table": "profile"
+    },
+    {
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "profile_id",
+      "entityType": "columns",
+      "table": "profile_service_areas"
+    },
+    {
+      "type": "integer",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "location_id",
+      "entityType": "columns",
+      "table": "profile_service_areas"
+    },
+    {
+      "type": "integer",
+      "notNull": false,
+      "autoincrement": true,
+      "default": null,
+      "generated": null,
+      "name": "id",
+      "entityType": "columns",
+      "table": "services"
+    },
+    {
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "name",
+      "entityType": "columns",
+      "table": "services"
+    },
+    {
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "svg",
+      "entityType": "columns",
+      "table": "services"
+    },
+    {
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "view_box",
+      "entityType": "columns",
+      "table": "services"
+    },
+    {
+      "type": "integer",
+      "notNull": false,
+      "autoincrement": true,
+      "default": null,
+      "generated": null,
+      "name": "id",
+      "entityType": "columns",
+      "table": "users"
+    },
+    {
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "name",
+      "entityType": "columns",
+      "table": "users"
+    },
+    {
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "email",
+      "entityType": "columns",
+      "table": "users"
+    },
+    {
+      "type": "text",
+      "notNull": false,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "password",
+      "entityType": "columns",
+      "table": "users"
+    },
+    {
+      "type": "text(11)",
+      "notNull": false,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "phone",
+      "entityType": "columns",
+      "table": "users"
+    },
+    {
+      "type": "text(11)",
+      "notNull": false,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "whatsapp",
+      "entityType": "columns",
+      "table": "users"
+    },
+    {
+      "type": "text",
+      "notNull": false,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "name": "avatar",
+      "entityType": "columns",
+      "table": "users"
+    },
+    {
+      "type": "integer",
+      "notNull": false,
+      "autoincrement": false,
+      "default": "1772347000",
+      "generated": null,
+      "name": "created_at",
+      "entityType": "columns",
+      "table": "users"
+    },
+    {
+      "type": "integer",
+      "notNull": false,
+      "autoincrement": false,
+      "default": "1772347000",
+      "generated": null,
+      "name": "updated_at",
+      "entityType": "columns",
+      "table": "users"
+    },
+    {
+      "columns": [
+        "service_id"
+      ],
+      "tableTo": "services",
+      "columnsTo": [
+        "id"
+      ],
+      "onUpdate": "NO ACTION",
+      "onDelete": "NO ACTION",
+      "nameExplicit": false,
+      "name": "fk_profile_service_id_services_id_fk",
+      "entityType": "fks",
+      "table": "profile"
+    },
+    {
+      "columns": [
+        "user_id"
+      ],
+      "tableTo": "users",
+      "columnsTo": [
+        "id"
+      ],
+      "onUpdate": "NO ACTION",
+      "onDelete": "NO ACTION",
+      "nameExplicit": false,
+      "name": "fk_profile_user_id_users_id_fk",
+      "entityType": "fks",
+      "table": "profile"
+    },
+    {
+      "columns": [
+        "profile_id"
+      ],
+      "tableTo": "profile",
+      "columnsTo": [
+        "id"
+      ],
+      "onUpdate": "NO ACTION",
+      "onDelete": "NO ACTION",
+      "nameExplicit": false,
+      "name": "fk_profile_service_areas_profile_id_profile_id_fk",
+      "entityType": "fks",
+      "table": "profile_service_areas"
+    },
+    {
+      "columns": [
+        "location_id"
+      ],
+      "tableTo": "locations",
+      "columnsTo": [
+        "id"
+      ],
+      "onUpdate": "NO ACTION",
+      "onDelete": "NO ACTION",
+      "nameExplicit": false,
+      "name": "fk_profile_service_areas_location_id_locations_id_fk",
+      "entityType": "fks",
+      "table": "profile_service_areas"
+    },
+    {
+      "columns": [
+        "profile_id",
+        "location_id"
+      ],
+      "nameExplicit": false,
+      "name": "profile_service_areas_pk",
+      "entityType": "pks",
+      "table": "profile_service_areas"
+    },
+    {
+      "columns": [
+        "id"
+      ],
+      "nameExplicit": false,
+      "name": "locations_pk",
+      "table": "locations",
+      "entityType": "pks"
+    },
+    {
+      "columns": [
+        "id"
+      ],
+      "nameExplicit": false,
+      "name": "profile_pk",
+      "table": "profile",
+      "entityType": "pks"
+    },
+    {
+      "columns": [
+        "id"
+      ],
+      "nameExplicit": false,
+      "name": "services_pk",
+      "table": "services",
+      "entityType": "pks"
+    },
+    {
+      "columns": [
+        "id"
+      ],
+      "nameExplicit": false,
+      "name": "users_pk",
+      "table": "users",
+      "entityType": "pks"
+    },
+    {
+      "columns": [
+        "email"
+      ],
+      "nameExplicit": false,
+      "name": "users_email_unique",
+      "entityType": "uniques",
+      "table": "users"
+    },
+    {
+      "columns": [
+        "phone"
+      ],
+      "nameExplicit": false,
+      "name": "users_phone_unique",
+      "entityType": "uniques",
+      "table": "users"
+    },
+    {
+      "columns": [
+        "whatsapp"
+      ],
+      "nameExplicit": false,
+      "name": "users_whatsapp_unique",
+      "entityType": "uniques",
+      "table": "users"
+    }
+  ],
+  "renames": []
+}

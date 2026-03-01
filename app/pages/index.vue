@@ -12,7 +12,7 @@
     </div>
 
     <!-- Profiles Section -->
-    <ProfileCards :profiles="profileData?.profiles ?? []" />
+    <ProfileCards class="my-4" :profiles="profileData?.profiles ?? []" />
 
     <!-- Profile Pagination -->
     <div v-if="(profileData?.total || 0) > profileLimit" class="flex justify-center mt-4">
@@ -38,7 +38,7 @@ import { ref, watch } from 'vue'
 
 // State
 const profilePage = ref(1)
-const profileLimit = 3
+const profileLimit = 6
 const servicePage = ref(1)
 const serviceLimit = 8
 const searchBarRef = ref(null)
@@ -62,10 +62,7 @@ const servicesError = ref(null)
 async function fetchProfiles() {
   try {
     const { data, error } = await useFetch(`/api/profile?page=${profilePage.value}&limit=${profileLimit}`)
-    console.log('🟡 Raw useFetch data:', data.value)
-    console.log('🟡 First profile object:', data.value?.profiles?.[0])
-    console.log('🟡 Avatar value:', data.value?.profiles?.[0]?.user?.avatar)
-    
+
     if (error.value) {
       profileError.value = error.value
       console.error('Error fetching profiles:', error.value)
@@ -75,7 +72,7 @@ async function fetchProfiles() {
         total: data.value.total || 0,
         totalPages: data.value.totalPages || 1
       }
-      console.log('🟡 profileData.value.profiles:', profileData.value.profiles)
+    
       profileError.value = null
     }
   } catch (err) {

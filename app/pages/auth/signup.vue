@@ -4,12 +4,12 @@
       <template #header>
         <div class="text-center">
           <h1 class="text-3xl font-bold text-center text-secondary-800">Create Account</h1>
-          <p class="text-secondary-500 mt-2">Join our community today</p>
+          <p class="text-black mt-2">Join our community today</p>
         </div>
       </template>
       
       <UForm :schema="schema" :state="state" class="space-y-6 mt-3" @submit="handleSubmit">
-        <UFormField label="Full Name" name="name" required :ui="{ label: 'text-neutral-500' }">
+        <UFormField label="Full Name" name="name" required :ui="{ label: 'text-black' }">
           <UInput 
             v-model="state.name" 
             type="text" 
@@ -20,7 +20,7 @@
           />
         </UFormField>
         
-        <UFormField label="Email Address" name="email" required :ui="{ label: 'text-neutral-500' }">
+        <UFormField label="Email Address" name="email" required :ui="{ label: 'text-black' }">
           <UInput 
             v-model="state.email" 
             type="email" 
@@ -31,7 +31,7 @@
           />
         </UFormField>
         
-        <UFormField label="Password" name="password" required :ui="{ label: 'text-neutral-500' }">
+        <UFormField label="Password" name="password" required :ui="{ label: 'text-black' }">
           <UInput 
             v-model="state.password" 
             :type="showPassword ? 'text' : 'password'" 
@@ -44,7 +44,7 @@
           />
         </UFormField>
         
-        <UFormField label="Confirm Password" name="confirmPassword" required :ui="{ label: 'text-neutral-500' }">
+        <UFormField label="Confirm Password" name="confirmPassword" required :ui="{ label: 'text-black' }">
           <UInput 
             v-model="state.confirmPassword" 
             :type="showPassword ? 'text' : 'password'" 
@@ -68,9 +68,9 @@
       </UForm>
       
       <div class="text-center mt-6">
-        <p class="text-secondary-600">
+        <p class="text-secondary-800">
           Already have an account? 
-          <NuxtLink to="/auth/login" class="text-neutral-700 hover:text-neutral-800 font-medium">
+          <NuxtLink to="/auth/login" class="text-black hover:text-black font-medium">
             Sign in
           </NuxtLink>
         </p>

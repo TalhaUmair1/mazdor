@@ -178,13 +178,14 @@
           </UButton>
         </div>
       </UForm>
+      <p class="text-sm text-black mt-4">User Only create three profiles Just.</p>
     </UCard>
   </div>
 </template>
 
 <script setup>
 definePageMeta({
-  middleware: ["auth", "restrict"],
+  middleware: ["auth", "restrict", 'profilte'],
 });
 
 const { user } = useUserSession()

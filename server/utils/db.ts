@@ -1,17 +1,12 @@
-import { drizzle } from 'drizzle-orm/libsql'
-import { createClient } from '@libsql/client'
-import path from 'path'
+import { drizzle } from 'drizzle-orm/sqlite-cloud';
+import { Database } from '@sqlitecloud/drivers';
 
-// Initialize SQLite database
-const dbPath = path.resolve(process.cwd(), 'mazdor.db')
-const client = createClient({
-  url: `file:${dbPath}`
-})
 
-import * as schema from '../database/schema'
+export const useDb = () => {
+  // const runtimeConfig = useRuntimeConfig();
+  // Using a client allows for more advanced configuration if needed
+  const client = new Database(process.env.SQLITE_CLOUD_URL!);
+  return drizzle({ client });
+};
 
-// Create Drizzle instance
-export const db = drizzle(client, { schema })
-
-// Export as default for compatibility with existing imports
-export default db
+export const db = useDb();

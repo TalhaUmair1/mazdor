@@ -1,112 +1,128 @@
 <template>
   <nav class="bg-bg-base border-border">
     <div class="max-w-7xl flex flex-wrap items-center justify-between mx-auto p-4">
+
+      <!-- Logo -->
       <div class="-mt-10 md:mt-0">
-        <NuxtLink to="/" class="flex items-center space-x-3 rtl:space-x-reverse">
-          <img src='/images.jpg' class="h-10  rounded-full" alt="" />
-          <span class="self-center text-2xl font-semibold whitespace-nowrap text-default">Mazdoor</span>
+        <NuxtLink to="/" class="flex items-center space-x-3">
+          <img src="/images.jpg" class="h-10 rounded-full" />
+          <span class="text-2xl font-semibold text-default">Mazdoor</span>
         </NuxtLink>
       </div>
-      
-      <div class="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
-        <div class="flex flex-col md:flex-row items-center space-x-3">
-          <UButton 
-          class="py-2 px-4"
-            color="primary"
-            variant="solid"
-            to="/profile/create">
+
+      <!-- Right Section -->
+      <div class="flex md:order-2 items-center">
+
+        <!-- Desktop Actions -->
+        <div class="hidden md:flex items-center space-x-3">
+
+          <UButton to="/profile/create" color="primary" class="py-2 px-4">
             Create Profile
           </UButton>
 
-          <!-- Auth buttons for logged out users -->
-          <div v-if="!loggedIn" class="flex space-x-2">
-            <UButton 
-             class="py-2 px-4"
-              color="secondary"
-              variant="outline"
-              to="/auth/signup">
+          <template v-if="!loggedIn">
+            <UButton to="/auth/signup" variant="outline" color="secondary">
               Sign Up
             </UButton>
-            <UButton 
-             class="py-2 px-4"
-              color="primary"
-              variant="solid"
-              to="/auth/login">
+            <UButton to="/auth/login" color="primary">
               Login
             </UButton>
-          </div>
+          </template>
 
-<!-- User dropdown for logged in users -->
-          <div v-else class="relative mt-4 md:mt-0">
-            <button @click="toggleDropdown" class="flex items-center">
-              <img :src="avatarUrl" 
-                   alt="Profile" 
-                   class="w-10 h-10 rounded-full border border-border"
-                   @error="handleAvatarError"
-                   @load="handleAvatarLoad">
-            </button>
+          <template v-else>
+            <div class="relative">
+              <button @click="toggleDropdown">
+                <img
+                  :src="avatarUrl"
+                  class="w-10 h-10 rounded-full border border-border"
+                  @error="handleAvatarError"
+                  @load="handleAvatarLoad"
+                />
+              </button>
 
-            <!-- Dropdown Menu -->
-            <div v-if="showDropdown"
-              class="absolute text-center p-3 right-0 mt-2 w-40 bg-bg-base border border-border rounded-lg shadow-lg">
-              <UButton 
-                color="secondary"
-                variant="outline"
-                to="/account"
-                class="w-full my-2">
-                Account
-              </UButton>
-              <UButton 
-                color="error"
-                variant="outline"
-                @click="logout"
-                class="w-full mt-2 py-2">
-                Logout
-              </UButton>
+              <div
+                v-if="showDropdown"
+                class="absolute right-0 mt-2 w-40 bg-bg-base border border-border rounded-lg shadow-lg p-3"
+              >
+                <UButton to="/account" variant="outline" class="w-full my-2">
+                  Account
+                </UButton>
+                <UButton
+                  color="error"
+                  variant="outline"
+                  class="w-full"
+                  @click="logout"
+                >
+                  Logout
+                </UButton>
+              </div>
             </div>
-          </div>
+          </template>
         </div>
-        
-        <button @click="toggleValue" data-collapse-toggle="navbar-cta" type="button"
-          class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-muted rounded-lg md:hidden hover:bg-bg-muted focus:outline-none focus:ring-2 focus:ring-border"
-          aria-controls="navbar-cta" :aria-expanded="showValue">
-          <span class="sr-only">Open main menu</span>
-          <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
-            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h15M1 7h15M1 13h15" />
+
+        <!-- Hamburger -->
+        <button
+          @click="toggleValue"
+          class="md:hidden ml-2 p-2 w-10 h-10 flex items-center justify-center rounded-lg hover:bg-bg-muted"
+        >
+          <svg class="w-5 h-5" fill="none" viewBox="0 0 17 14">
+            <path stroke="currentColor" stroke-width="2"
+              d="M1 1h15M1 7h15M1 13h15" />
           </svg>
         </button>
       </div>
-      
-      <div class="items-center justify-between w-full md:flex md:w-auto md:order-1" id="navbar-cta"
-        :class="{ 'hidden': !showValue, 'block': showValue }">
-        <ul class="flex flex-col font-medium p-4 md:p-0 mt-4 border border-border rounded-lg bg-bg-muted md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-transparent">
-          <li>
-            <UButton 
-              :active="$route.path === '/'"
-              variant="link"
-              to="/"
-              class="w-full md:w-auto md:p-0 text-default rounded-sm">
-              Home
+
+      <!-- Mobile + Desktop Menu -->
+      <div
+        class="w-full md:flex md:w-auto md:order-1"
+        :class="{ hidden: !showValue, block: showValue }"
+      >
+        <ul
+          class="flex flex-col gap-3 p-4 mt-4 border border-border rounded-lg bg-bg-muted
+                 md:flex-row md:gap-8 md:p-0 md:mt-0 md:border-0 md:bg-transparent"
+        >
+
+          <!-- Links -->
+          <UButton variant="link" to="/" class="w-full md:w-auto">
+            Home
+          </UButton>
+          <UButton variant="link" to="/allServices" class="w-full md:w-auto">
+            All Services
+          </UButton>
+          <UButton variant="link" to="/myListing" class="w-full md:w-auto">
+            My Listing
+          </UButton>
+
+          <!-- Mobile-only actions -->
+          <div class="md:hidden border-t border-border pt-3 space-y-2">
+
+            <UButton to="/profile/create" color="primary" class="w-full">
+              Create Profile
             </UButton>
-          </li>
-          <li>
-            <UButton 
-              :active="$route.path === '/allServices'"
-              variant="link"
-              to="/allServices"
-              class="w-full md:w-auto md:p-0 text-default rounded-sm">
-              All Services
-            </UButton>
-          </li>
-          <li>
-            <UButton 
-              :active="$route.path === '/myListing'"
-              variant="link"
-              to="/myListing"
-              class="w-full md:w-auto md:p-0 text-default rounded-sm">
-              My Listing
-            </UButton>
-          </li>
+
+            <template v-if="!loggedIn">
+              <UButton to="/auth/signup" variant="outline" class="w-full">
+                Sign Up
+              </UButton>
+              <UButton to="/auth/login" color="primary" class="w-full">
+                Login
+              </UButton>
+            </template>
+
+            <template v-else>
+              <UButton to="/account" variant="outline" class="w-full">
+                Account
+              </UButton>
+              <UButton
+                color="error"
+                variant="outline"
+                class="w-full"
+                @click="logout"
+              >
+                Logout
+              </UButton>
+            </template>
+          </div>
         </ul>
       </div>
     </div>
@@ -119,100 +135,39 @@ const showDropdown = ref(false)
 const { loggedIn, user, clear, refresh } = useUserSession()
 const { watchAvatarUpdate } = useAvatarUpdate()
 
-// Force refresh counter - used to force avatar URL recomputation
 const avatarRefreshCounter = ref(0)
 
-// Debug helper
-const debug = (message, data = null) => {
-  const timestamp = new Date().toLocaleTimeString()
-  console.log(`[${timestamp}] Navbar: ${message}`, data || '')
-}
+const debug = (msg, data = null) =>
+  console.log(`[Navbar] ${msg}`, data || '')
 
-// Watch for avatar update events
 const avatarUpdateCounter = watchAvatarUpdate()
 watch(avatarUpdateCounter, async () => {
-  debug('Avatar update event received', { counter: avatarUpdateCounter.value })
-  // Increment refresh counter to force URL change
   avatarRefreshCounter.value++
-  debug('Avatar refresh counter incremented', { counter: avatarRefreshCounter.value })
-  // Force immediate refresh of user session
   await refresh()
-  debug('Session refreshed after avatar update')
 })
 
-debug('Component mounted', { loggedIn: loggedIn.value, hasUser: !!user.value })
-
-// Refresh session when route changes to account or profile pages
-watch(() => useRoute().path, (newPath) => {
-  if (loggedIn.value && (newPath.includes('/account') || newPath.includes('/profile'))) {
-    debug('Route changed to account/profile, refreshing session', { path: newPath })
+watch(() => useRoute().path, (path) => {
+  if (loggedIn.value && (path.includes('/account') || path.includes('/profile'))) {
     refresh()
   }
 })
 
-// Watch auth state changes
-watch(loggedIn, (newVal) => {
-  debug('Auth state changed', { loggedIn: newVal })
-})
+watch(user, () => avatarRefreshCounter.value++, { deep: true })
 
-// Watch user data changes
-watch(user, (newUser) => {
-  debug('User data updated', { 
-    id: newUser?.id, 
-    email: newUser?.email, 
-    hasAvatar: !!newUser?.avatar 
-  })
-  // Force avatar refresh when user data changes
-  avatarRefreshCounter.value++
-}, { deep: true })
+const toggleValue = () => showValue.value = !showValue.value
+const toggleDropdown = () => showDropdown.value = !showDropdown.value
 
-const toggleValue = () => {
-  showValue.value = !showValue.value
-}
+const handleAvatarError = e => debug('Avatar error', e.target.src)
+const handleAvatarLoad = e => debug('Avatar loaded', e.target.src)
 
-const toggleDropdown = () => {
-  showDropdown.value = !showDropdown.value
-}
-
-// Image error handler with debugging
-const handleAvatarError = (event) => {
-  debug('Avatar image failed to load', { 
-    src: event.target.src,
-    userAvatar: user.value?.avatar 
-  })
-}
-
-// Image load handler with debugging
-const handleAvatarLoad = (event) => {
-  debug('Avatar image loaded successfully', { src: event.target.src })
-}
-
-// Computed property for avatar URL with cache busting
 const avatarUrl = computed(() => {
-  // Use refresh counter to force recomputation
-  const refreshTrigger = avatarRefreshCounter.value
-  
   if (user.value?.avatar) {
-    // Use avatar path + timestamp + refresh counter for unique cache busting
-    // This ensures every update gets a completely unique URL
-    const avatarHash = user.value.avatar.split('/').pop() || ''
-    const timestamp = Date.now()
-    const url = `/${user.value.avatar}?t=${timestamp}_${refreshTrigger}_${avatarHash}`
-    debug('Avatar URL computed', { avatar: user.value.avatar, refreshCounter: refreshTrigger, url })
-    return url
+    return `/${user.value.avatar}?t=${Date.now()}_${avatarRefreshCounter.value}`
   }
-  debug('Using default avatar - no user avatar found', { refreshCounter: refreshTrigger })
   return '/default-avatar.svg'
 })
 
-// Watch avatar URL changes for debugging
-watch(avatarUrl, (newUrl) => {
-  debug('Avatar URL changed', { url: newUrl })
-})
-
 const logout = async () => {
-  debug('Logout initiated')
-  // Reset refresh counter on logout
   avatarRefreshCounter.value = 0
   await clear()
   showDropdown.value = false

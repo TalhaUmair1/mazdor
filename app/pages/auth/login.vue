@@ -4,12 +4,12 @@
       <template #header>
         <div class="text-center">
           <h1 class="text-3xl font-bold text-center text-secondary-500">Welcome Back</h1>
-          <p class="text-secondary-500 mt-2">Sign in to your account</p>
+          <p class="text-white mt-2">Sign in to your account</p>
         </div>
       </template>
       
       <UForm :schema="schema" :state="state" class="space-y-6 mt-3" @submit="handleSubmit">
-        <UFormField label="Email Address" name="email" required :ui="{ label: 'text-neutral-500' }">
+        <UFormField label="Email Address" name="email" required :ui="{ label: 'text-white' }">
           <UInput 
             v-model="state.email" 
             type="email" 
@@ -20,7 +20,7 @@
           />
         </UFormField>
         
-        <UFormField label="Password" name="password" required :ui="{ label: 'text-neutral-500' }">
+        <UFormField label="Password" name="password" required :ui="{ label: 'text-white' }">
           <UInput 
             v-model="state.password" 
             :type="showPassword ? 'text' : 'password'" 
@@ -60,7 +60,7 @@
       <div class="text-center mt-6">
         <p class="text-secondary-500">
           Don't have an account? 
-          <NuxtLink to="/auth/signup" class="text-neutral-600 hover:text-neutral-700 font-medium">
+          <NuxtLink to="/auth/signup" class="text-white hover:text-white font-medium">
             Create one
           </NuxtLink>
         </p>
